@@ -1,0 +1,237 @@
+<%# if current step == 1 %>
+<div class="flex justify-center items-center h-[500px] md:h-screen md:max-w-screen-lg mx-auto text-center my-56 md:my-0">
+  <div class="w-full md:mt-0 space-y-4 md:space-y-14">
+    <div class="p-5">
+      <h1 class="text-3xl md:text-5xl font-bold">
+        Create your Account
+      </h1>
+      <div class="mt-8 mx-0 md:mx-4 p-4">
+        <div class="flex items-center">
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-6 py-1 md:h-12 md:w-12 md:py-3 border-2 border-black bg-gray-200">
+            </div>
+            <div class="mx-4">Account Information</div>
+          </div>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-black"></div>
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-black">
+            </div>
+            <div class="mx-4">Org Information</div>
+          </div>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-black"></div>
+          <div class="flex items-center text-gray-500 relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-black">
+            </div>
+          </div>
+          <div class="mx-4">Bank Information</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="">
+      <form class="px-5">
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="First Name*">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Last Name*">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Email (username)*">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Confirm Email*">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Create Password*">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Confirm Password*">
+          </div>
+        </div>
+      </form>
+    </div>
+    <h1>
+      By hosting event registration on Pastimes, you agree to the <a class="text-pastimes-blue" href="">terms of use</a> and <a class="text-pastimes-blue" href="">privacy policy</a>.
+    </h1>
+    <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+      <a href="/register">Create Account</a>
+    </button>
+  </div>
+</div>
+
+<%# if current step == 2 %>
+<div class="hidden flex justify-center items-center h-[500px] md:h-screen md:max-w-screen-lg mx-auto text-center my-[500px] md:my-44">
+  <div class="w-full md:mt-0 space-y-4 md:space-y-14">
+    <div class="p-5">
+      <h1 class="text-3xl md:text-5xl font-bold">
+        Add Org Information
+      </h1>
+      <div class="mt-8 mx-0 md:mx-4 p-4">
+        <div class="flex items-center">
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-6 py-1 md:h-12 md:w-12 md:py-3 border-2 border-black">
+            </div>
+            <div class="mx-4">Account Information</div>
+          </div>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-black"></div>
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-black bg-gray-200">
+            </div>
+            <div class="mx-4">Org Information</div>
+          </div>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-black"></div>
+          <div class="flex items-center text-gray-500 relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-black">
+            </div>
+          </div>
+          <div class="mx-4">Bank Information</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="">
+      <form class="px-5">
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Organization*">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="License # (if applicable)">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Address Line 1*">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Address Line 2">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="City*">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+          <div class="w-full md:w-1/2 px-3 flex gap-2">
+            <input class="appearance-none block w-3/6 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="State*">
+            <input class="appearance-none block w-3/6 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Zip/Postal Code*">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Country*">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Phone Number*">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Support Email (for participants to contact)">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Support Phone (for participants to contact)">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Instagram URL">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Facebook Page URL">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Twitter URL">
+          </div>
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Website URL">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="flex justify-center mx-auto w-full gap-2">
+      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full">
+        <a href="/register">Back</a>
+      </button>
+      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+        <a href="/register">Continue</a>
+      </button>
+    </div>
+  </div>
+</div>
+
+<%# if current step == 3 %>
+<div class="hidden flex justify-center items-center h-[500px] md:h-screen md:max-w-screen-lg mx-auto text-center my-56 md:my-0">
+  <div class="w-full md:mt-0 space-y-4 md:space-y-14">
+    <div class="p-5">
+      <h1 class="text-3xl md:text-5xl font-bold">
+        Add Bank Information
+      </h1>
+      <div class="mt-8 mx-0 md:mx-4 p-4">
+        <div class="flex items-center">
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-6 py-1 md:h-12 md:w-12 md:py-3 border-2 border-black">
+            </div>
+            <div class="mx-4">Account Information</div>
+          </div>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-black"></div>
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-black">
+            </div>
+            <div class="mx-4">Org Information</div>
+          </div>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-black"></div>
+          <div class="flex items-center text-gray-500 relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-black bg-gray-200">
+            </div>
+          </div>
+          <div class="mx-4">Bank Information</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="">
+      <form class="px-5">
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Routing Number*">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Account Number*">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Confirm Account Number*">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="flex justify-center mx-auto w-full pt-14 gap-10">
+      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full">
+        <a href="/">I will add later</a>
+      </button>
+      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+        <a href="/register">Create Account</a>
+      </button>
+    </div>
+  </div>
+</div>

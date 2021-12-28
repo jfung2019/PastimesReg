@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <%= csrf_meta_tag() %>
+    <%= live_title_tag assigns[:page_title] || "PastimesReg", suffix: " · Phoenix Framework" %>
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
+    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+  </head>
+  <body>
+  <%# Nav %>
+  <div class="bg-gray-50">
+    <nav class="container flex justify-between py-8 mx-auto">
+      <div>
+        <a href="/"><img class="h-[30px]" src="/images/pastimes.png" alt="pastimes-logo"></a>
+      </div>
+      <%# if user is not authenticated %>
+      <div class="space-x-10">
+        <a href="/Events">Events</a>
+        <a href="/Signin">Sign in</a>
+      </div>
+       <%# if user is authenticated %>
+       <div class="hidden space-x-10">
+        Account
+      </div>
+    </nav>
+  </div>
+  <%# Content %>
+  <%= @inner_content %>
+  <%# Footer %>
+  <footer class="bg-pastimes-sky-blue">
+    <div class="py-16 flex flex-col items-center lg:my-0 lg:mx-auto">
+      <div class="flex flex-row justify-evenly lg:justify-between w-full lg:w-5/6 mb-4 lg:mb-0">
+        <a href="/" class="footer-logo-link w-inline-block">
+          <img class="hidden lg:block" src="/images/pastimes_logo_footer.png">
+          <img class="h-auto w-20 lg:w-32 lg:hidden" src="/images/pastimes_logo_footer_mobile.svg">
+        </a>
+        <div class="flex flex-row lg:w-2/5 text-pastimes-blue">
+          <ul class="flex flex-col lg:w-full mr-4 lg:mr-0">
+            <li class="lg:text-right"><a href="/about">About</a></li>
+            <li class="lg:text-right"><a href="/ambassador">Ambassadors</a></li>
+            <li class="lg:text-right"><a href="/pastimes">Pastimes</a></li>
+          </ul>
+          <ul class="flex flex-col lg:w-full">
+            <li class="lg:text-right"><a href="/mobile/privacy_policy">Partner with Us</a></li>
+            <li class="lg:text-right"><a href="/mobile/privacy_policy">Privacy Policy</a></li>
+            <li class="lg:text-right"><a href="/mobile/terms_of_service">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="text-center pb-4 text-pastimes-gray">© 2021 Pastimes, Inc. All Rights Reserved.</div>
+  </footer>
+  </body>
+</html>
