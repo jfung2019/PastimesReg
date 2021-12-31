@@ -1,6 +1,8 @@
 defmodule PastimesRegWeb.Router do
   use PastimesRegWeb, :router
 
+  import PastimesRegWeb.OrgUserAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +10,7 @@ defmodule PastimesRegWeb.Router do
     plug :put_root_layout, {PastimesRegWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_org_user
   end
 
   pipeline :api do
@@ -18,8 +21,8 @@ defmodule PastimesRegWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/register", RegisterController, :index
-    get "/create-event", CreateEventController, :index
+    # get "/register", RegisterController, :index
+    live "/register", RegisterLive
   end
 
   # Other scopes may use custom stacks.
@@ -54,5 +57,39 @@ defmodule PastimesRegWeb.Router do
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
+  end
+
+  ## Authentication routes
+
+  scope "/", PastimesRegWeb do
+    pipe_through [:browser, :redirect_if_org_user_is_authenticated]
+
+    get "/org_users/register", OrgUserRegistrationController, :new
+    post "/org_users/register", OrgUserRegistrationController, :create
+    get "/org_users/log_in", OrgUserSessionController, :new
+    post "/org_users/log_in", OrgUserSessionController, :create
+    get "/org_users/reset_password", OrgUserResetPasswordController, :new
+    post "/org_users/reset_password", OrgUserResetPasswordController, :create
+    get "/org_users/reset_password/:token", OrgUserResetPasswordController, :edit
+    put "/org_users/reset_password/:token", OrgUserResetPasswordController, :update
+  end
+
+  scope "/", PastimesRegWeb do
+    pipe_through [:browser, :require_authenticated_org_user]
+
+    get "/create-event", CreateEventController, :index
+    get "/org_users/settings", OrgUserSettingsController, :edit
+    put "/org_users/settings", OrgUserSettingsController, :update
+    get "/org_users/settings/confirm_email/:token", OrgUserSettingsController, :confirm_email
+  end
+
+  scope "/", PastimesRegWeb do
+    pipe_through [:browser]
+
+    delete "/org_users/log_out", OrgUserSessionController, :delete
+    get "/org_users/confirm", OrgUserConfirmationController, :new
+    post "/org_users/confirm", OrgUserConfirmationController, :create
+    get "/org_users/confirm/:token", OrgUserConfirmationController, :edit
+    post "/org_users/confirm/:token", OrgUserConfirmationController, :update
   end
 end

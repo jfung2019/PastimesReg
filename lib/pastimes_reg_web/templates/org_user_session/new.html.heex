@@ -1,0 +1,28 @@
+<div class="flex justify-center items-center h-[500px] md:h-screen md:max-w-screen-lg mx-auto text-center">
+  <.form let={f} for={@conn} action={Routes.org_user_session_path(@conn, :create)} as={:org_user}>
+    <%= if @error_message do %>
+      <div class="alert alert-danger">
+        <p><%= @error_message %></p>
+      </div>
+    <% end %>
+    <h1 class="text-4xl">Sign in</h1>
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <%= label f, :email %>
+      <%= email_input f, :email, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" %>
+    </div>
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <%= label f, :password %>
+      <%= password_input f, :password, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" %>
+    </div>
+    <%= label f, :remember_me, "Keep me logged in for 60 days" %>
+    <%= checkbox f, :remember_me %>
+  
+    <div class="mt-4">
+      <%= submit "Log in", class: "bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" %>
+    </div>
+    <p class="mt-4">
+      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"><%= link "Register", to: Routes.org_user_registration_path(@conn, :new) %></button>|
+      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"> <%= link "Forgot your password?", to: Routes.org_user_reset_password_path(@conn, :new) %></button>
+    </p>
+  </.form>
+</div>

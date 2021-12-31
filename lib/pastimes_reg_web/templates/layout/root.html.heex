@@ -19,11 +19,16 @@
       <%# if user is not authenticated %>
       <div class="space-x-10">
         <a href="/Events">Events</a>
-        <a href="/Signin">Sign in</a>
+        <%= if @current_org_user do %>
+          <%= @current_org_user.email %>
+          <li><%= link "Settings", to: Routes.org_user_settings_path(@conn, :edit) %></li>
+          <li><%= link "Log out", to: Routes.org_user_session_path(@conn, :delete), method: :delete %></li>
+        <% else %>
+        <a href="/org_users/log_in">Sign in</a>
+        <% end %>
       </div>
        <%# if user is authenticated %>
        <div class="hidden space-x-10">
-        Account
       </div>
     </nav>
   </div>
