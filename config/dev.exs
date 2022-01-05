@@ -67,7 +67,7 @@ config :pastimes_reg, PastimesRegWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/pastimes_reg_web/(live|views)/.*(ex)$",
-      ~r"lib/pastimes_reg_web/templates/.*(eex)$",
+      ~r"lib/pastimes_reg_web/templates/.*(eex)$"
     ]
   ]
 

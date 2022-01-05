@@ -1,6 +1,7 @@
-<%# if current step == 1 %>
-<div class="flex justify-center items-center h-[500px] md:h-screen md:max-w-screen-lg mx-auto text-center my-56 md:my-0">
+ <%= @valid_count %>
+ <div class={"#{if @current_step == 2, do: "my-[500px] md:my-44"} #{if @current_step == 1, do: "my-56 md:my-0"} #{if @current_step == 3, do: "my-56 md:my-0"} flex justify-center items-center h-[500px] md:h-screen md:max-w-screen-lg mx-auto text-center"}>
   <div class="w-full md:mt-0 space-y-4 md:space-y-14">
+    <%= if @current_step == 1 do %>
     <div class="p-5">
       <h1 class="text-3xl md:text-5xl font-bold">
         Create your Account
@@ -27,65 +28,21 @@
         </div>
       </div>
     </div>
+    <% end %>
     
-    <div class="">
-      <%# if @current_step == 0 %>
-      <.form  let={f} for={@changeset} action={Routes.org_user_registration_path(@conn, :create)}>
-        <%= if @changeset.action do %>
-          <div class="alert alert-danger">
-            <p>Oops, something went wrong! Please check the errors below.</p>
-          </div>
-        <% end %>
-      
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <%= text_input f, :first_name, required: true, class: "appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "First name*" %>
-            <%= error_tag f, :first_name %>
-            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
-          </div>
-          <div class="w-full md:w-1/2 px-3">
-            <%= text_input f, :last_name, required: true, class: "appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Last name*" %>
-            <%= error_tag f, :last_name %>
-            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
-          </div>
-        </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <%= email_input f, :email, required: true, class: "appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Email*"  %>
-            <%= error_tag f, :email %>
-            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
-          </div>
-          <div class="w-full md:w-1/2 px-3">
-            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Confirm Email*">
-          </div>
-        </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <%= password_input f, :password, required: true, class: "appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Create Password*" %>
-            <%= error_tag f, :password %>
-            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
-          </div>
-          <div class="w-full md:w-1/2 px-3">
-            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Confirm Password*">
-          </div>
-        </div>
-      <%= submit "Register" %>
-      </.form>
-    </div>
-    <h1>
-      By hosting event registration on Pastimes, you agree to the <a class="text-pastimes-blue" href="">terms of use</a> and <a class="text-pastimes-blue" href="">privacy policy</a>.
-    </h1>
-    <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-      <a href="/register">Create Account</a>
-    </button>
+    <!-- step 2 for header -->
+    <%= if @current_step == 2 do %>  
+    valid count
+    <%= @valid_count  %>
     <div>
+      form input is valid?:  
+     <%= @changeset.valid?  %>
+     <%= if @changeset.valid? do %>
+      <%= if @current_step == 2 do %>
+        <h1>show and accept</h1>
+      <% end %>
+     <% end %>
     </div>
-  </div>
-</div>
-
-<%# if current step == 2 %>
-<div class="hidden flex justify-center items-center h-[500px] md:h-screen md:max-w-screen-lg mx-auto text-center my-[500px] md:my-44">
-  <div class="w-full md:mt-0 space-y-4 md:space-y-14">
     <div class="p-5">
       <h1 class="text-3xl md:text-5xl font-bold">
         Add Org Information
@@ -112,88 +69,10 @@
         </div>
       </div>
     </div>
-    
-    <div class="">
-      <form class="px-5">
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Organization*">
-            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
-          </div>
-          <div class="w-full md:w-1/2 px-3">
-            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="License # (if applicable)">
-          </div>
-        </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Address Line 1*">
-            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
-          </div>
-          <div class="w-full md:w-1/2 px-3">
-            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Address Line 2">
-          </div>
-        </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="City*">
-            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
-          </div>
-          <div class="w-full md:w-1/2 px-3 flex gap-2">
-            <input class="appearance-none block w-3/6 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="State*">
-            <input class="appearance-none block w-3/6 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Zip/Postal Code*">
-          </div>
-        </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Country*">
-            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
-          </div>
-          <div class="w-full md:w-1/2 px-3">
-            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Phone Number*">
-          </div>
-        </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Support Email (for participants to contact)">
-            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
-          </div>
-          <div class="w-full md:w-1/2 px-3">
-            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Support Phone (for participants to contact)">
-          </div>
-        </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Instagram URL">
-            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
-          </div>
-          <div class="w-full md:w-1/2 px-3">
-            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Facebook Page URL">
-          </div>
-        </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Twitter URL">
-          </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Website URL">
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="flex justify-center mx-auto w-full gap-2">
-      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full">
-        <a href="/register">Back</a>
-      </button>
-      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-        <a href="/register">Continue</a>
-      </button>
-    </div>
-  </div>
-</div>
+    <% end %>
 
-<%# if current step == 3 %>
-<div class="hidden flex justify-center items-center h-[500px] md:h-screen md:max-w-screen-lg mx-auto text-center my-56 md:my-0">
-  <div class="w-full md:mt-0 space-y-4 md:space-y-14">
+    <!-- step 3 for header -->
+    <%= if @current_step == 3 do %>
     <div class="p-5">
       <h1 class="text-3xl md:text-5xl font-bold">
         Add Bank Information
@@ -220,33 +99,246 @@
         </div>
       </div>
     </div>
+    <% end %>
+    <!-- end for header -->
     
+    <!-- Form -->
     <div class="">
-      <form class="px-5">
+      <.form let={f} for={@changeset} phx-change="validate" phx-submit="send">
+      <!-- step 1 for header -->
+      <div class={"#{unless @current_step == 1, do: "hidden"}"}>
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Routing Number*">
-            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
-          </div>
-        </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Account Number*">
-            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+            <%= text_input f, :first_name, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "First name*" %>
+           <div class="pt-2 text-left">
+            <%= error_tag f, :first_name %>
+           </div>
           </div>
           <div class="w-full md:w-1/2 px-3">
-            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Confirm Account Number*">
+            <%= text_input f, :last_name, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Last name*" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :last_name %>
+            </div>
           </div>
         </div>
-      </form>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <%= email_input f, :email, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Email*"  %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :email %>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <%= email_input f, :email_confirmation, required: true, value: input_value(f, :email_confirmation), class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Confirm Email*"  %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :email_confirmation %>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <%= password_input f, :password, required: true, value: input_value(f, :password), class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Create Password*" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :password %>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <%= password_input f, :password_confirmation, required: true, value: input_value(f, :password_confirmation), class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Create Password*" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :password_confirmation %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class={"#{unless @current_step == 2, do: "hidden"}"}>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <!-- hidden input: needed to forced update the changeset.valid to false -->
+              <%= hidden_input f, :organization, id: "organization_id", value: "organization" %>
+              <!-- end of hidden input -->
+              <%= text_input f, :organization, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Organization*" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :organization %>
+              </div>
+            </div>
+            <div class="w-full md:w-1/2 px-3">
+              <%= text_input f, :license, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "License # (if applicable)" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :license %>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <%= text_input f, :address_line_1, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Address Line 1*" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :address_line_1 %>
+              </div>
+            </div>
+            <div class="w-full md:w-1/2 px-3">
+              <%= text_input f, :address_line_2, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Address Line 2*" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :address_line_2 %>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <%= text_input f, :city, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "City*" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :city %>
+              </div>
+            </div>
+            <div class="w-full md:w-1/2 px-3 flex gap-2">
+              <div class="flex-col">
+                <%= text_input f, :state, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "State*" %>
+                <div class="pt-2 text-left">
+                  <%= error_tag f, :state %>
+                </div>
+              </div>
+              <div class="flex-col">
+                <%= text_input f, :zip, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Zip/Postal Code*" %>
+                <div class="pt-2 text-left">
+                  <%= error_tag f, :zip %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <%= text_input f, :country, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Country*" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :country %>
+              </div>
+            </div>
+            <div class="w-full md:w-1/2 px-3">
+              <%= text_input f, :phone, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Phone Number*" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :phone %>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <%= text_input f, :support_email, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Support Email (for participants to contact)" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :support_email %>
+              </div>
+          </div>
+            <div class="w-full md:w-1/2 px-3">
+              <%= text_input f, :support_phone, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Support Phone (for participants to contact)" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :support_phone %>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <%= text_input f, :instagram_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Instagram URL" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :instagram_url %>
+              </div>
+            </div>
+            <div class="w-full md:w-1/2 px-3">
+              <%= text_input f, :facebook_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Facebook Page URL" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :facebook_url %>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <%= text_input f, :twitter_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Twitter URL" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :twitter_url %>
+              </div>
+            </div>
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <%= text_input f, :website_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Website URL" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :website_url %>
+              </div>
+            </div>
+          </div>
+      </div>
+      
+      <div class={"#{unless @current_step == 3, do: "hidden"}"}>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <%= text_input f, :routing_number, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Routing Number*" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :routing_number %>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <%= text_input f, :account_number, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Account Number*" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :account_number %>
+              </div>
+            </div>
+            <div class="w-full md:w-1/2 px-3">
+              <%= text_input f, :account_number_confirmation, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Confirm Account Number*" %>
+              <div class="pt-2 text-left">
+                <%= error_tag f, :account_number_confirmation %>
+              </div>
+            </div>
+          </div>
+      </div>
+ 
+      <%= if @current_step == 1 do %>
+      <div class="flex-col justify-center mx-auto w-full">
+        <h1 class="mb-6">
+          By hosting event registration on Pastimes, you agree to the <a class="text-pastimes-blue" href="">terms of use</a> and <a class="text-pastimes-blue" href="">privacy policy</a>.
+        </h1>
+        <%= if @changeset.valid? do %>
+        <!-- button disabled to step 2 -->
+        <span class="cursor-pointer bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" phx-click="step_2">
+          Create Account
+        </span>
+        <% else %>
+        <!-- button enabled to step 2 -->
+        <span class="cursor-pointer bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+          Create Account
+        </span>
+        <% end %>
+      </div>
+
+      <% end %>
+  
+      <%= if @current_step == 2 do %>
+      <div class="flex justify-center mx-auto w-full gap-2">
+        <span class="cursor-pointer bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full" phx-click="step_1">
+          Back
+        </span>
+
+        <%= if @valid_count == 2 && @changeset.valid? do %>
+          <!-- button enabled for step 3 -->
+          <span class="cursor-pointer bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" phx-click="step_3">
+            Continue
+          </span>
+        <% else %>
+        <!-- button disabled for step 3 -->
+        <span class="cursor-pointer bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+          Continue
+        </span>
+        <% end %>
+      </div>
+      <% end %>
+      <%= if @current_step == 3 do %>
+      <div class="flex justify-center mx-auto w-full pt-14 gap-10">
+        <span class="cursor-pointer bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full">
+          <a href="/">I will add later</a>
+        </span>
+        <button type="submit" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+          Create Account
+        </button>
+      </div>
+      <% end %>
+      </.form>
     </div>
-    <div class="flex justify-center mx-auto w-full pt-14 gap-10">
-      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full">
-        <a href="/">I will add later</a>
-      </button>
-      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-        <a href="/register">Create Account</a>
-      </button>
-    </div>
+    <!-- End of Form -->
   </div>
 </div>

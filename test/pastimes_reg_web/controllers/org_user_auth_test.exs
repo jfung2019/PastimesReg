@@ -20,7 +20,10 @@ defmodule PastimesRegWeb.OrgUserAuthTest do
     test "stores the org_user token in the session", %{conn: conn, org_user: org_user} do
       conn = OrgUserAuth.log_in_org_user(conn, org_user)
       assert token = get_session(conn, :org_user_token)
-      assert get_session(conn, :live_socket_id) == "org_users_sessions:#{Base.url_encode64(token)}"
+
+      assert get_session(conn, :live_socket_id) ==
+               "org_users_sessions:#{Base.url_encode64(token)}"
+
       assert redirected_to(conn) == "/"
       assert Accounts.get_org_user_by_session_token(token)
     end
@@ -31,12 +34,20 @@ defmodule PastimesRegWeb.OrgUserAuthTest do
     end
 
     test "redirects to the configured path", %{conn: conn, org_user: org_user} do
-      conn = conn |> put_session(:org_user_return_to, "/hello") |> OrgUserAuth.log_in_org_user(org_user)
+      conn =
+        conn
+        |> put_session(:org_user_return_to, "/hello")
+        |> OrgUserAuth.log_in_org_user(org_user)
+
       assert redirected_to(conn) == "/hello"
     end
 
     test "writes a cookie if remember_me is configured", %{conn: conn, org_user: org_user} do
-      conn = conn |> fetch_cookies() |> OrgUserAuth.log_in_org_user(org_user, %{"remember_me" => "true"})
+      conn =
+        conn
+        |> fetch_cookies()
+        |> OrgUserAuth.log_in_org_user(org_user, %{"remember_me" => "true"})
+
       assert get_session(conn, :org_user_token) == conn.cookies[@remember_me_cookie]
 
       assert %{value: signed_token, max_age: max_age} = conn.resp_cookies[@remember_me_cookie]
@@ -85,13 +96,20 @@ defmodule PastimesRegWeb.OrgUserAuthTest do
   describe "fetch_current_org_user/2" do
     test "authenticates org_user from session", %{conn: conn, org_user: org_user} do
       org_user_token = Accounts.generate_org_user_session_token(org_user)
-      conn = conn |> put_session(:org_user_token, org_user_token) |> OrgUserAuth.fetch_current_org_user([])
+
+      conn =
+        conn
+        |> put_session(:org_user_token, org_user_token)
+        |> OrgUserAuth.fetch_current_org_user([])
+
       assert conn.assigns.current_org_user.id == org_user.id
     end
 
     test "authenticates org_user from cookies", %{conn: conn, org_user: org_user} do
       logged_in_conn =
-        conn |> fetch_cookies() |> OrgUserAuth.log_in_org_user(org_user, %{"remember_me" => "true"})
+        conn
+        |> fetch_cookies()
+        |> OrgUserAuth.log_in_org_user(org_user, %{"remember_me" => "true"})
 
       org_user_token = logged_in_conn.cookies[@remember_me_cookie]
       %{value: signed_token} = logged_in_conn.resp_cookies[@remember_me_cookie]
@@ -115,7 +133,11 @@ defmodule PastimesRegWeb.OrgUserAuthTest do
 
   describe "redirect_if_org_user_is_authenticated/2" do
     test "redirects if org_user is authenticated", %{conn: conn, org_user: org_user} do
-      conn = conn |> assign(:current_org_user, org_user) |> OrgUserAuth.redirect_if_org_user_is_authenticated([])
+      conn =
+        conn
+        |> assign(:current_org_user, org_user)
+        |> OrgUserAuth.redirect_if_org_user_is_authenticated([])
+
       assert conn.halted
       assert redirected_to(conn) == "/"
     end
@@ -162,7 +184,11 @@ defmodule PastimesRegWeb.OrgUserAuthTest do
     end
 
     test "does not redirect if org_user is authenticated", %{conn: conn, org_user: org_user} do
-      conn = conn |> assign(:current_org_user, org_user) |> OrgUserAuth.require_authenticated_org_user([])
+      conn =
+        conn
+        |> assign(:current_org_user, org_user)
+        |> OrgUserAuth.require_authenticated_org_user([])
+
       refute conn.halted
       refute conn.status
     end

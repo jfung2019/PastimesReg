@@ -6,11 +6,13 @@ defmodule PastimesReg.Accounts.OrgUser do
     field :first_name, :string
     field :last_name, :string
     field :email, :string
+    field :email_confirmation, :string, virtual: true
     field :password, :string, virtual: true, redact: true
+    field :password_confirmation, :string, virtual: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
-    #Organization information
+    # Organization information
     field :organization, :string
     field :license, :string
     field :address_line_1, :string
@@ -27,9 +29,10 @@ defmodule PastimesReg.Accounts.OrgUser do
     field :twitter_url, :string
     field :website_url, :string
 
-    #Bank information
+    # Bank information
     field :routing_number, :string
     field :account_number, :string
+    field :account_number_confirmation, :string, virtual: true
 
     timestamps()
   end
@@ -53,27 +56,186 @@ defmodule PastimesReg.Accounts.OrgUser do
   """
   def registration_changeset(org_user, attrs, opts \\ []) do
     org_user
-    |> cast(attrs, [:email, :password, :first_name, :last_name])
-    |> validate_email()
+    |> cast(
+      attrs,
+      [
+        :email,
+        :password,
+        :first_name,
+        :last_name,
+        :organization,
+        :license,
+        :address_line_1,
+        :address_line_2,
+        :city,
+        :state,
+        :zip,
+        :country,
+        :phone,
+        :support_email,
+        :support_phone,
+        :instagram_url,
+        :facebook_url,
+        :twitter_url,
+        :website_url,
+        :routing_number,
+        :account_number
+      ]
+    )
     |> validate_first_name()
     |> validate_last_name()
+    |> validate_email()
     |> validate_password(opts)
+    |> validate_confirmation(:password)
+    |> validate_confirmation(:email)
+    |> validate_confirmation(:account_number)
+    |> validate_organization()
+    |> validate_address_line_1()
+    |> validate_address_line_2()
+    |> validate_city()
+    |> validate_state()
+    |> validate_zip()
+    |> validate_country()
+    |> validate_phone()
+    |> validate_routing_number()
+    |> validate_account_number()
+  end
+
+  def registration_changeset_step_1(org_user, attrs, opts \\ []) do
+    org_user
+    |> cast(
+      attrs,
+      [
+        :first_name,
+        :last_name,
+        :email,
+        :password
+      ]
+    )
+    |> validate_first_name()
+    |> validate_last_name()
+    |> validate_email()
+    |> validate_password(opts)
+    |> validate_confirmation(:password)
+    |> validate_confirmation(:email)
+  end
+
+  def registration_changeset_step_2(org_user, attrs, opts \\ []) do
+    org_user
+    |> cast(
+      attrs,
+      [
+        :organization,
+        :license,
+        :address_line_1,
+        :address_line_2,
+        :city,
+        :state,
+        :zip,
+        :country,
+        :phone,
+        :support_email,
+        :support_phone,
+        :instagram_url,
+        :facebook_url,
+        :twitter_url,
+        :website_url
+      ]
+    )
+    |> validate_organization()
+    |> validate_address_line_1()
+    |> validate_address_line_2()
+    |> validate_city()
+    |> validate_state()
+    |> validate_zip()
+    |> validate_country()
+    |> validate_phone()
+  end
+
+  def registration_changeset_step_3(org_user, attrs, opts \\ []) do
+    org_user
+    |> cast(
+      attrs,
+      [
+        :routing_number,
+        :account_number
+      ]
+    )
+    |> validate_confirmation(:account_number)
+    |> validate_routing_number()
+    |> validate_account_number()
   end
 
   defp validate_first_name(changeset) do
     changeset
     |> validate_required([:first_name])
     |> validate_length(:first_name, max: 160)
-    |> unsafe_validate_unique(:first_name, PastimesReg.Repo)
-    |> unique_constraint(:first_name)
   end
 
   defp validate_last_name(changeset) do
     changeset
     |> validate_required([:last_name])
     |> validate_length(:last_name, max: 160)
-    |> unsafe_validate_unique(:last_name, PastimesReg.Repo)
-    |> unique_constraint(:last_name)
+  end
+
+  defp validate_organization(changeset) do
+    changeset
+    |> validate_required([:organization])
+    |> validate_length(:organization, max: 160)
+  end
+
+  defp validate_address_line_1(changeset) do
+    changeset
+    |> validate_required([:address_line_1])
+    |> validate_length(:address_line_1, max: 160)
+  end
+
+  defp validate_address_line_2(changeset) do
+    changeset
+    |> validate_required([:address_line_2])
+    |> validate_length(:address_line_2, max: 160)
+  end
+
+  defp validate_city(changeset) do
+    changeset
+    |> validate_required([:city])
+    |> validate_length(:city, max: 160)
+  end
+
+  defp validate_state(changeset) do
+    changeset
+    |> validate_required([:state])
+    |> validate_length(:state, max: 160)
+  end
+
+  defp validate_zip(changeset) do
+    changeset
+    |> validate_required([:zip])
+    |> validate_length(:zip, max: 160)
+  end
+
+  defp validate_country(changeset) do
+    changeset
+    |> validate_required([:country])
+    |> validate_length(:country, max: 160)
+  end
+
+  defp validate_phone(changeset) do
+    changeset
+    |> validate_required([:phone])
+    |> validate_length(:phone, max: 160)
+  end
+
+  defp validate_routing_number(changeset) do
+    changeset
+    |> validate_required([:routing_number])
+    |> validate_length(:routing_number, max: 160)
+  end
+
+  defp validate_account_number(changeset) do
+    changeset
+    |> validate_required([:account_number])
+    |> validate_length(:account_number, max: 160)
   end
 
   defp validate_email(changeset) do

@@ -76,8 +76,46 @@ defmodule PastimesReg.Accounts do
   """
   def register_org_user(attrs) do
     %OrgUser{}
-    |> OrgUser.registration_changeset(attrs)
+    |> OrgUser.registration_changeset_step_1(attrs)
+    |> OrgUser.registration_changeset_step_2(attrs)
+    |> OrgUser.registration_changeset_step_3(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking org_user changes for 3 changesets used for form step 1 to 3.
+
+  ## Examples
+
+      iex> change_org_user_registration(org_user)
+      %Ecto.Changeset{data: %OrgUser{}}
+
+  """
+
+  def registration_form_step_init_changeset(%OrgUser{} = org_user, attrs \\ %{}) do
+    OrgUser.registration_changeset_step_1(org_user, attrs, hash_password: false)
+  end
+
+  def registration_form_step_1_changeset(attrs) do
+    %OrgUser{}
+    |> OrgUser.registration_changeset_step_1(attrs)
+    |> Map.put(:action, :insert)
+  end
+
+  def registration_form_step_2_changeset(attrs) do
+    %OrgUser{}
+    |> OrgUser.registration_changeset_step_2(attrs)
+    |> Map.put(:action, :insert)
+  end
+
+  @spec registration_form_step_3_changeset(
+          :invalid
+          | %{optional(:__struct__) => none, optional(atom | binary) => any}
+        ) :: Ecto.Changeset.t()
+  def registration_form_step_3_changeset(attrs) do
+    %OrgUser{}
+    |> OrgUser.registration_changeset_step_3(attrs)
+    |> Map.put(:action, :insert)
   end
 
   @doc """
@@ -95,6 +133,14 @@ defmodule PastimesReg.Accounts do
 
   ## Settings
 
+  @spec change_org_user_email(
+          {map, map}
+          | %{
+              :__struct__ => atom | %{:__changeset__ => map, optional(any) => any},
+              optional(atom) => any
+            },
+          :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}
+        ) :: Ecto.Changeset.t()
   @doc """
   Returns an `%Ecto.Changeset{}` for changing the org_user email.
 
@@ -154,7 +200,10 @@ defmodule PastimesReg.Accounts do
 
     Ecto.Multi.new()
     |> Ecto.Multi.update(:org_user, changeset)
-    |> Ecto.Multi.delete_all(:tokens, OrgUserToken.org_user_and_contexts_query(org_user, [context]))
+    |> Ecto.Multi.delete_all(
+      :tokens,
+      OrgUserToken.org_user_and_contexts_query(org_user, [context])
+    )
   end
 
   @doc """
@@ -166,12 +215,21 @@ defmodule PastimesReg.Accounts do
       {:ok, %{to: ..., body: ...}}
 
   """
-  def deliver_update_email_instructions(%OrgUser{} = org_user, current_email, update_email_url_fun)
+  def deliver_update_email_instructions(
+        %OrgUser{} = org_user,
+        current_email,
+        update_email_url_fun
+      )
       when is_function(update_email_url_fun, 1) do
-    {encoded_token, org_user_token} = OrgUserToken.build_email_token(org_user, "change:#{current_email}")
+    {encoded_token, org_user_token} =
+      OrgUserToken.build_email_token(org_user, "change:#{current_email}")
 
     Repo.insert!(org_user_token)
-    OrgUserNotifier.deliver_update_email_instructions(org_user, update_email_url_fun.(encoded_token))
+
+    OrgUserNotifier.deliver_update_email_instructions(
+      org_user,
+      update_email_url_fun.(encoded_token)
+    )
   end
 
   @doc """
@@ -263,7 +321,11 @@ defmodule PastimesReg.Accounts do
     else
       {encoded_token, org_user_token} = OrgUserToken.build_email_token(org_user, "confirm")
       Repo.insert!(org_user_token)
-      OrgUserNotifier.deliver_confirmation_instructions(org_user, confirmation_url_fun.(encoded_token))
+
+      OrgUserNotifier.deliver_confirmation_instructions(
+        org_user,
+        confirmation_url_fun.(encoded_token)
+      )
     end
   end
 
@@ -287,7 +349,10 @@ defmodule PastimesReg.Accounts do
   defp confirm_org_user_multi(org_user) do
     Ecto.Multi.new()
     |> Ecto.Multi.update(:org_user, OrgUser.confirm_changeset(org_user))
-    |> Ecto.Multi.delete_all(:tokens, OrgUserToken.org_user_and_contexts_query(org_user, ["confirm"]))
+    |> Ecto.Multi.delete_all(
+      :tokens,
+      OrgUserToken.org_user_and_contexts_query(org_user, ["confirm"])
+    )
   end
 
   ## Reset password
@@ -305,7 +370,11 @@ defmodule PastimesReg.Accounts do
       when is_function(reset_password_url_fun, 1) do
     {encoded_token, org_user_token} = OrgUserToken.build_email_token(org_user, "reset_password")
     Repo.insert!(org_user_token)
-    OrgUserNotifier.deliver_reset_password_instructions(org_user, reset_password_url_fun.(encoded_token))
+
+    OrgUserNotifier.deliver_reset_password_instructions(
+      org_user,
+      reset_password_url_fun.(encoded_token)
+    )
   end
 
   @doc """

@@ -31,7 +31,10 @@ defmodule PastimesReg.AccountsTest do
       %{id: id} = org_user = org_user_fixture()
 
       assert %OrgUser{id: ^id} =
-               Accounts.get_org_user_by_email_and_password(org_user.email, valid_org_user_password())
+               Accounts.get_org_user_by_email_and_password(
+                 org_user.email,
+                 valid_org_user_password()
+               )
     end
   end
 
@@ -59,7 +62,8 @@ defmodule PastimesReg.AccountsTest do
     end
 
     test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_org_user(%{email: "not valid", password: "not valid"})
+      {:error, changeset} =
+        Accounts.register_org_user(%{email: "not valid", password: "not valid"})
 
       assert %{
                email: ["must have the @ sign and no spaces"],
@@ -130,7 +134,9 @@ defmodule PastimesReg.AccountsTest do
     end
 
     test "requires email to change", %{org_user: org_user} do
-      {:error, changeset} = Accounts.apply_org_user_email(org_user, valid_org_user_password(), %{})
+      {:error, changeset} =
+        Accounts.apply_org_user_email(org_user, valid_org_user_password(), %{})
+
       assert %{email: ["did not change"]} = errors_on(changeset)
     end
 
@@ -168,7 +174,10 @@ defmodule PastimesReg.AccountsTest do
 
     test "applies the email without persisting it", %{org_user: org_user} do
       email = unique_org_user_email()
-      {:ok, org_user} = Accounts.apply_org_user_email(org_user, valid_org_user_password(), %{email: email})
+
+      {:ok, org_user} =
+        Accounts.apply_org_user_email(org_user, valid_org_user_password(), %{email: email})
+
       assert org_user.email == email
       assert Accounts.get_org_user!(org_user.id).email != email
     end
@@ -200,7 +209,11 @@ defmodule PastimesReg.AccountsTest do
 
       token =
         extract_org_user_token(fn url ->
-          Accounts.deliver_update_email_instructions(%{org_user | email: email}, org_user.email, url)
+          Accounts.deliver_update_email_instructions(
+            %{org_user | email: email},
+            org_user.email,
+            url
+          )
         end)
 
       %{org_user: org_user, token: token, email: email}
@@ -223,7 +236,9 @@ defmodule PastimesReg.AccountsTest do
     end
 
     test "does not update email if org_user email changed", %{org_user: org_user, token: token} do
-      assert Accounts.update_org_user_email(%{org_user | email: "current@example.com"}, token) == :error
+      assert Accounts.update_org_user_email(%{org_user | email: "current@example.com"}, token) ==
+               :error
+
       assert Repo.get!(OrgUser, org_user.id).email == org_user.email
       assert Repo.get_by(OrgUserToken, org_user_id: org_user.id)
     end
@@ -276,14 +291,18 @@ defmodule PastimesReg.AccountsTest do
       too_long = String.duplicate("db", 100)
 
       {:error, changeset} =
-        Accounts.update_org_user_password(org_user, valid_org_user_password(), %{password: too_long})
+        Accounts.update_org_user_password(org_user, valid_org_user_password(), %{
+          password: too_long
+        })
 
       assert "should be at most 72 character(s)" in errors_on(changeset).password
     end
 
     test "validates current password", %{org_user: org_user} do
       {:error, changeset} =
-        Accounts.update_org_user_password(org_user, "invalid", %{password: valid_org_user_password()})
+        Accounts.update_org_user_password(org_user, "invalid", %{
+          password: valid_org_user_password()
+        })
 
       assert %{current_password: ["is not valid"]} = errors_on(changeset)
     end
@@ -488,7 +507,9 @@ defmodule PastimesReg.AccountsTest do
     end
 
     test "updates the password", %{org_user: org_user} do
-      {:ok, updated_org_user} = Accounts.reset_org_user_password(org_user, %{password: "new valid password"})
+      {:ok, updated_org_user} =
+        Accounts.reset_org_user_password(org_user, %{password: "new valid password"})
+
       assert is_nil(updated_org_user.password)
       assert Accounts.get_org_user_by_email_and_password(org_user.email, "new valid password")
     end

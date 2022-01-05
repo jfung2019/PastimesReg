@@ -42,7 +42,13 @@ defmodule PastimesReg.Accounts.OrgUserToken do
   """
   def build_session_token(org_user) do
     token = :crypto.strong_rand_bytes(@rand_size)
-    {token, %PastimesReg.Accounts.OrgUserToken{token: token, context: "session", org_user_id: org_user.id}}
+
+    {token,
+     %PastimesReg.Accounts.OrgUserToken{
+       token: token,
+       context: "session",
+       org_user_id: org_user.id
+     }}
   end
 
   @doc """
@@ -173,6 +179,7 @@ defmodule PastimesReg.Accounts.OrgUserToken do
   end
 
   def org_user_and_contexts_query(org_user, [_ | _] = contexts) do
-    from t in PastimesReg.Accounts.OrgUserToken, where: t.org_user_id == ^org_user.id and t.context in ^contexts
+    from t in PastimesReg.Accounts.OrgUserToken,
+      where: t.org_user_id == ^org_user.id and t.context in ^contexts
   end
 end

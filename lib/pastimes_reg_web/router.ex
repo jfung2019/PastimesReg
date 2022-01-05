@@ -21,7 +21,6 @@ defmodule PastimesRegWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    # get "/register", RegisterController, :index
     live "/register", RegisterLive
   end
 
@@ -64,8 +63,7 @@ defmodule PastimesRegWeb.Router do
   scope "/", PastimesRegWeb do
     pipe_through [:browser, :redirect_if_org_user_is_authenticated]
 
-    get "/org_users/register", OrgUserRegistrationController, :new
-    post "/org_users/register", OrgUserRegistrationController, :create
+    live "/org_users/register", RegisterLive
     get "/org_users/log_in", OrgUserSessionController, :new
     post "/org_users/log_in", OrgUserSessionController, :create
     get "/org_users/reset_password", OrgUserResetPasswordController, :new
@@ -77,6 +75,8 @@ defmodule PastimesRegWeb.Router do
   scope "/", PastimesRegWeb do
     pipe_through [:browser, :require_authenticated_org_user]
 
+    live "/org_users/events", EventsLive
+    live "/org_users/create-events", EventsLive
     get "/create-event", CreateEventController, :index
     get "/org_users/settings", OrgUserSettingsController, :edit
     put "/org_users/settings", OrgUserSettingsController, :update

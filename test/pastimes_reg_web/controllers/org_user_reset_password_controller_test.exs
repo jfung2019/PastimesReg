@@ -27,7 +27,9 @@ defmodule PastimesRegWeb.OrgUserResetPasswordControllerTest do
 
       assert redirected_to(conn) == "/"
       assert get_flash(conn, :info) =~ "If your email is in our system"
-      assert Repo.get_by!(Accounts.OrgUserToken, org_user_id: org_user.id).context == "reset_password"
+
+      assert Repo.get_by!(Accounts.OrgUserToken, org_user_id: org_user.id).context ==
+               "reset_password"
     end
 
     test "does not send reset password token if email is invalid", %{conn: conn} do

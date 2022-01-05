@@ -1,0 +1,231 @@
+<%#  template: create event page (this is when the user clicks on the button to create event from above template%>
+<%# if current step == 1 %>
+<div class="flex justify-center items-center h-max md:max-w-screen-lg mx-auto text-center my-16">
+  <div class="w-full md:mt-0 space-y-4 md:space-y-14">
+    <div class="p-5">
+      <h1 class="text-3xl md:text-5xl font-bold">
+        Create your Event
+      </h1>
+      <div class="mt-8 mx-0 md:mx-4 p-4">
+        <div class="flex items-center">
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-6 py-1 md:h-12 md:w-12 md:py-3 border-2 border-black bg-gray-200">
+            </div>
+            <div class="mx-4">Basic Information</div>
+          </div>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-black"></div>
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-black">
+            </div>
+            <div class="mx-4">Category  Information</div>
+          </div>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-black"></div>
+          <div class="flex items-center text-gray-500 relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-black">
+            </div>
+          </div>
+          <div class="mx-4">Other Event Information</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="">
+      <form class="px-5">
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <div class="relative">
+              <select class="block appearance-none w-full text-gray-700 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <option disabled selected>Select an Activity (that best fits event)*</option>
+                <option>Backcountry Touring</option>
+                <option>Backpacking</option>
+                <option>Badminton</option>
+                <option>Baseball</option>
+                <option>Basketball</option>
+                <option>Beach Volleyball</option>
+                <option>Bikepacking</option>
+                <option>Bird Watching</option>
+                <option>BMX</option>
+                <option>Boating</option>
+                <option>Bocce Ball</option>
+                <option>Bouldering</option>
+                <option>Camping</option>
+                <option>Canoeing</option>
+                <option>Canyoneering</option>
+                <option>Caving</option>
+                <option>Cornhole</option>
+                <option>Croquet</option>
+                <option>Cross Country Skiing</option>
+                <option>Cyclocross</option>
+                <option>Dirt Biking</option>
+                <option>Disc Golf</option>
+                <option>eMountain Biking</option>
+                <option>Equestrian</option>
+                <option>Fat Biking</option>
+                <option>Fishing</option>
+                <option>Fitness Training</option>
+                <option>Fly Fishing</option>
+                <option>Football</option>
+                <option>Foraging</option>
+                <option>Freediving</option>
+                <option>Geocaching</option>
+                <option>Golf</option>
+                <option>Gravel Biking</option>
+                <option>Gymnastics</option>
+                <option>Hand Ball</option>
+                <option>Hiking</option>
+                <option>Hockey</option>
+                <option>Hunting</option>
+                <option>Ice Climbing</option>
+                <option>Ice Skating</option>
+                <option>Kadima</option>
+                <option>Kan Jam</option>
+                <option>Kayaking</option>
+                <option>Kickball</option>
+                <option>Kitesurfing</option>
+                <option>Kubb</option>
+                <option>Lacrosse</option>
+                <option>Martial Arts</option>
+                <option>Mountain Biking</option>
+                <option>Mountaineering</option>
+                <option>Obstacle Course</option>
+                <option>Off Roading</option>
+                <option>Outdoor Photography</option>
+                <option>Paddleboarding</option>
+                <option>Paragliding</option>
+                <option>Parkour</option>
+                <option>Pickleball</option>
+                <option>Ping Pong</option>
+                <option>Plen Air Painting</option>
+                <option>Racquetball</option>
+                <option>Rafting</option>
+                <option>Road Cycling</option>
+                <option>Rock Climbing</option>
+                <option>Rock Hounding</option>
+                <option></option>
+                <option></option>
+                <option></option>
+                <option></option>
+                <option></option>
+                <option></option>
+                <option></option>
+                <option></option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Name of Event*">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Address (location for event)*">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Start date*">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Start time*">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="End date*">
+            <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="End time*">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full px-3 mb-6 md:mb-0">
+            <div class="mb-1"><textarea type="text" class="h-24 py-1 px-3 w-full border border-gray-200 rounded focus:outline-none focus:border-gray-700 resize-none" placeholder="Write details about your event"></textarea> </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full px-3 mb-6 md:mb-0">
+            <input class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Event Website URL">
+          </div>
+        </div>
+        <div class="flex flex-wrap mb-6 border border-gray-200 py-10 w-full relative z-1">
+          <div class="w-2/6 px-3 mb-6 md:mb-0">
+            <!-- if photo is added or not nil: dont show this and show image added instead-->
+            <button class="">
+              <img class="h-8 w-8 object-contain" src="/images/pasttimes_icon_plus.png" alt="">
+            </button>
+            <h1 class="">Add Cover Photo</h1>
+
+            <!-- if photo is added or not nil: show this -->
+            <div class="absolute top-0 -right-3 z-40">
+              <button>
+                <img src="/images/pasttimes_icon_x.png" alt="x">
+              </button>
+            </div>
+          </div>
+
+          <!-- if photo is added or not nil: show this and hide button for add cover photo -->
+            <!--  
+          <div class="w-full">
+            <img src="https://picsum.photos/200/100"alt="">
+          </div>
+          -->
+        </div>
+        <div class="flex flex-wrap gap-1 mb-6 mx-auto w-full">
+          <div class="w-full md:w-[33%] px-3 mb-6 md:mb-0 border border-gray-200 py-10 relative z-1">
+            <!-- if photo is added or not nil: dont show this -->
+            <button class="">
+              <img class="h-8 w-8 object-contain" src="/images/pasttimes_icon_plus.png" alt="">
+            </button>
+            <h1 class="">Add Photo</h1>
+            <!-- if photo is added or not nil: show this -->
+            <div class="absolute top-0 -right-3 z-40">
+              <button>
+                <img src="/images/pasttimes_icon_x.png" alt="x">
+              </button>
+            </div>
+          </div>
+          <div class="w-full md:w-[33%] px-3 mb-6 md:mb-0 border border-gray-200 py-10 relative z-1">
+            <!-- if photo is added or not nil: dont show this -->
+            <button class="">
+              <img class="h-8 w-8 object-contain" src="/images/pasttimes_icon_plus.png" alt="">
+            </button>
+            <h1 class="">Add Photo</h1>
+            <!-- if photo is added or not nil: show this -->
+            <div class="absolute top-0 -right-3 z-40">
+              <button>
+                <img src="/images/pasttimes_icon_x.png" alt="x">
+              </button>
+            </div>
+          </div>
+          <div class="w-full md:w-[33%] px-3 mb-6 md:mb-0 border border-gray-200 py-10 relative z-1">
+            <!-- if photo is added or not nil: dont show this -->
+            <button class="">
+              <img class="h-8 w-8 object-contain" src="/images/pasttimes_icon_plus.png" alt="">
+            </button>
+            <h1 class="">Add Photo</h1>
+            <!-- if photo is added or not nil: show this -->
+            <div class="absolute top-0 -right-3 z-40">
+              <button>
+                <img src="/images/pasttimes_icon_x.png" alt="x">
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-12 rounded-full">
+      <a href="">Continue</a>
+    </button>
+  </div>
+</div>
+
+<%# if current_step == 2 %>
+<%# if current_step == 3 %>

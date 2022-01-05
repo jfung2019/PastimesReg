@@ -30,7 +30,10 @@ defmodule PastimesRegWeb.OrgUserConfirmationControllerTest do
       assert Repo.get_by!(Accounts.OrgUserToken, org_user_id: org_user.id).context == "confirm"
     end
 
-    test "does not send confirmation token if Org user is confirmed", %{conn: conn, org_user: org_user} do
+    test "does not send confirmation token if Org user is confirmed", %{
+      conn: conn,
+      org_user: org_user
+    } do
       Repo.update!(Accounts.OrgUser.confirm_changeset(org_user))
 
       conn =

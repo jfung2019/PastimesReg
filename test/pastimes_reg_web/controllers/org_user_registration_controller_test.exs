@@ -13,7 +13,11 @@ defmodule PastimesRegWeb.OrgUserRegistrationControllerTest do
     end
 
     test "redirects if already logged in", %{conn: conn} do
-      conn = conn |> log_in_org_user(org_user_fixture()) |> get(Routes.org_user_registration_path(conn, :new))
+      conn =
+        conn
+        |> log_in_org_user(org_user_fixture())
+        |> get(Routes.org_user_registration_path(conn, :new))
+
       assert redirected_to(conn) == "/"
     end
   end

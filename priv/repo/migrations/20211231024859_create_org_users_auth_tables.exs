@@ -11,7 +11,7 @@ defmodule PastimesReg.Repo.Migrations.CreateOrgUsersAuthTables do
       add :hashed_password, :string, null: false
       add :confirmed_at, :naive_datetime
 
-      #Organization information
+      # Organization information
       add :organization, :varchar, null: true
       add :license, :varchar, null: true
       add :address_line_1, :varchar, null: true
@@ -28,7 +28,7 @@ defmodule PastimesReg.Repo.Migrations.CreateOrgUsersAuthTables do
       add :twitter_url, :varchar, null: true
       add :website_url, :varchar, null: true
 
-      #Bank information
+      # Bank information
       add :routing_number, :varchar, null: true
       add :account_number, :varchar, null: true
       timestamps()

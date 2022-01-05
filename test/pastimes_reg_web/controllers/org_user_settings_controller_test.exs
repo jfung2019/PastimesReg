@@ -95,13 +95,22 @@ defmodule PastimesRegWeb.OrgUserSettingsControllerTest do
 
       token =
         extract_org_user_token(fn url ->
-          Accounts.deliver_update_email_instructions(%{org_user | email: email}, org_user.email, url)
+          Accounts.deliver_update_email_instructions(
+            %{org_user | email: email},
+            org_user.email,
+            url
+          )
         end)
 
       %{token: token, email: email}
     end
 
-    test "updates the org_user email once", %{conn: conn, org_user: org_user, token: token, email: email} do
+    test "updates the org_user email once", %{
+      conn: conn,
+      org_user: org_user,
+      token: token,
+      email: email
+    } do
       conn = get(conn, Routes.org_user_settings_path(conn, :confirm_email, token))
       assert redirected_to(conn) == Routes.org_user_settings_path(conn, :edit)
       assert get_flash(conn, :info) =~ "Email changed successfully"

@@ -82,7 +82,9 @@ defmodule PastimesRegWeb.OrgUserSessionControllerTest do
 
   describe "DELETE /org_users/log_out" do
     test "logs the org_user out", %{conn: conn, org_user: org_user} do
-      conn = conn |> log_in_org_user(org_user) |> delete(Routes.org_user_session_path(conn, :delete))
+      conn =
+        conn |> log_in_org_user(org_user) |> delete(Routes.org_user_session_path(conn, :delete))
+
       assert redirected_to(conn) == "/"
       refute get_session(conn, :org_user_token)
       assert get_flash(conn, :info) =~ "Logged out successfully"
