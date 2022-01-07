@@ -21,7 +21,6 @@ defmodule PastimesRegWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    live "/register", RegisterLive
   end
 
   # Other scopes may use custom stacks.
@@ -76,8 +75,7 @@ defmodule PastimesRegWeb.Router do
     pipe_through [:browser, :require_authenticated_org_user]
 
     live "/org_users/events", EventsLive
-    live "/org_users/create-events", EventsLive
-    get "/create-event", CreateEventController, :index
+    live "/org_users/create-events", CreateEventsLive
     get "/org_users/settings", OrgUserSettingsController, :edit
     put "/org_users/settings", OrgUserSettingsController, :update
     get "/org_users/settings/confirm_email/:token", OrgUserSettingsController, :confirm_email

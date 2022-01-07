@@ -2,7 +2,6 @@ defmodule PastimesRegWeb.RegisterLive do
   use PastimesRegWeb, :live_view
   alias PastimesReg.Accounts
 
-
   def render(assigns) do
     Phoenix.View.render(PastimesRegWeb.OrgUserRegistrationView, "new.html", assigns)
   end
@@ -23,8 +22,10 @@ defmodule PastimesRegWeb.RegisterLive do
       Accounts.registration_form_step_1_changeset(attrs)
       |> IO.inspect()
 
-      valid_count = 0
-      valid_count = if changeset.valid? do
+    valid_count = 0
+
+    valid_count =
+      if changeset.valid? do
         valid_count + 1
       end
 
@@ -42,8 +43,10 @@ defmodule PastimesRegWeb.RegisterLive do
       Accounts.registration_form_step_2_changeset(attrs)
       |> IO.inspect()
 
-      valid_count = 0
-      valid_count = if changeset.valid? do
+    valid_count = 0
+
+    valid_count =
+      if changeset.valid? do
         valid_count + 2
       end
 
@@ -61,16 +64,75 @@ defmodule PastimesRegWeb.RegisterLive do
       Accounts.registration_form_step_3_changeset(attrs)
       |> IO.inspect()
 
-      valid_count = 0
-      valid_count = if changeset.valid? do
+    valid_count = 0
+
+    valid_count =
+      if changeset.valid? do
         valid_count + 3
       end
 
     {:noreply, assign(socket, changeset: changeset, valid_count: valid_count, attrs: attrs)}
   end
 
-  def handle_event("send", %{"org_user" => org_user_params}, socket) do
-    case Accounts.register_org_user(org_user_params) do
+  def handle_event(
+        "send",
+        %{"org_user" => org_user_params},
+        %{assigns: %{current_step: 1, attrs: attrs}} = socket
+      ) do
+    attrs =
+      attrs
+      |> Map.merge(org_user_params)
+      |> IO.inspect()
+
+    socket =
+      case Accounts.registration_form_step_1_changeset(attrs) do
+        %{valid?: true} = changeset ->
+          socket
+          |> assign(changeset: changeset, attrs: attrs, current_step: 2)
+
+        changeset ->
+          socket
+          |> assign(changeset: changeset, attrs: attrs)
+      end
+
+    {:noreply, socket}
+  end
+
+  def handle_event(
+        "send",
+        %{"org_user" => org_user_params},
+        %{assigns: %{current_step: 2, attrs: attrs}} = socket
+      ) do
+    attrs =
+      attrs
+      |> Map.merge(org_user_params)
+      |> IO.inspect()
+
+    socket =
+      case Accounts.registration_form_step_2_changeset(attrs) do
+        %{valid?: true} = changeset ->
+          socket
+          |> assign(changeset: changeset, attrs: attrs, current_step: 3)
+
+        changeset ->
+          socket
+          |> assign(changeset: changeset, attrs: attrs)
+      end
+
+    {:noreply, socket}
+  end
+
+  def handle_event(
+        "send",
+        %{"org_user" => org_user_params},
+        %{assigns: %{current_step: 3, attrs: attrs}} = socket
+      ) do
+        attrs =
+          attrs
+          |> Map.merge(org_user_params)
+          |> IO.inspect()
+
+   case Accounts.register_org_user(attrs) do
       {:ok, org_user} ->
         {:ok, _} =
           Accounts.deliver_org_user_confirmation_instructions(
@@ -89,9 +151,33 @@ defmodule PastimesRegWeb.RegisterLive do
         {:noreply, socket}
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, changeset: changeset)}
+        {:noreply, assign(socket, changeset: changeset, attrs: attrs)}
     end
   end
+
+  # def handle_event("send", %{"org_user" => org_user_params}, socket) do
+  #   case Accounts.register_org_user(org_user_params) do
+  #     {:ok, org_user} ->
+  #       {:ok, _} =
+  #         Accounts.deliver_org_user_confirmation_instructions(
+  #           org_user,
+  #           &Routes.org_user_confirmation_url(socket, :edit, &1)
+  #         )
+
+  #       # Log in page
+  #       sign_in_path = Routes.org_user_session_path(socket, :new)
+
+  #       socket =
+  #         socket
+  #         |> put_flash(:info, "Organizer user created successfully.")
+  #         |> redirect(to: sign_in_path)
+
+  #       {:noreply, socket}
+
+  #     {:error, %Ecto.Changeset{} = changeset} ->
+  #       {:noreply, assign(socket, changeset: changeset)}
+  #   end
+  # end
 
   def handle_event("step_1", _, socket) do
     socket =

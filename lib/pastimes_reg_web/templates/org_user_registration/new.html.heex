@@ -1,4 +1,8 @@
- <%= @valid_count %>
+ <!-- for debug purpose -->
+ <p>valid count: <%= @valid_count %></p> 
+ <p><%= inspect @changeset.errors %></p>
+ <p>current_step: <%= @current_step %></p>
+
  <div class={"#{if @current_step == 2, do: "my-[500px] md:my-44"} #{if @current_step == 1, do: "my-56 md:my-0"} #{if @current_step == 3, do: "my-56 md:my-0"} flex justify-center items-center h-[500px] md:h-screen md:max-w-screen-lg mx-auto text-center"}>
   <div class="w-full md:mt-0 space-y-4 md:space-y-14">
     <%= if @current_step == 1 do %>
@@ -32,17 +36,6 @@
     
     <!-- step 2 for header -->
     <%= if @current_step == 2 do %>  
-    valid count
-    <%= @valid_count  %>
-    <div>
-      form input is valid?:  
-     <%= @changeset.valid?  %>
-     <%= if @changeset.valid? do %>
-      <%= if @current_step == 2 do %>
-        <h1>show and accept</h1>
-      <% end %>
-     <% end %>
-    </div>
     <div class="p-5">
       <h1 class="text-3xl md:text-5xl font-bold">
         Add Org Information
@@ -104,9 +97,10 @@
     
     <!-- Form -->
     <div class="">
-      <.form let={f} for={@changeset} phx-change="validate" phx-submit="send">
+      <.form let={f} for={@changeset} phx-change="validate" phx-submit="send" id="register">
       <!-- step 1 for header -->
-      <div class={"#{unless @current_step == 1, do: "hidden"}"}>
+      <%= if @current_step == 1 do %>
+      <div>
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <%= text_input f, :first_name, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "First name*" %>
@@ -150,13 +144,12 @@
           </div>
         </div>
       </div>
+      <% end %>
 
-      <div class={"#{unless @current_step == 2, do: "hidden"}"}>
+      <%= if @current_step == 2 do %>
+      <div>
           <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-              <!-- hidden input: needed to forced update the changeset.valid to false -->
-              <%= hidden_input f, :organization, id: "organization_id", value: "organization" %>
-              <!-- end of hidden input -->
               <%= text_input f, :organization, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Organization*" %>
               <div class="pt-2 text-left">
                 <%= error_tag f, :organization %>
@@ -262,8 +255,10 @@
             </div>
           </div>
       </div>
-      
-      <div class={"#{unless @current_step == 3, do: "hidden"}"}>
+      <% end %>
+
+      <%= if @current_step == 3 do %>
+      <div>
           <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
               <%= text_input f, :routing_number, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Routing Number*" %>
@@ -287,25 +282,17 @@
             </div>
           </div>
       </div>
- 
+      <% end %>
+
       <%= if @current_step == 1 do %>
       <div class="flex-col justify-center mx-auto w-full">
         <h1 class="mb-6">
           By hosting event registration on Pastimes, you agree to the <a class="text-pastimes-blue" href="">terms of use</a> and <a class="text-pastimes-blue" href="">privacy policy</a>.
         </h1>
-        <%= if @changeset.valid? do %>
-        <!-- button disabled to step 2 -->
-        <span class="cursor-pointer bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" phx-click="step_2">
+        <button type="submit" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
           Create Account
-        </span>
-        <% else %>
-        <!-- button enabled to step 2 -->
-        <span class="cursor-pointer bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-          Create Account
-        </span>
-        <% end %>
+        </button>
       </div>
-
       <% end %>
   
       <%= if @current_step == 2 do %>
@@ -313,30 +300,24 @@
         <span class="cursor-pointer bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full" phx-click="step_1">
           Back
         </span>
-
-        <%= if @valid_count == 2 && @changeset.valid? do %>
-          <!-- button enabled for step 3 -->
-          <span class="cursor-pointer bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" phx-click="step_3">
-            Continue
-          </span>
-        <% else %>
-        <!-- button disabled for step 3 -->
-        <span class="cursor-pointer bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+        <!-- button enabled for step 3 -->
+        <button type="submit" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
           Continue
-        </span>
-        <% end %>
+        </button>
       </div>
       <% end %>
+
       <%= if @current_step == 3 do %>
       <div class="flex justify-center mx-auto w-full pt-14 gap-10">
-        <span class="cursor-pointer bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full">
-          <a href="/">I will add later</a>
+        <span class="cursor-pointer bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full" phx-click="step_2">
+          I will add later
         </span>
         <button type="submit" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
           Create Account
         </button>
       </div>
       <% end %>
+
       </.form>
     </div>
     <!-- End of Form -->

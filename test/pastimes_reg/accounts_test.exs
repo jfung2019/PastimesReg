@@ -101,7 +101,23 @@ defmodule PastimesReg.AccountsTest do
   describe "change_org_user_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_org_user_registration(%OrgUser{})
-      assert changeset.required == [:password, :email]
+
+      assert changeset.required == [
+               :account_number,
+               :routing_number,
+               :phone,
+               :country,
+               :zip,
+               :state,
+               :city,
+               :address_line_2,
+               :address_line_1,
+               :organization,
+               :password,
+               :email,
+               :last_name,
+               :first_name
+             ]
     end
 
     test "allows fields to be set" do

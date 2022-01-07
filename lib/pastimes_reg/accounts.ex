@@ -108,10 +108,6 @@ defmodule PastimesReg.Accounts do
     |> Map.put(:action, :insert)
   end
 
-  @spec registration_form_step_3_changeset(
-          :invalid
-          | %{optional(:__struct__) => none, optional(atom | binary) => any}
-        ) :: Ecto.Changeset.t()
   def registration_form_step_3_changeset(attrs) do
     %OrgUser{}
     |> OrgUser.registration_changeset_step_3(attrs)

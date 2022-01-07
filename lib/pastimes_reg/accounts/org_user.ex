@@ -34,6 +34,8 @@ defmodule PastimesReg.Accounts.OrgUser do
     field :account_number, :string
     field :account_number_confirmation, :string, virtual: true
 
+    has_many :events, PastimesReg.Event.Events
+
     timestamps()
   end
 

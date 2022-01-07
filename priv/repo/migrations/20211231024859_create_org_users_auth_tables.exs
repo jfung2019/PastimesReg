@@ -5,6 +5,7 @@ defmodule PastimesReg.Repo.Migrations.CreateOrgUsersAuthTables do
     execute "CREATE EXTENSION IF NOT EXISTS citext", ""
 
     create table(:org_users) do
+      # Basic information
       add :first_name, :varchar, null: false
       add :last_name, :varchar, null: false
       add :email, :citext, null: false

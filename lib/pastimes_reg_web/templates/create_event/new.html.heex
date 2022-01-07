@@ -30,6 +30,16 @@
     </div>
     
     <div class="">
+      <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+        <%= label f, :username %>
+        <%= error_tag f, :username %>
+      
+        <%= label f, :email %>
+        <%= text_input f, :email %>
+        <%= error_tag f, :email %>
+      
+        <%= submit "Save" %>
+      </.form>
       <form class="px-5">
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
