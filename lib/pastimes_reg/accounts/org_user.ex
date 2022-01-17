@@ -34,7 +34,7 @@ defmodule PastimesReg.Accounts.OrgUser do
     field :account_number, :string
     field :account_number_confirmation, :string, virtual: true
 
-    has_many :events, PastimesReg.Event.Events
+    has_many :events, PastimesReg.Events.Event
 
     timestamps()
   end
@@ -166,6 +166,16 @@ defmodule PastimesReg.Accounts.OrgUser do
     |> validate_confirmation(:account_number)
     |> validate_routing_number()
     |> validate_account_number()
+  end
+
+  def update_changeset_first_name(org_user, attrs, opts \\ []) do
+    org_user
+    |> cast(
+      attrs,
+      [
+        :first_name,
+      ]
+    )
   end
 
   defp validate_first_name(changeset) do

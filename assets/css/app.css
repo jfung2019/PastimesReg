@@ -4,6 +4,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom border gradient color */
+.border-gradient {
+  background: 
+  linear-gradient(white,white) padding-box, /*this is your grey background*/
+  linear-gradient(to right, #2A90EC, #52B774) border-box;
+  color: #313149;
+  border: 5px solid transparent;
+  border-radius: 25px;
+  display:inline-block;
+}
+
 /* Alerts and form errors used by phx.new */
 .alert {
   padding: 15px;

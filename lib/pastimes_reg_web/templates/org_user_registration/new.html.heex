@@ -1,9 +1,11 @@
  <!-- for debug purpose -->
+ <!--
  <p>valid count: <%= @valid_count %></p> 
  <p><%= inspect @changeset.errors %></p>
  <p>current_step: <%= @current_step %></p>
+-->
 
- <div class={"#{if @current_step == 2, do: "my-[500px] md:my-44"} #{if @current_step == 1, do: "my-56 md:my-0"} #{if @current_step == 3, do: "my-56 md:my-0"} flex justify-center items-center h-[500px] md:h-screen md:max-w-screen-lg mx-auto text-center"}>
+ <div class={"#{if @current_step == 2, do: "my-[500px] md:my-44"} #{if @current_step == 1, do: "my-56 md:my-0"} #{if @current_step == 3, do: "my-56 md:my-0"} flex justify-center items-center h-[500px] md:h-screen container mx-auto text-center"}>
   <div class="w-full md:mt-0 space-y-4 md:space-y-14">
     <%= if @current_step == 1 do %>
     <div class="p-5">

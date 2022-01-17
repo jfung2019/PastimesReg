@@ -1,0 +1,185 @@
+<div class="container flex flex-col justify-center items-center h-max w-full mx-auto text-center py-4 md:py-10">
+ <div class="w-full text-left">
+   <div class="flex justify-between">
+    <h1 class="text-3xl font-bold mb-8">Your Account</h1>
+   </div>
+
+   <!-- edit account form -->
+   <div class="py-2">
+    <.form let={f} for={@changeset} phx-submit="send" id="update">
+      <div class="flex flex-wrap -mx-3">
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <%= text_input f, :first_name, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "First name*" %>
+         <div class="pt-2 text-left">
+          <%= error_tag f, :first_name %>
+         </div>
+        </div>
+      </div>
+
+      <button type="submit" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+        Submit
+      </button>
+    </.form>
+   </div>
+
+   <!-- Card 1 -->
+   <div class="bg-red-200 w-full px-4 py-8 bg-white drop-shadow-lg rounded-lg">
+     <div class="flex justify-between">
+        <h1>Account Information</h1>
+        <button class="px-8 h-10 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+          Edit Account
+        </button>
+     </div>
+
+     <div class="w-full flex">
+       <div class="w-1/12">
+        <p>First Name</p>
+        <p>Last Name</p>
+        <p>Email</p>
+       </div>
+       <div class="w-1/12">
+        <%= if @current_org_user do %>
+          <p><%= @current_org_user.first_name %></p>
+          <p><%= @current_org_user.last_name %></p>
+          <p><%= @current_org_user.email %></p>
+        <% end %>
+       </div>
+     </div>
+   </div>
+
+   <!-- Card 2 -->
+   <div class="bg-red-200 w-full px-4 py-8 bg-white drop-shadow-lg rounded-lg mt-4">
+    <div class="flex justify-between">
+       <h1>Organization Information</h1>
+       <button class="px-8 h-10 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+         Edit Organization
+       </button>
+    </div>
+
+    <div class="w-full flex">
+      <div class="w-1/12">
+       <p>Organization</p>
+       <p>License</p>
+       <p>Address 1</p>
+       <p>Address 2</p>
+       <p>City</p>
+       <p>State</p>
+       <p>Zip/Postal</p>
+       <p>Country</p>
+       <p>Phone</p>
+       <p>Email</p>
+       <p>Website</p>
+       <p>Facebook</p>
+       <p>Twitter</p>
+       <p>Instagram</p>
+      </div>
+      <div class="w-11/12">
+        <%= if @current_org_user.organization do %>
+          <p><%= @current_org_user.organization%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+        <%= if @current_org_user.license do %>
+          <p><%= @current_org_user.license%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+        <%= if @current_org_user.address_line_1 do %>
+          <p><%= @current_org_user.address_line_1%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+        <%= if @current_org_user.address_line_2 do %>
+          <p><%= @current_org_user.address_line_2%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+        <%= if @current_org_user.city do %>
+          <p><%= @current_org_user.city%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+        <%= if @current_org_user.state do %>
+          <p><%= @current_org_user.state%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+        <%= if @current_org_user.zip do %>
+          <p><%= @current_org_user.zip%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+        <%= if @current_org_user.country do %>
+          <p><%= @current_org_user.country%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+        <%= if @current_org_user.phone do %>
+          <p><%= @current_org_user.phone%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+        <%= if @current_org_user.email do %>
+          <p><%= @current_org_user.email%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+        <%= if @current_org_user.website_url do %>
+          <p><%= @current_org_user.website_url%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+        <%= if @current_org_user.facebook_url do %>
+          <p><%= @current_org_user.facebook_url%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+        <%= if @current_org_user.twitter_url do %>
+          <p><%= @current_org_user.twitter_url%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+        <%= if @current_org_user.instagram_url do %>
+          <p><%= @current_org_user.instagram_url%></p>
+          <% else %>
+          <p>&nbsp;</p>
+        <% end %>
+      </div>
+    </div>
+   </div>
+
+   <!-- Card 3  
+   <div class="bg-red-200 w-full px-4 py-8 bg-white drop-shadow-lg rounded-lg mt-4">
+    <div class="flex justify-between">
+       <h1>Bank Information</h1>
+       <button class="px-8 h-10 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+         Edit Bank Information
+       </button>
+    </div>
+
+    <div class="w-full flex">
+      <div class="w-1/12">
+       <p>Routing#</p>
+       <p>Account#</p>
+      </div>
+      <div class="w-1/12">
+        <%= if @current_org_user do %>
+        <p><%= @current_org_user.routing_number%></p>
+        <p><%= @current_org_user.account_number%></p>
+      <% end %>
+      </div>
+    </div>
+   </div>
+   -->
+   
+   <div class="pt-4">
+    <button class="px-8 h-10 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+      <%= link "Settings", to: Routes.org_user_settings_path(PastimesRegWeb.Endpoint, :edit) %>
+     </button>
+     <button class="px-8 h-10 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+      <%= link "Log out", to: Routes.org_user_session_path(PastimesRegWeb.Endpoint, :delete), method: :delete %>
+     </button>
+   </div>
+ </div>
+</div>
+

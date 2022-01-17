@@ -11,25 +11,20 @@
   </head>
   <body>
   <%# Nav %>
-  <div class="bg-gray-50">
+  <div class="bg-pastimes-gray-variant-1">
     <nav class="container flex justify-between py-8 mx-auto">
       <div>
-        <a href="/"><img class="h-[30px]" src="/images/pastimes.png" alt="pastimes-logo"></a>
+        <a href="/"><img class="h-[50px] w-auto" src="/images/pastimes_logo_text.png" alt="pastimes-logo"> 
+        </a>
       </div>
       <%# if user is not authenticated %>
-      <div class="space-x-10">
+      <div class="space-x-10 text-white pt-4">
       <%# change this (events) link and Reroute to events if the page events is created %>
-        <a href="/org_users/events">Events</a>
         <%= if @current_org_user do %>
-          <%= @current_org_user.email %>
-          <li><%= link "Settings", to: Routes.org_user_settings_path(@conn, :edit) %></li>
-          <li><%= link "Log out", to: Routes.org_user_session_path(@conn, :delete), method: :delete %></li>
+          <%= link "Account", to: Routes.live_path(PastimesRegWeb.Endpoint, PastimesRegWeb.OrgUserAccountLive) %>
         <% else %>
-        <a href="/org_users/log_in">Sign in</a>
+          <%= link "Sign in", to: Routes.org_user_session_path(PastimesRegWeb.Endpoint, :new) %>
         <% end %>
-      </div>
-       <%# if user is authenticated %>
-       <div class="hidden space-x-10">
       </div>
     </nav>
   </div>

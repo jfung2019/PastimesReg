@@ -82,6 +82,12 @@ defmodule PastimesReg.Accounts do
     |> Repo.insert()
   end
 
+  def update_org_user(attrs) do
+    %OrgUser{}
+    |> OrgUser.update_changeset_first_name(attrs)
+    |> Repo.update()
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking org_user changes for 3 changesets used for form step 1 to 3.
 
@@ -94,6 +100,10 @@ defmodule PastimesReg.Accounts do
 
   def registration_form_step_init_changeset(%OrgUser{} = org_user, attrs \\ %{}) do
     OrgUser.registration_changeset_step_1(org_user, attrs, hash_password: false)
+  end
+
+  def update_form_step_init_changeset(%OrgUser{} = org_user, attrs \\ %{}) do
+    OrgUser.update_changeset_first_name(org_user, attrs, hash_password: false)
   end
 
   def registration_form_step_1_changeset(attrs) do

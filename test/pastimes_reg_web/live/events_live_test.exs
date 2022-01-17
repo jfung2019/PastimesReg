@@ -10,4 +10,6 @@ defmodule PastimesRegWeb.EventsLiveTest do
 
     assert html =~ "Your Events"
   end
+
+
 end

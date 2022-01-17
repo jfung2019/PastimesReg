@@ -127,12 +127,12 @@ defmodule PastimesRegWeb.RegisterLive do
         %{"org_user" => org_user_params},
         %{assigns: %{current_step: 3, attrs: attrs}} = socket
       ) do
-        attrs =
-          attrs
-          |> Map.merge(org_user_params)
-          |> IO.inspect()
+    attrs =
+      attrs
+      |> Map.merge(org_user_params)
+      |> IO.inspect()
 
-   case Accounts.register_org_user(attrs) do
+    case Accounts.register_org_user(attrs) do
       {:ok, org_user} ->
         {:ok, _} =
           Accounts.deliver_org_user_confirmation_instructions(
@@ -154,30 +154,6 @@ defmodule PastimesRegWeb.RegisterLive do
         {:noreply, assign(socket, changeset: changeset, attrs: attrs)}
     end
   end
-
-  # def handle_event("send", %{"org_user" => org_user_params}, socket) do
-  #   case Accounts.register_org_user(org_user_params) do
-  #     {:ok, org_user} ->
-  #       {:ok, _} =
-  #         Accounts.deliver_org_user_confirmation_instructions(
-  #           org_user,
-  #           &Routes.org_user_confirmation_url(socket, :edit, &1)
-  #         )
-
-  #       # Log in page
-  #       sign_in_path = Routes.org_user_session_path(socket, :new)
-
-  #       socket =
-  #         socket
-  #         |> put_flash(:info, "Organizer user created successfully.")
-  #         |> redirect(to: sign_in_path)
-
-  #       {:noreply, socket}
-
-  #     {:error, %Ecto.Changeset{} = changeset} ->
-  #       {:noreply, assign(socket, changeset: changeset)}
-  #   end
-  # end
 
   def handle_event("step_1", _, socket) do
     socket =

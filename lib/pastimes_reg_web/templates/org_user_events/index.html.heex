@@ -1,0 +1,225 @@
+<%= if @current_org_user do %>
+<%#  template: You are signed in!%>
+  <%= if length(@events) > 0 do %>
+  <%#  if events exist, show events %>
+  <div class="container flex flex-col justify-center items-center h-max w-full mx-auto text-center py-4 md:py-10">
+    <div class="w-full text-left">
+      <div class="flex justify-between">
+        <h1 class="text-3xl font-bold mb-8">Your Events</h1>
+        <button class="h-10 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+          <%= link "Create Event", to: Routes.live_path(PastimesRegWeb.Endpoint, PastimesRegWeb.CreateEventsLive) %>
+        </button>
+      </div>
+      <h1 class="mb-8">Upcoming</h1>
+    </div>
+
+    <!-- Upcoming Events -->
+    <div class="flex flex-wrap w-full">
+      <%= for upcoming_events <- Enum.chunk_every(@upcoming_events, 3) do %>
+        <%= for upcoming_event <- upcoming_events do %>
+          <!-- card -->
+          <div class="w-full md:3/6 lg:w-[32.5%] rounded overflow-hidden shadow-lg my-2 mx-1">
+            <img class="w-full" src="https://picsum.photos/200/100" alt="Sunset in the mountains">
+            <div class="px-6 py-4 text-left">
+              <div class="font-bold text-xl mb-2"><%= upcoming_event.name %></div>
+              <p class="text-gray-700 text-base">
+                Rooted Gravel Race 2022
+              </p>
+              <p class="text-gray-700 text-base">
+                60/300 Registered
+              </p>
+            </div>
+              <div class="px-6 flex text-left">
+                <div class="pr-1 inline-flex items-center"><img class="inline-block w-5 h-5 object-contain" src="/images/pasttimes_icon_location.png" alt=""></div>
+                <div class="">Richmond, VT</div>
+              </div>
+              <div class="px-6 flex text-left">
+                <div class="pr-1 inline-flex items-center"><img class="inline-block w-5 h-5 object-contain mb-8" src="/images/pasttimes_icon_clock.png" alt=""></div>
+                <div class="">Wednesday, July 12, 9:00AM</div>
+              </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <!-- Past Events -->
+    <div class="w-full text-left mt-8">
+      <h1 class="">Past</h1>
+    </div>
+
+    <div class="flex flex-wrap w-full">
+      <%= for past_events <- Enum.chunk_every(@past_events, 3) do %>
+        <%= for past_event <- past_events do %>
+          <!-- card -->
+          <div class="w-full md:3/6 lg:w-[32.5%] rounded overflow-hidden shadow-lg my-2 mx-1">
+            <img class="w-full" src="https://picsum.photos/200/100" alt="Sunset in the mountains">
+            <div class="px-6 py-4 text-left">
+              <div class="font-bold text-xl mb-2"><%= past_event.name %></div>
+              <p class="text-gray-700 text-base">
+                Rooted Gravel Race 2022
+              </p>
+              <p class="text-gray-700 text-base">
+                60/300 Registered
+              </p>
+            </div>
+              <div class="px-6 flex text-left">
+                <div class="pr-1 inline-flex items-center"><img class="inline-block w-5 h-5 object-contain" src="/images/pasttimes_icon_location.png" alt=""></div>
+                <div class="">Richmond, VT</div>
+              </div>
+              <div class="px-6 flex text-left">
+                <div class="pr-1 inline-flex items-center"><img class="inline-block w-5 h-5 object-contain mb-8" src="/images/pasttimes_icon_clock.png" alt=""></div>
+                <div class="">Wednesday, July 12, 9:00AM</div>
+              </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <% else %>
+  <%#  this is where you can create the event %>
+  <div class="flex justify-center items-center h-[800px] md:h-screen text-center">
+    <div class="space-y-14">
+      <h1 class="text-2xl md:text-5xl font-bold">
+        Welcome to Pastimes
+        <%= if @current_org_user do %>
+        <%= @current_org_user.first_name %>
+        <%= @current_org_user.last_name %>
+        <% end %>
+      </h1>
+      <h1>
+        Let’s get started creating your first event
+      </h1>
+      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+        <%= link "Create Event", to: Routes.live_path(PastimesRegWeb.Endpoint, PastimesRegWeb.CreateEventsLive) %>
+      </button>
+    </div>
+  </div>
+  <% end %>
+<% else %>
+<%#  template: You are not signed in! %>
+<div>
+  <div class="flex justify-center items-center h-[550px] md:h-[800px] md:h-screen text-center">
+    <div class="space-y-14">
+      <h1 class="text-2xl md:text-5xl font-bold">
+        Event Registration Made Simple
+      </h1>
+      <h1>
+        Pastimes is your platform for successful events.
+      </h1>
+      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+        <a href="/org_users/register">Get Started</a>
+      </button>
+    </div>
+  </div>
+
+  <div class="flex justify-center items-center h-[500px] sm:h-[500px] lg:h-[300px] -mt-64 text-center w-full">
+    <div class="space-y-14">
+      <h1 class="text-2xl md:text-5xl font-bold pt-36 mt-0 md:-mt-10">How it Works</h1>
+      <div class="flex flex-col md:flex-row">
+        <div class="font-bold w-full md:w-2/6">1. Setup your Event
+          <div class="font-normal my-2">Design and setup your Event to meets your organization’s needs.</div>
+        </div>
+        <div class="font-bold w-full md:w-2/6">2. Manage your Event
+          <div class="font-normal my-2">View reports and live data for registration income and users registered </div>
+        </div>
+        <div class="font-bold w-full md:w-2/6">3. Promote your Event
+          <div class="font-normal my-2">Feature your event on Pastimes for target participants to discover. </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-center items-center h-[300px] sm:h-[500px] lg:h-screen">
+
+    <div class="columns-2 gap-0 sm:gap-4 md:gap-18 px-5 sm:px-10">
+      <div class="">
+        <img src="/images/pastimes_image_placeholder.png" alt="pastimes-image">
+      </div>
+
+      <div class="">
+        <h1 class="text-right text-lg md:text-5xl font-bold pt-[5%] sm:pt-[10%] lg:pt-[25%]">
+          Registration
+        </h1>
+        <h1 class="text-right md:text-5xl font-bold">
+          Management
+        </h1>
+        <div class="pt-4">
+          <p class="text-right text-lg">
+            Create your events on Pastimes for free and
+          </p>
+          <p class="text-right text-lg">
+            transfer your registartion income at anytime.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="flex justify-center items-center h-[300px] sm:h-[500px] lg:h-screen bg-gray-200">
+
+    <div class="columns-2 gap-0 sm:gap-4 md:gap-18 px-5 sm:px-10">
+
+      <div class="">
+        <h1 class="text-left text-lg md:text-5xl font-bold pt-[5%] sm:pt-[10%] lg:pt-[25%]">
+          Promote your Events on
+        </h1>
+        <h1 class="text-left md:text-5xl font-bold">
+          Pastimes
+        </h1>
+        <div class="pt-4">
+          <p class="text-left text-lg">
+            Reach more target audiences to get more
+          </p>
+          <p class="text-left text-lg">
+            participants at your events.
+          </p>
+        </div>
+      </div>
+
+      <div class="">
+        <img src="/images/pastimes_image_placeholder.png" alt="pastimes-image">
+      </div>
+
+    </div>
+  </div>
+
+  <div class="flex justify-center items-center h-[300px] sm:h-[500px] lg:h-screen">
+
+    <div class="columns-2 gap-0 sm:gap-4 md:gap-18 px-5 sm:px-10">
+      <div class="">
+        <img src="/images/pastimes_image_placeholder.png" alt="pastimes-image">
+      </div>
+
+      <div class="">
+        <h1 class="text-right text-lg md:text-5xl font-bold pt-[5%] sm:pt-[10%] lg:pt-[25%]">
+          Enable your
+        </h1>
+        <h1 class="text-right md:text-5xl font-bold">
+          participants to connect
+        </h1>
+        <div class="pt-4">
+          <p class="text-right text-lg">
+            Particpants can connect with others going to
+          </p>
+          <p class="text-right text-lg">
+            events before, during and after events.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="flex justify-center items-center h-[300px] sm:h-[500px] lg:h-screen text-center bg-gray-200">
+    <div class="space-y-14">
+      <h1 class="text-2xl md:text-5xl font-bold">
+        Organize your next Event for free on Pastimes
+      </h1>
+      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+        <a href="/org_users/register">Get Started</a>
+      </button>
+    </div>
+  </div>
+</div>
+<% end %>
