@@ -1,21 +1,20 @@
 defmodule PastimesReg.EventTest do
   use PastimesReg.DataCase
 
-  alias PastimesReg.Event
   import PastimesReg.AccountsFixtures
+  alias PastimesReg.Events.Event
+  alias PastimesReg.Events
+  alias PastimesReg.Accounts
+
+  import PastimesReg.EventFixtures
 
   setup do
     {:ok, org_user: org_user_fixture()}
   end
 
+  setup %{org_user: %{id: org_user_id}}, do: {:ok, event: event_fixture(org_user_id)}
+
   describe "events" do
-    alias PastimesReg.Events.Event
-    alias PastimesReg.Events
-    alias PastimesReg.Accounts
-
-    import PastimesReg.AccountsFixtures
-    import PastimesReg.EventFixtures
-
     @invalid_attrs %{
       activity_type: nil,
       address: nil,
@@ -51,14 +50,12 @@ defmodule PastimesReg.EventTest do
       website_url: "some website_url_event"
     }
 
-    test "list_events/0 returns all events", %{org_user: %{id: org_user_id}} do
-      events = events_fixture(org_user_id)
-      assert Events.list_events_by_org_user_id(org_user_id) == [events]
+    test "list_events/0 returns all events", %{event: event} do
+      assert Events.list_events() == [event]
     end
 
-    test "get_events!/1 returns the events with given id", %{org_user: %{id: org_user_id}} do
-      events = events_fixture(org_user_id)
-      assert Events.get_events!(events.id) == events
+    test "get_events!/1 returns the events with given id", %{event: event} do
+      assert Events.get_events!(event.id) == event
     end
 
     test "create_event/1 with valid data creates a events", %{org_user: %{id: org_user_id}} do
@@ -88,9 +85,10 @@ defmodule PastimesReg.EventTest do
       assert {:error, %Ecto.Changeset{}} = Events.create_event(@invalid_attrs, org_user_id)
     end
 
-    test "update_events/2 with valid data updates the events", %{org_user: %{id: org_user_id}} do
-      events = events_fixture(org_user_id)
-
+    test "update_events/2 with valid data updates the events", %{
+      event: event,
+      org_user: %{id: org_user_id}
+    } do
       update_attrs = %{
         activity_type: "Backcountry Touring",
         name: "some name_event",
@@ -108,46 +106,43 @@ defmodule PastimesReg.EventTest do
         website_url: "some website_url_event"
       }
 
-      assert {:ok, %Event{} = events} = Events.update_events(events, update_attrs, org_user_id)
-      assert events.activity_type == "Backcountry Touring"
-      assert events.name == "some name_event"
-      assert events.address == "some address_location"
-      assert events.start_date == ~U[2022-01-05 03:13:00Z]
-      assert events.end_date == ~U[2022-02-06 03:13:00Z]
+      assert {:ok, %Event{} = event} = Events.update_events(event, update_attrs, org_user_id)
+      assert event.activity_type == "Backcountry Touring"
+      assert event.name == "some name_event"
+      assert event.address == "some address_location"
+      assert event.start_date == ~U[2022-01-05 03:13:00Z]
+      assert event.end_date == ~U[2022-02-06 03:13:00Z]
 
-      assert events.confirmation_message_to_participants ==
+      assert event.confirmation_message_to_participants ==
                "some confirmation_message_to_participants"
 
-      assert events.details == "some details_event"
-      assert events.email_address == "email_address@.com"
-      assert events.email_notification == true
-      assert events.contact_information == true
-      assert events.number_of_hours_before_event == "some number_of_hours_before_event"
-      assert events.phone_number == "some phone_number"
-      assert events.promote_event == true
-      assert events.website_url == "some website_url_event"
+      assert event.details == "some details_event"
+      assert event.email_address == "email_address@.com"
+      assert event.email_notification == true
+      assert event.contact_information == true
+      assert event.number_of_hours_before_event == "some number_of_hours_before_event"
+      assert event.phone_number == "some phone_number"
+      assert event.promote_event == true
+      assert event.website_url == "some website_url_event"
     end
 
     test "update_events/2 with invalid data returns error changeset", %{
+      event: event,
       org_user: %{id: org_user_id}
     } do
-      events = events_fixture(org_user_id)
-
       assert {:error, %Ecto.Changeset{}} =
-               Events.update_events(events, @invalid_attrs, org_user_id)
+               Events.update_events(event, @invalid_attrs, org_user_id)
 
-      assert events == Events.get_events!(events.id)
+      assert event == Events.get_events!(event.id)
     end
 
-    test "delete_events/1 deletes the events", %{org_user: %{id: org_user_id}} do
-      events = events_fixture(org_user_id)
-      assert {:ok, %Event{}} = Events.delete_events(events)
-      assert_raise Ecto.NoResultsError, fn -> Events.get_events!(events.id) end
+    test "delete_events/1 deletes the events", %{event: event} do
+      assert {:ok, %Event{}} = Events.delete_events(event)
+      assert_raise Ecto.NoResultsError, fn -> Events.get_events!(event.id) end
     end
 
-    test "change_events/1 returns a events changeset", %{org_user: %{id: org_user_id}} do
-      events = events_fixture(org_user_id)
-      assert %Ecto.Changeset{} = Events.change_events(events)
+    test "change_events/1 returns a events changeset", %{event: event} do
+      assert %Ecto.Changeset{} = Events.change_events(event)
     end
 
     test "start date must be before end date" do
@@ -162,30 +157,26 @@ defmodule PastimesReg.EventTest do
 
     test "Start date is nil, return valid false" do
       assert %{valid?: true} = Events.event_create_form_step_1_changeset(@valid_attrs)
+
       assert %{valid?: false} =
-               Events.event_create_form_step_1_changeset(
-                 Map.put(@valid_attrs, :start_date, nil)
-               )
+               Events.event_create_form_step_1_changeset(Map.put(@valid_attrs, :start_date, nil))
     end
 
     test "End date is nil, return valid false" do
       assert %{valid?: true} = Events.event_create_form_step_1_changeset(@valid_attrs)
+
       assert %{valid?: false} =
-               Events.event_create_form_step_1_changeset(
-                 Map.put(@valid_attrs, :end_date, nil)
-               )
+               Events.event_create_form_step_1_changeset(Map.put(@valid_attrs, :end_date, nil))
     end
 
     test "Start date and end date is nil, return valid false" do
       assert %{valid?: true} = Events.event_create_form_step_1_changeset(@valid_attrs)
+
       assert %{valid?: false} =
-               Events.event_create_form_step_1_changeset(
-                 Map.put(@valid_attrs, :start_date, nil)
-               )
+               Events.event_create_form_step_1_changeset(Map.put(@valid_attrs, :start_date, nil))
+
       assert %{valid?: false} =
-                Events.event_create_form_step_1_changeset(
-                  Map.put(@valid_attrs, :end_date, nil)
-                )
+               Events.event_create_form_step_1_changeset(Map.put(@valid_attrs, :end_date, nil))
     end
   end
 end

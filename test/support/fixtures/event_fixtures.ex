@@ -7,7 +7,7 @@ defmodule PastimesReg.EventFixtures do
   @doc """
   Generate a events.
   """
-  def events_fixture(attrs \\ %{}, org_user_id) do
+  def event_fixture(attrs \\ %{}, org_user_id) do
     {:ok, events} =
       attrs
       |> Enum.into(%{
