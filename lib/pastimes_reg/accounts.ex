@@ -10,6 +10,7 @@ defmodule PastimesReg.Accounts do
 
   ## Database getters
 
+  @spec get_org_user_by_email(binary) :: any
   @doc """
   Gets a org_user by email.
 
@@ -82,10 +83,15 @@ defmodule PastimesReg.Accounts do
     |> Repo.insert()
   end
 
-  def update_org_user(attrs) do
-    %OrgUser{}
-    |> OrgUser.update_changeset_first_name(attrs)
+  def update_org_user(%OrgUser{} = org_user, attrs) do
+    org_user
+    |> OrgUser.update_changeset_user_account(attrs)
+    |> OrgUser.update_changeset_user_org(attrs)
     |> Repo.update()
+  end
+
+  def update_form_acc_changeset(%OrgUser{} = org_user, attrs \\ %{}) do
+    OrgUser.update_changeset_user_account(org_user, attrs, hash_password: false)
   end
 
   @doc """
@@ -103,9 +109,14 @@ defmodule PastimesReg.Accounts do
   end
 
   def update_form_step_init_changeset(%OrgUser{} = org_user, attrs \\ %{}) do
-    OrgUser.update_changeset_first_name(org_user, attrs, hash_password: false)
+    OrgUser.update_changeset_user_account(org_user, attrs, hash_password: false)
+    OrgUser.update_changeset_user_org(org_user, attrs)
   end
 
+  @spec registration_form_step_1_changeset(
+          :invalid
+          | %{optional(:__struct__) => none, optional(atom | binary) => any}
+        ) :: Ecto.Changeset.t()
   def registration_form_step_1_changeset(attrs) do
     %OrgUser{}
     |> OrgUser.registration_changeset_step_1(attrs)

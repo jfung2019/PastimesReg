@@ -33,12 +33,10 @@ defmodule PastimesRegWeb.OrgUserSessionControllerTest do
       assert get_session(conn, :org_user_token)
       assert redirected_to(conn) == "/"
 
-      # Now do a logged in request and assert on the menu
-      conn = get(conn, "/")
+      # Now do a logged in request and assert on account page to confirm email of user exist since logged in
+      conn = get(conn, "/org_users/account")
       response = html_response(conn, 200)
       assert response =~ org_user.email
-      assert response =~ "Settings</a>"
-      assert response =~ "Log out</a>"
     end
 
     test "logs the org_user in with remember me", %{conn: conn, org_user: org_user} do

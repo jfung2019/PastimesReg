@@ -13,15 +13,15 @@ defmodule PastimesReg.Repo.Migrations.CreateOrgUsersAuthTables do
       add :confirmed_at, :naive_datetime
 
       # Organization information
-      add :organization, :varchar, null: true
+      add :organization, :varchar, null: false
       add :license, :varchar, null: true
-      add :address_line_1, :varchar, null: true
+      add :address_line_1, :varchar, null: false
       add :address_line_2, :varchar, null: true
-      add :city, :varchar, null: true
-      add :state, :varchar, null: true
-      add :zip, :varchar, null: true
-      add :country, :varchar, null: true
-      add :phone, :varchar, null: true
+      add :city, :varchar, null: false
+      add :state, :varchar, null: false
+      add :zip, :varchar, null: false
+      add :country, :varchar, null: false
+      add :phone, :varchar, null: false
       add :support_email, :varchar, null: true
       add :support_phone, :varchar, null: true
       add :instagram_url, :varchar, null: true

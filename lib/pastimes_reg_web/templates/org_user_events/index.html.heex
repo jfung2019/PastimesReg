@@ -21,9 +21,9 @@
           <div class="w-full md:3/6 lg:w-[32.5%] rounded overflow-hidden shadow-lg my-2 mx-1">
             <img class="w-full" src="https://picsum.photos/200/100" alt="Sunset in the mountains">
             <div class="px-6 py-4 text-left">
-              <div class="font-bold text-xl mb-2"><%= upcoming_event.name %></div>
-              <p class="text-gray-700 text-base">
-                Rooted Gravel Race 2022
+              <div class="font-bold text-xl mb-2"><%= upcoming_event.activity_type %></div>
+              <p class="font-bold text-gray-700 text-base">
+                <%= upcoming_event.name %>
               </p>
               <p class="text-gray-700 text-base">
                 60/300 Registered
@@ -31,11 +31,11 @@
             </div>
               <div class="px-6 flex text-left">
                 <div class="pr-1 inline-flex items-center"><img class="inline-block w-5 h-5 object-contain" src="/images/pasttimes_icon_location.png" alt=""></div>
-                <div class="">Richmond, VT</div>
+                <div class=""><%= upcoming_event.address %></div>
               </div>
               <div class="px-6 flex text-left">
                 <div class="pr-1 inline-flex items-center"><img class="inline-block w-5 h-5 object-contain mb-8" src="/images/pasttimes_icon_clock.png" alt=""></div>
-                <div class="">Wednesday, July 12, 9:00AM</div>
+                <div class=""><%= upcoming_event.start_date %></div>
               </div>
           </div>
         <% end %>
@@ -54,9 +54,9 @@
           <div class="w-full md:3/6 lg:w-[32.5%] rounded overflow-hidden shadow-lg my-2 mx-1">
             <img class="w-full" src="https://picsum.photos/200/100" alt="Sunset in the mountains">
             <div class="px-6 py-4 text-left">
-              <div class="font-bold text-xl mb-2"><%= past_event.name %></div>
-              <p class="text-gray-700 text-base">
-                Rooted Gravel Race 2022
+              <div class="font-bold text-xl mb-2"><%= past_event.activity_type %></div>
+              <p class="font-bold text-gray-700 text-base">
+                <%= past_event.name %>
               </p>
               <p class="text-gray-700 text-base">
                 60/300 Registered
@@ -64,11 +64,11 @@
             </div>
               <div class="px-6 flex text-left">
                 <div class="pr-1 inline-flex items-center"><img class="inline-block w-5 h-5 object-contain" src="/images/pasttimes_icon_location.png" alt=""></div>
-                <div class="">Richmond, VT</div>
+                <div class=""><%= past_event.address %></div>
               </div>
               <div class="px-6 flex text-left">
                 <div class="pr-1 inline-flex items-center"><img class="inline-block w-5 h-5 object-contain mb-8" src="/images/pasttimes_icon_clock.png" alt=""></div>
-                <div class="">Wednesday, July 12, 9:00AM</div>
+                <div class=""><%= past_event.start_date %></div>
               </div>
           </div>
         <% end %>
@@ -89,7 +89,7 @@
       <h1>
         Let’s get started creating your first event
       </h1>
-      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" id="create_event_link">
         <%= link "Create Event", to: Routes.live_path(PastimesRegWeb.Endpoint, PastimesRegWeb.CreateEventsLive) %>
       </button>
     </div>

@@ -122,7 +122,7 @@ defmodule PastimesReg.Accounts.OrgUser do
     |> validate_confirmation(:email)
   end
 
-  def registration_changeset_step_2(org_user, attrs, opts \\ []) do
+  def registration_changeset_step_2(org_user, attrs, _opts \\ []) do
     org_user
     |> cast(
       attrs,
@@ -154,7 +154,7 @@ defmodule PastimesReg.Accounts.OrgUser do
     |> validate_phone()
   end
 
-  def registration_changeset_step_3(org_user, attrs, opts \\ []) do
+  def registration_changeset_step_3(org_user, attrs, _opts \\ []) do
     org_user
     |> cast(
       attrs,
@@ -168,14 +168,52 @@ defmodule PastimesReg.Accounts.OrgUser do
     |> validate_account_number()
   end
 
-  def update_changeset_first_name(org_user, attrs, opts \\ []) do
+  def update_changeset_user_account(org_user, attrs, _opts \\ []) do
     org_user
     |> cast(
       attrs,
       [
         :first_name,
+        :last_name,
+        :email
       ]
     )
+    |> validate_first_name()
+    |> validate_last_name()
+    |> validate_email()
+    |> validate_confirmation(:email)
+  end
+
+  def update_changeset_user_org(org_user, attrs, _opts \\ []) do
+    org_user
+    |> cast(
+      attrs,
+      [
+        :organization,
+        :license,
+        :address_line_1,
+        :address_line_2,
+        :city,
+        :state,
+        :zip,
+        :country,
+        :phone,
+        :support_email,
+        :support_phone,
+        :instagram_url,
+        :facebook_url,
+        :twitter_url,
+        :website_url
+      ]
+    )
+    |> validate_organization()
+    |> validate_address_line_1()
+    |> validate_address_line_2()
+    |> validate_city()
+    |> validate_state()
+    |> validate_zip()
+    |> validate_country()
+    |> validate_phone()
   end
 
   defp validate_first_name(changeset) do

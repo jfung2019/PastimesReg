@@ -3,57 +3,172 @@
    <div class="flex justify-between">
     <h1 class="text-3xl font-bold mb-8">Your Account</h1>
    </div>
-
-   <!-- edit account form -->
-   <div class="py-2">
-    <.form let={f} for={@changeset} phx-submit="send" id="update">
-      <div class="flex flex-wrap -mx-3">
-        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <%= text_input f, :first_name, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "First name*" %>
-         <div class="pt-2 text-left">
-          <%= error_tag f, :first_name %>
-         </div>
-        </div>
-      </div>
-
-      <button type="submit" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-        Submit
-      </button>
-    </.form>
-   </div>
-
-   <!-- Card 1 -->
-   <div class="bg-red-200 w-full px-4 py-8 bg-white drop-shadow-lg rounded-lg">
-     <div class="flex justify-between">
+  <%= if @is_toggle_acc do %>
+   <!-- Card 1 edit-->
+  <div class="bg-red-200 w-full px-4 py-8 bg-white drop-shadow-lg rounded-lg relative">
+    <div class="flex justify-between">
         <h1>Account Information</h1>
-        <button class="px-8 h-10 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-          Edit Account
-        </button>
-     </div>
+    </div>
 
-     <div class="w-full flex">
-       <div class="w-1/12">
+    <div class="w-full flex py-4">
+      <div class="w-1/12">
         <p>First Name</p>
         <p>Last Name</p>
+        <br>
         <p>Email</p>
-       </div>
-       <div class="w-1/12">
-        <%= if @current_org_user do %>
-          <p><%= @current_org_user.first_name %></p>
-          <p><%= @current_org_user.last_name %></p>
-          <p><%= @current_org_user.email %></p>
-        <% end %>
-       </div>
-     </div>
-   </div>
+      </div>
+      <div class="w-1/12">
+        <.form let={f} for={@changeset} phx-change="validate" phx-submit="send" id="update-acc">
+          <div class="flex flex-wrap -mx-3">
+              <%= text_input f, :first_name, class: "border-2 border-gray-400", placeholder: "First name" %>
+              <div class="text-left">
+                <%= error_tag f, :first_name %>
+              </div>
+          </div>
+          <div class="flex flex-wrap -mx-3">
+            <%= text_input f, :last_name, class: "border-2 border-gray-400", placeholder: "Last name" %>
+          </div>
+          
+          <div>
+            <h1>Change Email</h1>
+            <div class="flex flex-wrap -mx-3">
+              <%= text_input f, :email, class: "border-2 border-gray-400", placeholder: "Email Address*" %>
+            </div>
+            <div class="flex flex-wrap -mx-3">
+              <%= email_input f, :email_confirmation, value: input_value(f, :email_confirmation), class: "border-2 border-gray-400", placeholder: "Confirm Email*"  %>
+              <div class="text-left">
+                <%= error_tag f, :email_confirmation %>
+              </div>
+            </div>
+            <div class="flex flex-wrap -mx-3">
+              <%= text_input f, :current_password, class: "border-2 border-gray-400", placeholder: "Enter Current Password" %>
+            </div>
+          </div>
+  
+            <button type="submit" class="absolute top-0 right-0 mr-4 mt-8 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+              Submit Edit Account
+            </button>
+            <span class="cursor-pointer absolute top-12 right-0 mr-4 mt-8 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" phx-click="cancel_submit">
+              Cancel Edit Account
+            </span>
+        </.form>
+      </div>
+    </div>
+  </div>
+  <% else %>
+   <!-- Card 1 -->
+   <div class="bg-red-200 w-full px-4 py-8 bg-white drop-shadow-lg rounded-lg">
+      <div class="flex justify-between">
+          <h1>Account Information</h1>
+          <span class="cursor-pointer px-12 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" phx-click="toggle_edit_account">
+            Edit Account
+          </span>
+      </div>
 
+      <div class="w-full flex">
+        <div class="w-1/12">
+          <p>First Name</p>
+          <p>Last Name</p>
+          <p>Email</p>
+        </div>
+        <div class="w-1/12">
+          <%= if @current_org_user do %>
+            <p><%= @current_org_user.first_name %></p>
+            <p><%= @current_org_user.last_name %></p>
+            <p><%= @current_org_user.email %></p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%= if @is_toggle_org do %>
+    <!-- Card 2 edit -->
+    <div class="bg-red-200 w-full px-4 py-8 bg-white drop-shadow-lg rounded-lg mt-4 relative">
+      <div class="flex justify-between">
+          <h1>Organization Information</h1>
+      </div>
+      <div class="w-full flex py-4">
+        <div class="w-1/12">
+          <p>Organization</p>
+          <p>License</p>
+          <p>Address 1</p>
+          <p>Address 2</p>
+          <p>City</p>
+          <p>State</p>
+          <p>Zip/Postal</p>
+          <p>Country</p>
+          <p>Phone</p>
+          <p>Email</p>
+          <p>Website</p>
+          <p>Facebook</p>
+          <p>Twitter</p>
+          <p>Instagram</p>
+        </div>
+        <div class="w-11/12">
+          <div class="w-1/12">
+            <.form let={f} for={@changeset} phx-submit="send" id="update-org">
+              <div class="flex flex-wrap -mx-3">
+                  <%= text_input f, :organization, placeholder: "Organization" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :license, placeholder: "License" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :address_line_1, placeholder: "Address line 1" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :address_line_2, placeholder: "Address line 2" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :city, placeholder: "City" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :state, placeholder: "State" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :zip, placeholder: "Zip" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :country, placeholder: "Country" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :phone, placeholder: "Phone" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :email, placeholder: "Email" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :website_url, placeholder: "Website URL" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :facebook_url, placeholder: "Facebook URL" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :twitter_url, placeholder: "Twitter URl" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :instagram_url, placeholder: "Instagram URL" %>
+              </div>
+              <button type="submit" class="absolute top-0 right-0 mr-4 mt-8 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                Submit Edit Org
+              </button>
+              <span class="cursor-pointer absolute top-12 right-0 mr-4 mt-8 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" phx-click="cancel_submit">
+                Cancel Edit Account
+              </span>
+            </.form>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
    <!-- Card 2 -->
    <div class="bg-red-200 w-full px-4 py-8 bg-white drop-shadow-lg rounded-lg mt-4">
     <div class="flex justify-between">
        <h1>Organization Information</h1>
-       <button class="px-8 h-10 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+       <span class="cursor-pointer px-8 h-10 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" phx-click="toggle_edit_org">
          Edit Organization
-       </button>
+       </span>
     </div>
 
     <div class="w-full flex">
@@ -147,30 +262,7 @@
       </div>
     </div>
    </div>
-
-   <!-- Card 3  
-   <div class="bg-red-200 w-full px-4 py-8 bg-white drop-shadow-lg rounded-lg mt-4">
-    <div class="flex justify-between">
-       <h1>Bank Information</h1>
-       <button class="px-8 h-10 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-         Edit Bank Information
-       </button>
-    </div>
-
-    <div class="w-full flex">
-      <div class="w-1/12">
-       <p>Routing#</p>
-       <p>Account#</p>
-      </div>
-      <div class="w-1/12">
-        <%= if @current_org_user do %>
-        <p><%= @current_org_user.routing_number%></p>
-        <p><%= @current_org_user.account_number%></p>
-      <% end %>
-      </div>
-    </div>
-   </div>
-   -->
+  <% end %>
    
    <div class="pt-4">
     <button class="px-8 h-10 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">

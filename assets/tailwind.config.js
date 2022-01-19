@@ -13,6 +13,7 @@ module.exports = {
         'pastimes-gray': '#9FA2A7',
         'pastimes-gray-variant-1': '#1c1c1c',
         'pastimes-gray-variant-2': '#c8c8c8',
+        'pastimes-gray-variant-3': '#F5F5F5',
       },
     }
   },

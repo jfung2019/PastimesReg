@@ -18,7 +18,7 @@ defmodule PastimesReg.Events do
 
   """
   def list_events do
-    Repo.all(Events)
+    Repo.all(Event)
   end
 
   @spec list_upcoming_events_by_org_user_id(integer()) :: [Event.t()]
@@ -62,7 +62,7 @@ defmodule PastimesReg.Events do
       ** (Ecto.NoResultsError)
 
   """
-  def get_events!(id), do: Repo.get!(Events, id)
+  def get_events!(id), do: Repo.get!(Event, id)
 
   @doc """
   Creates a events.
@@ -123,11 +123,11 @@ defmodule PastimesReg.Events do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_events(%Event{} = events, attrs) do
+  def update_events(%Event{org_user_id: org_user_id} = events, attrs, org_user_id) do
     events
-    |> Events.event_create_changeset_step_1(attrs)
-    |> Events.event_create_changeset_step_2(attrs)
-    |> Events.event_create_changeset_step_3(attrs)
+    |> Event.event_create_changeset_step_1(attrs)
+    |> Event.event_create_changeset_step_2(attrs)
+    |> Event.event_create_changeset_step_3(attrs)
     |> Repo.update()
   end
 

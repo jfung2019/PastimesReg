@@ -11,7 +11,6 @@ defmodule PastimesRegWeb.CreateEventsLive do
 
   def mount(_params, %{"org_user_token" => token}, socket) do
     %{id: org_user_id} = Accounts.get_org_user_by_session_token(token)
-    IO.inspect(org_user_id)
     changeset = Events.event_create_form_step_init_changeset(%PastimesReg.Events.Event{})
 
     {:ok,
@@ -20,11 +19,11 @@ defmodule PastimesRegWeb.CreateEventsLive do
        |> allow_upload(:cover_photo, accept: ~w(.jpg .jpeg .png), max_entries: 1),
        uploaded_files: [],
        current_step: 1,
-       valid_count: 0,
        changeset: changeset,
        available_activities: Activities.ActivitiesOption.activity_options(),
        attrs: %{},
-       org_user_id: org_user_id
+       org_user_id: org_user_id,
+       show_first_category_form: false
      )}
   end
 
@@ -35,9 +34,7 @@ defmodule PastimesRegWeb.CreateEventsLive do
       ) do
     attrs = Map.merge(attrs, params)
 
-    changeset =
-      Events.event_create_form_step_1_changeset(attrs)
-      |> IO.inspect()
+    changeset = Events.event_create_form_step_1_changeset(attrs)
 
     {:noreply, assign(socket, changeset: changeset, attrs: attrs)}
   end
@@ -49,18 +46,9 @@ defmodule PastimesRegWeb.CreateEventsLive do
       ) do
     attrs = Map.merge(attrs, params)
 
-    changeset =
-      Events.event_create_form_step_2_changeset(attrs)
-      |> IO.inspect()
+    changeset = Events.event_create_form_step_2_changeset(attrs)
 
-    valid_count = 0
-
-    valid_count =
-      if changeset.valid? do
-        valid_count + 2
-      end
-
-    {:noreply, assign(socket, changeset: changeset, valid_count: valid_count, attrs: attrs)}
+    {:noreply, assign(socket, changeset: changeset, attrs: attrs)}
   end
 
   def handle_event(
@@ -70,18 +58,9 @@ defmodule PastimesRegWeb.CreateEventsLive do
       ) do
     attrs = Map.merge(attrs, params)
 
-    changeset =
-      Events.event_create_form_step_3_changeset(attrs)
-      |> IO.inspect()
+    changeset = Events.event_create_form_step_3_changeset(attrs)
 
-    valid_count = 0
-
-    valid_count =
-      if changeset.valid? do
-        valid_count + 3
-      end
-
-    {:noreply, assign(socket, changeset: changeset, valid_count: valid_count, attrs: attrs)}
+    {:noreply, assign(socket, changeset: changeset, attrs: attrs)}
   end
 
   def handle_event(
@@ -92,7 +71,6 @@ defmodule PastimesRegWeb.CreateEventsLive do
     attrs =
       attrs
       |> Map.merge(events_params)
-      |> IO.inspect()
 
     socket =
       case Events.event_create_form_step_1_changeset(attrs) do
@@ -120,7 +98,6 @@ defmodule PastimesRegWeb.CreateEventsLive do
     attrs =
       attrs
       |> Map.merge(events_params)
-      |> IO.inspect()
 
     socket =
       case Events.event_create_form_step_2_changeset(attrs) do
@@ -138,13 +115,24 @@ defmodule PastimesRegWeb.CreateEventsLive do
 
   def handle_event(
         "send",
+        _params,
+        %{assigns: %{current_step: 2, attrs: attrs}} = socket
+      ) do
+    socket =
+      socket
+      |> assign(changeset: Events.event_create_form_step_1_changeset(attrs), current_step: 3)
+
+    {:noreply, socket}
+  end
+
+  def handle_event(
+        "send",
         %{"event" => events_params},
         %{assigns: %{current_step: 3, attrs: attrs, org_user_id: org_user_id}} = socket
       ) do
     attrs =
       attrs
       |> Map.merge(events_params)
-      |> IO.inspect()
 
     case Events.create_event(attrs, org_user_id) do
       {:ok, _} ->
@@ -176,6 +164,14 @@ defmodule PastimesRegWeb.CreateEventsLive do
     socket =
       socket
       |> assign(current_step: 2)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("show_first_category_form", _unsigned_params, socket) do
+    socket =
+      socket
+      |> assign(show_first_category_form: true)
 
     {:noreply, socket}
   end

@@ -102,6 +102,11 @@ defmodule PastimesReg.Events.Event do
     |> validate_details_event()
     |> validate_website_url_event()
     |> validate_cover_photo()
+    |> validate_date()
+    |> check_constraint(:start_date,
+      name: :start_date_must_be_before_end_date,
+      message: "start date must be before end date"
+    )
   end
 
   def event_create_changeset_step_2(event, attrs) do
@@ -155,10 +160,19 @@ defmodule PastimesReg.Events.Event do
   end
 
   # pick date
-  # defp validate_start_date(changeset) do
-  #   changeset
-  #   |> validate_required([:start_date])
-  # end
+  defp validate_date(changeset) do
+    end_date = get_field(changeset, :end_date)
+    start_date = get_field(changeset, :start_date)
+
+    changeset =
+      cond do
+        start_date > end_date -> add_error(changeset, :start_date, "must be before end date")
+        true -> changeset
+      end
+
+    changeset
+    |> validate_required([:start_date])
+  end
 
   # # pick date
   # defp validate_end_date(changeset) do
