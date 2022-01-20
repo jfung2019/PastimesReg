@@ -29,6 +29,6 @@ defmodule PastimesReg.Events.Category do
       :fee,
       :registration_close_date
     ])
-    |> validate_required([])
+    |> validate_required([:fee])
   end
 end

@@ -2,8 +2,9 @@ defmodule PastimesReg.EventTest do
   use PastimesReg.DataCase
 
   import PastimesReg.AccountsFixtures
-  alias PastimesReg.Events.Event
   alias PastimesReg.Events
+  alias PastimesReg.Events.Event
+  alias PastimesReg.Events.Category
   alias PastimesReg.Accounts
 
   import PastimesReg.EventFixtures
@@ -50,6 +51,44 @@ defmodule PastimesReg.EventTest do
       website_url: "some website_url_event"
     }
 
+    @valid_attrs_category %{
+      categories: [
+        %{
+          bullet_point_1: "",
+          bullet_point_2: "",
+          bullet_point_3: "",
+          details: "",
+          fee: "$1",
+          name: "",
+          registration_close_date: "",
+          spot_availability: "",
+          start_date: ""
+        },
+        %{
+          bullet_point_1: "",
+          bullet_point_2: "",
+          bullet_point_3: "",
+          details: "",
+          fee: "$1",
+          name: "",
+          registration_close_date: "",
+          spot_availability: "",
+          start_date: ""
+        },
+        %{
+          bullet_point_1: "",
+          bullet_point_2: "",
+          bullet_point_3: "",
+          details: "",
+          fee: "$1",
+          name: "",
+          registration_close_date: "",
+          spot_availability: "",
+          start_date: ""
+        }
+      ]
+    }
+
     test "list_events/0 returns all events", %{event: event} do
       assert Events.list_events() == [event]
     end
@@ -58,25 +97,25 @@ defmodule PastimesReg.EventTest do
       assert Events.get_events!(event.id) == event
     end
 
-    test "create_event/1 with valid data creates a events", %{org_user: %{id: org_user_id}} do
-      assert {:ok, %Event{} = events} = Events.create_event(@valid_attrs, org_user_id)
-      assert events.activity_type == "Backcountry Touring"
-      assert events.name == "some name_event"
-      assert events.address == "some address_location"
-      assert events.start_date == ~U[2022-01-05 03:13:00Z]
-      assert events.end_date == ~U[2022-02-06 03:13:00Z]
+    test "create_event/1 with valid data creates a events", %{event: event, org_user: %{id: org_user_id}} do
+      assert {:ok, %Event{} = event} = Events.create_event(@valid_attrs, org_user_id)
+      assert event.activity_type == "Backcountry Touring"
+      assert event.name == "some name_event"
+      assert event.address == "some address_location"
+      assert event.start_date == ~U[2022-01-05 03:13:00Z]
+      assert event.end_date == ~U[2022-02-06 03:13:00Z]
 
-      assert events.confirmation_message_to_participants ==
+      assert event.confirmation_message_to_participants ==
                "some confirmation_message_to_participants"
 
-      assert events.details == "some details_event"
-      assert events.email_address == "email_address@.com"
-      assert events.email_notification == true
-      assert events.contact_information == true
-      assert events.number_of_hours_before_event == "some number_of_hours_before_event"
-      assert events.phone_number == "some phone_number"
-      assert events.promote_event == true
-      assert events.website_url == "some website_url_event"
+      assert event.details == "some details_event"
+      assert event.email_address == "email_address@.com"
+      assert event.email_notification == true
+      assert event.contact_information == true
+      assert event.number_of_hours_before_event == "some number_of_hours_before_event"
+      assert event.phone_number == "some phone_number"
+      assert event.promote_event == true
+      assert event.website_url == "some website_url_event"
     end
 
     test "create_event/1 with invalid data returns error changeset", %{
@@ -177,6 +216,17 @@ defmodule PastimesReg.EventTest do
 
       assert %{valid?: false} =
                Events.event_create_form_step_1_changeset(Map.put(@valid_attrs, :end_date, nil))
+    end
+
+    test "deletes a category from the category list by index", %{event: event}  do
+      # insert valid data to changset with category attrs
+      # clicks the category
+      # get/detect what index from the category list
+      # delete from list
+      # delete mid value
+      assert changeset = Events.event_create_form_step_2_changeset(@valid_attrs_category)
+      assert changeset = Events.delete_category(changeset, 1)
+
     end
   end
 end

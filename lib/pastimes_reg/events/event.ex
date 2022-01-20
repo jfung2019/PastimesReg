@@ -93,13 +93,11 @@ defmodule PastimesReg.Events.Event do
         :website_url
       ]
     )
-    # dropdown type input for activity_type
     |> validate_required(@required_attributes_step_1)
     |> validate_activity_type()
     |> validate_inclusion(:activity_type, activity_options())
     |> validate_name_event()
     |> validate_address_location()
-    |> validate_details_event()
     |> validate_website_url_event()
     |> validate_cover_photo()
     |> validate_date()
@@ -159,7 +157,6 @@ defmodule PastimesReg.Events.Event do
     |> validate_length(:address, max: 160)
   end
 
-  # pick date
   defp validate_date(changeset) do
     end_date = get_field(changeset, :end_date)
     start_date = get_field(changeset, :start_date)
@@ -174,16 +171,10 @@ defmodule PastimesReg.Events.Event do
     |> validate_required([:start_date])
   end
 
-  # # pick date
-  # defp validate_end_date(changeset) do
+  # defp validate_details_event(changeset) do
   #   changeset
-  #   |> validate_required([:end_date])
+  #   |> validate_length(:details, max: 1000)
   # end
-
-  defp validate_details_event(changeset) do
-    changeset
-    |> validate_length(:details, max: 160)
-  end
 
   defp validate_website_url_event(changeset) do
     changeset
@@ -245,6 +236,21 @@ defmodule PastimesReg.Events.Event do
           changeset,
           :categories,
           List.insert_at(list, -1, %PastimesReg.Events.Category{})
+        )
+    end
+  end
+
+  @spec delete_category_from_changeset_list(Ecto.Changeset.t(), integer()) :: Ecto.Changeset.t()
+  def delete_category_from_changeset_list(changeset, category_index) do
+    case get_field(changeset, :categories, []) do
+      [] ->
+        changeset
+
+      list ->
+        put_embed(
+          changeset,
+          :categories,
+          List.delete_at(list, category_index)
         )
     end
   end

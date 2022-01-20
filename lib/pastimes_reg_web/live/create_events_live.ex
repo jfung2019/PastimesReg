@@ -34,7 +34,9 @@ defmodule PastimesRegWeb.CreateEventsLive do
       ) do
     attrs = Map.merge(attrs, params)
 
-    changeset = Events.event_create_form_step_1_changeset(attrs)
+    changeset =
+      Events.event_create_form_step_1_changeset(attrs)
+      |> IO.inspect()
 
     {:noreply, assign(socket, changeset: changeset, attrs: attrs)}
   end
@@ -46,7 +48,9 @@ defmodule PastimesRegWeb.CreateEventsLive do
       ) do
     attrs = Map.merge(attrs, params)
 
-    changeset = Events.event_create_form_step_2_changeset(attrs)
+    changeset =
+      Events.event_create_form_step_2_changeset(attrs)
+      |> IO.inspect()
 
     {:noreply, assign(socket, changeset: changeset, attrs: attrs)}
   end
@@ -58,7 +62,10 @@ defmodule PastimesRegWeb.CreateEventsLive do
       ) do
     attrs = Map.merge(attrs, params)
 
-    changeset = Events.event_create_form_step_3_changeset(attrs)
+    changeset =
+      Events.event_create_form_step_3_changeset(attrs)
+      |> IO.inspect()
+
 
     {:noreply, assign(socket, changeset: changeset, attrs: attrs)}
   end
@@ -71,6 +78,7 @@ defmodule PastimesRegWeb.CreateEventsLive do
     attrs =
       attrs
       |> Map.merge(events_params)
+      |> IO.inspect()
 
     socket =
       case Events.event_create_form_step_1_changeset(attrs) do
@@ -98,6 +106,7 @@ defmodule PastimesRegWeb.CreateEventsLive do
     attrs =
       attrs
       |> Map.merge(events_params)
+      |> IO.inspect()
 
     socket =
       case Events.event_create_form_step_2_changeset(attrs) do
@@ -118,9 +127,10 @@ defmodule PastimesRegWeb.CreateEventsLive do
         _params,
         %{assigns: %{current_step: 2, attrs: attrs}} = socket
       ) do
+
     socket =
-      socket
-      |> assign(changeset: Events.event_create_form_step_1_changeset(attrs), current_step: 3)
+          socket
+          |> assign(changeset: Events.event_create_form_step_1_changeset(attrs), current_step: 3)
 
     {:noreply, socket}
   end
@@ -133,6 +143,7 @@ defmodule PastimesRegWeb.CreateEventsLive do
     attrs =
       attrs
       |> Map.merge(events_params)
+      |> IO.inspect()
 
     case Events.create_event(attrs, org_user_id) do
       {:ok, _} ->
@@ -146,10 +157,6 @@ defmodule PastimesRegWeb.CreateEventsLive do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset, attrs: attrs)}
     end
-  end
-
-  def handle_event("add_category", _params, %{assigns: %{changeset: changeset}} = socket) do
-    {:noreply, assign(socket, changeset: Events.append_category(changeset))}
   end
 
   def handle_event("step_1", _, socket) do
@@ -168,10 +175,33 @@ defmodule PastimesRegWeb.CreateEventsLive do
     {:noreply, socket}
   end
 
+  def handle_event("add_category", _params, %{assigns: %{changeset: changeset}} = socket) do
+    IO.puts("called!")
+    {:noreply, assign(socket, changeset: Events.append_category(changeset))}
+  end
+
+  def handle_event("save_temp_category", _params, socket) do
+
+    IO.puts("called save temp!")
+    {:noreply, socket}
+  end
+
   def handle_event("show_first_category_form", _unsigned_params, socket) do
+
     socket =
       socket
       |> assign(show_first_category_form: true)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("remove_category", %{"index" => string_index}, %{assigns: %{changeset: changeset}} = socket) do
+    {index, _} = Integer.parse(string_index)
+    changeset = Events.delete_category(changeset, index)
+
+    socket =
+      socket
+      |> assign(changeset: changeset)
 
     {:noreply, socket}
   end

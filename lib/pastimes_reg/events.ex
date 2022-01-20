@@ -89,6 +89,10 @@ defmodule PastimesReg.Events do
     Event.append_category_to_changeset(changeset)
   end
 
+  def delete_category(changeset, category_index) do
+    Event.delete_category_from_changeset_list(changeset, category_index)
+  end
+
   def event_create_form_step_init_changeset(%Event{} = events, attrs \\ %{}) do
     Event.event_create_changeset_step_1(events, attrs)
   end
