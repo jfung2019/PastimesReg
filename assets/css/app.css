@@ -7,13 +7,38 @@
 /* Custom border gradient color */
 .border-gradient {
   background: 
-  linear-gradient(white,white) padding-box, /*this is your grey background*/
+  linear-gradient(white,white) padding-box,
   linear-gradient(to right, #2A90EC, #52B774) border-box;
   color: #313149;
   border: 5px solid transparent;
   border-radius: 25px;
   display:inline-block;
 }
+
+[x-cloak] { display: none }
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper input[type=file] {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 200%;
+  opacity: 0;
+  background-color: red;
+}
+
+.aspect-container {
+  width: 100%;
+  padding-top: 33.33%; /* 3:1 Aspect Ratio */
+  position: relative; /* If you want text inside of it */
+}
+
+
 
 /* Alerts and form errors used by phx.new */
 .alert {

@@ -11,6 +11,7 @@ defmodule PastimesReg.Repo.Migrations.CreateEvents do
       add :details, :varchar, null: true
       add :website_url, :varchar, null: true
       add :cover_photo, :varchar
+      add :photos, {:array, :varchar}, null: true, default: []
       add :categories, :jsonb, default: "[]", null: false
       add :confirmation_message_to_participants, :varchar, null: true
       add :contact_information, :boolean, default: false, null: false

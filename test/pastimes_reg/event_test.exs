@@ -97,7 +97,10 @@ defmodule PastimesReg.EventTest do
       assert Events.get_events!(event.id) == event
     end
 
-    test "create_event/1 with valid data creates a events", %{event: event, org_user: %{id: org_user_id}} do
+    test "create_event/1 with valid data creates a events", %{
+      event: event,
+      org_user: %{id: org_user_id}
+    } do
       assert {:ok, %Event{} = event} = Events.create_event(@valid_attrs, org_user_id)
       assert event.activity_type == "Backcountry Touring"
       assert event.name == "some name_event"
@@ -218,7 +221,7 @@ defmodule PastimesReg.EventTest do
                Events.event_create_form_step_1_changeset(Map.put(@valid_attrs, :end_date, nil))
     end
 
-    test "deletes a category from the category list by index", %{event: event}  do
+    test "deletes a category from the category list by index", %{event: event} do
       # insert valid data to changset with category attrs
       # clicks the category
       # get/detect what index from the category list
@@ -226,7 +229,6 @@ defmodule PastimesReg.EventTest do
       # delete mid value
       assert changeset = Events.event_create_form_step_2_changeset(@valid_attrs_category)
       assert changeset = Events.delete_category(changeset, 1)
-
     end
   end
 end

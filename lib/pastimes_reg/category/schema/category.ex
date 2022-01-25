@@ -4,7 +4,7 @@ defmodule PastimesReg.Events.Category do
 
   @primary_key {:code, :string, autogenerate: false}
   embedded_schema do
-    field :name, :string
+    field :name, :string, default: "General Admission"
     field :bullet_point_1, :string
     field :bullet_point_2, :string
     field :bullet_point_3, :string

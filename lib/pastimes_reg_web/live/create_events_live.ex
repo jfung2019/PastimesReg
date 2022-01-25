@@ -2,6 +2,7 @@ defmodule PastimesRegWeb.CreateEventsLive do
   use PastimesRegWeb, :live_view
 
   alias PastimesReg.Events
+  alias PastimesReg.Events.Event
   alias PastimesReg.Activities
   alias PastimesReg.Accounts
 
@@ -16,7 +17,8 @@ defmodule PastimesRegWeb.CreateEventsLive do
     {:ok,
      assign(
        socket
-       |> allow_upload(:cover_photo, accept: ~w(.jpg .jpeg .png), max_entries: 1),
+       |> allow_upload(:cover_photo, accept: ~w(.jpg .jpeg .png), max_entries: 1)
+       |> allow_upload(:photos, accept: ~w(.jpg .jpeg .png), max_entries: 9),
        uploaded_files: [],
        current_step: 1,
        changeset: changeset,
@@ -66,18 +68,31 @@ defmodule PastimesRegWeb.CreateEventsLive do
       Events.event_create_form_step_3_changeset(attrs)
       |> IO.inspect()
 
-
     {:noreply, assign(socket, changeset: changeset, attrs: attrs)}
   end
 
   def handle_event(
-        "send",
+        "submit",
         %{"event" => events_params},
         %{assigns: %{current_step: 1, attrs: attrs}} = socket
       ) do
+      consume_uploaded_entries(socket, :cover_photo, fn %{path: path}, entry ->
+        dest = Path.join("priv/static/uploads", "#{entry.uuid}.#{ext(entry)}")
+        File.cp!(path, dest)
+        {:ok, Routes.static_path(socket, "/uploads/#{Path.basename(dest)}")}
+      end)
+
+      consume_uploaded_entries(socket, :photos, fn %{path: path}, entry ->
+        dest = Path.join("priv/static/uploads", "#{entry.uuid}.#{ext(entry)}")
+        File.cp!(path, dest)
+        {:ok, Routes.static_path(socket, "/uploads/#{Path.basename(dest)}")}
+      end)
+
     attrs =
       attrs
       |> Map.merge(events_params)
+      |> Map.put("cover_photo", get_cover_photo_url(socket))
+      |> Map.put("photos", get_photos_url(socket))
       |> IO.inspect()
 
     socket =
@@ -99,7 +114,7 @@ defmodule PastimesRegWeb.CreateEventsLive do
   end
 
   def handle_event(
-        "send",
+        "submit",
         %{"event" => events_params},
         %{assigns: %{current_step: 2, attrs: attrs}} = socket
       ) do
@@ -123,20 +138,19 @@ defmodule PastimesRegWeb.CreateEventsLive do
   end
 
   def handle_event(
-        "send",
+        "submit",
         _params,
         %{assigns: %{current_step: 2, attrs: attrs}} = socket
       ) do
-
     socket =
-          socket
-          |> assign(changeset: Events.event_create_form_step_1_changeset(attrs), current_step: 3)
+      socket
+      |> assign(changeset: Events.event_create_form_step_1_changeset(attrs), current_step: 3)
 
     {:noreply, socket}
   end
 
   def handle_event(
-        "send",
+        "submit",
         %{"event" => events_params},
         %{assigns: %{current_step: 3, attrs: attrs, org_user_id: org_user_id}} = socket
       ) do
@@ -181,21 +195,15 @@ defmodule PastimesRegWeb.CreateEventsLive do
   end
 
   def handle_event("save_temp_category", _params, socket) do
-
     IO.puts("called save temp!")
     {:noreply, socket}
   end
 
-  def handle_event("show_first_category_form", _unsigned_params, socket) do
-
-    socket =
-      socket
-      |> assign(show_first_category_form: true)
-
-    {:noreply, socket}
-  end
-
-  def handle_event("remove_category", %{"index" => string_index}, %{assigns: %{changeset: changeset}} = socket) do
+  def handle_event(
+        "remove_category",
+        %{"index" => string_index},
+        %{assigns: %{changeset: changeset}} = socket
+      ) do
     {index, _} = Integer.parse(string_index)
     changeset = Events.delete_category(changeset, index)
 
@@ -205,4 +213,69 @@ defmodule PastimesRegWeb.CreateEventsLive do
 
     {:noreply, socket}
   end
+
+  def handle_event("show_first_category_form", _unsigned_params, socket) do
+    socket =
+      socket
+      |> assign(show_first_category_form: true)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("cancel-upload", %{"ref" => ref}, socket) do
+    {:noreply, cancel_upload(socket, :cover_photo, ref)}
+  end
+
+  def handle_event("cancel-entry", %{"ref" => ref}, socket) do
+    {:noreply, cancel_upload(socket, :photos, ref)}
+  end
+
+  # def handle_event("index_show", %{"index" => string_index}, socket) do
+  #   {index, _} = Integer.parse(string_index)
+
+  #   socket =
+  #     socket
+  #     |> assign(index_show: true)
+
+  #   {:noreply, socket}
+  # end
+
+  def ext(entry) do
+    [ext | _] = MIME.extensions(entry.client_type)
+    ext
+  end
+
+  defp get_cover_photo_url(socket) do
+    {completed, []} = uploaded_entries(socket, :cover_photo)
+
+    case completed do
+      [] ->
+        nil
+
+      [completed | _] ->
+        Routes.static_path(socket, "/uploads/#{completed.uuid}.#{ext(completed)}")
+        # Path.join(s3_host(), s3_key(completed))
+    end
+  end
+
+  defp get_photos_url(socket) do
+    {completed, []} = uploaded_entries(socket, :photos)
+
+    case completed do
+      [] ->
+        nil
+
+      completed ->
+        for entry <- completed do
+          Routes.static_path(socket, "/uploads/#{entry.uuid}.#{ext(entry)}")
+        end
+    end
+  end
+
+  # defp consume_photo_urls(socket) do
+  #   consume_uploaded_entries(socket, :cover_photo, fn meta, entry ->
+  #     dest = Path.join("priv/static/uploads", "#{entry.uuid}.#{ext(entry)}")
+  #     File.cp!(meta.path, dest)
+  #   end)
+  # end
 end

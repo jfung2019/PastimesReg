@@ -93,7 +93,7 @@
 
     <!-- Form section -->
     <div class="">
-      <.form let={f} for={@changeset} phx-change="validate" phx-submit="send" id="create-event">
+      <.form let={f} for={@changeset} phx-change="validate" phx-submit="submit" id="create-event">
         <%= if @current_step == 1 do %>
         <div class="">
           <div class="flex flex-wrap mb-6">
@@ -177,254 +177,258 @@
               </div>
             </div>
           </div>
-          <div class="form-group">
-            <!--
-            <%= live_file_input @uploads.cover_photo %>
-            <%= for entry <- @uploads.cover_photo.entries do %>
-            <div class="row">
-              <div class="column">
-                <%= live_img_preview entry, height: 80 %>
-              </div>
+      
+          <div class="form-group mb-4">
+            <div class="mb-4">
+              <h1>Photos</h1>
+              <p>Upload a cover photo for your event in a 3:1 image ratio. You can add up to 9 additonal photos to feature on the event registration page.</p>
             </div>
+            <%= for {_ref, msg} <- @uploads.cover_photo.errors do %>
+            <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg)%></p>
             <% end %>
-            -->
-          </div>
-
-          <div class="form-group">
-            <div class="flex flex-wrap mb-6 ">
-              <div class="w-full mx-3 border border-gray-200 py-10 relative z-1">
-                <div class="w-2/6 mb-6 md:mb-0">
-                  <!-- if photo is added or not nil: dont show this and show image added instead-->
-                  <!-- :cover_photo -->
-                  <button class="">
-                    <img class="h-8 w-8 object-contain" src="/images/pasttimes_icon_plus.png" alt="">
-                  </button>
-                  <h1 class="">Add Cover Photo</h1>
-
-                  <!-- if photo is added or not nil: show this -->
-                  <div class="absolute top-0 -right-3 z-40">
-                    <button>
-                      <img src="/images/pasttimes_icon_x.png" alt="x">
-                    </button>
+            <!-- upload cover image -->
+            <div class="w-[70%] mx-auto">
+              <div class="aspect-container overflow-hidden border-2 border-gray-200 border-dashed rounded-lg" phx-drop-target={@uploads.cover_photo.ref}>
+                <div class="top-4 absolute w-full"> 
+                  <img class="w-[12%] mx-auto" src="/images/pastimes_upload_btn.png" alt="">
+                  <p class="font-bold text-gray-500">Drag and drop cover image or</p>
+                  <div class="upload-btn-wrapper z-40">
+                    <button type="button" class="text-lg font-bold cursor-pointer text-pastimes-blue-variant-1">Upload here</button>
+                    <%= live_file_input @uploads.cover_photo, class: "cursor-pointer" %>
+                  </div>
+                  <p>*This preview is how the image will be cropped</p>
+                </div>
+       
+                <%= for entry <- @uploads.cover_photo.entries do %>
+                <div class="row">
+                  <div class="column">
+                    <%= live_img_preview entry, class: "top-0 absolute w-full" %>
+                  </div>
+                  <div class="z-40 bottom-0 mb-10 absolute w-full text-black z-40">
+                    <%= entry.client_name %> is uploaded with
+                    <progress value={entry.progress} max="100"><%= entry.progress %>% </progress>
+                  </div>
+                  <div class="z-40 bottom-0 absolute w-full">
+                    <button type="button" phx-click="cancel-upload" phx-value-ref={entry.ref} aria-label="cancel" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-12 rounded-full">Cancel</button>
                   </div>
                 </div>
+                <% end %>
               </div>
-
-
-              <!-- if photo is added or not nil: show this and hide button for add cover photo -->
-                <!--
-              <div class="w-full">
-                <img src="https://picsum.photos/200/100"alt="">
-              </div>
-              -->
             </div>
           </div>
-
+          <%= for {_ref, msg} <- @uploads.photos.errors do %>
+          <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg)%></p>
+          <% end %>
+          <!-- upload photos -->
           <div class="form-group">
-            <div class="flex flex-wrap gap-1 mb-6 mx-auto w-full px-3">
-              <div class="w-full md:w-[33%] px-3 mx-3 md:mx-0 px-3 mb-6 md:mb-0 border border-gray-200 py-10 relative z-1">
-                <!-- if photo is added or not nil: dont show this -->
-                <button class="">
-                  <img class="h-8 w-8 object-contain" src="/images/pasttimes_icon_plus.png" alt="">
-                </button>
-                <h1 class="">Add Photo</h1>
-                <!-- if photo is added or not nil: show this -->
-                <div class="absolute top-0 -right-3 z-40">
-                  <button>
-                    <img src="/images/pasttimes_icon_x.png" alt="x">
-                  </button>
+            <div class="w-[70%] mx-auto">
+              <div class="w-full relative border-2 border-gray-200 border-dashed rounded-lg">
+                <div class="mt-8 w-full"> 
+                  <p>Drag and drop additional images or</p>
+                  <div class="upload-btn-wrapper z-40">
+                    <button type="button" class="text-lg font-bold cursor-pointer text-pastimes-blue-variant-1 mt-2">Upload here</button>
+                    <%= live_file_input @uploads.photos, class: "cursor-pointer" %>
+                  </div>
                 </div>
-              </div>
-              <div class="w-full md:w-[33%] px-3 mx-3 md:mx-0 px-3 mb-6 md:mb-0 border border-gray-200 py-10 relative z-1">
-                <!-- if photo is added or not nil: dont show this -->
-                <button class="">
-                  <img class="h-8 w-8 object-contain" src="/images/pasttimes_icon_plus.png" alt="">
-                </button>
-                <h1 class="">Add Photo</h1>
-                <!-- if photo is added or not nil: show this -->
-                <div class="absolute top-0 -right-3 z-40">
-                  <button>
-                    <img src="/images/pasttimes_icon_x.png" alt="x">
-                  </button>
+                <div class="flex flex-wrap gap-1 mb-6 mx-auto justify-center w-full px-3">
+                <%= for entry <- @uploads.photos.entries do %>
+                <div class="md:w-[32%]">
+                  <div class="bg-red-200 aspect-container overflow-hidden border-2 border-gray-200 border-dashed rounded-lg z-1">
+                    <!-- if photo is added or not nil: dont show this -->
+                    <!--
+                    <button class="">
+                      <img class="h-8 w-8 object-contain" src="/images/pasttimes_icon_plus.png" alt="">
+                    </button>
+                    <h1 class="">Add Photo</h1>
+                     -->
+                    <div class="row">
+                      <div class="column">
+                        <%= live_img_preview entry, class: "top-0 absolute w-full" %>
+                      </div>
+                      <div class="absolute top-0 z-40">
+                        <%= entry.client_name %> is uploaded with
+                        <progress value={entry.progress} max="100"><%= entry.progress %>% </progress>
+                      </div>
+                      <!-- if photo is added or not nil: show this -->
+                      <div class="absolute top-0 z-40">
+                        <button type="button" phx-click="cancel-entry" phx-value-ref={entry.ref}>
+                          <img src="/images/pasttimes_icon_x.png" alt="x">
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="w-full md:w-[33%] px-3 mx-3 md:mx-0 px-3 mb-6 md:mb-0 border border-gray-200 py-10 relative z-1">
-                <!-- if photo is added or not nil: dont show this -->
-                <button class="">
-                  <img class="h-8 w-8 object-contain" src="/images/pasttimes_icon_plus.png" alt="">
-                </button>
-                <h1 class="">Add Photo</h1>
-                <!-- if photo is added or not nil: show this -->
-                <div class="absolute top-0 -right-3 z-40">
-                  <button>
-                    <img src="/images/pasttimes_icon_x.png" alt="x">
-                  </button>
+                <% end %>
                 </div>
               </div>
             </div>
           </div>
-
-          <button type="submit" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-12 rounded-full">
+          
+          <button type="submit" class="mt-4 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-12 rounded-full">
             Continue
           </button>
         </div>
         <% end %>
-
+      
         <%= if @current_step == 2 do %>
         <div class="relative">
           <%= if @show_first_category_form do %>
-          <div>
             <!-- Embedded Schema -->
             <%= inputs_for f, :categories, fn ff -> %>
+              <div x-data={"{ index_#{ff.index}: true, display_pop_up_index_#{ff.index}: false }"} class="relative bg-blue-200 px-10 pt-10 pb-20">
+                <!-- default is hidden, add condition where this is only showing if save is press. -->
+                <div x-show={" display_pop_up_index_#{ff.index} "}  class="bg-red-200 w-full">
+                  <p>details of category</p>
+                  <p><%= ff.data.name %>: <%= ff.data.fee %> (<%= ff.data.spot_availability %> spots)</p>
+                  <p><%= ff.data.start_date %></p>
+                  <p><%= ff.data.bullet_point_1 %></p>
+                  <p><%= ff.data.bullet_point_2 %></p>
+                  <p><%= ff.data.bullet_point_3 %></p>
+                  <p><%= ff.data.details %></p>
+                  <p x-text={" index_#{ff.index} "}></p>
+                  <button type="button" @click={" index_#{ff.index} = !index_#{ff.index}, display_pop_up_index_#{ff.index} = false"} class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-12 md:px-32  py-2 my-2 rounded-full">
+                    Category <%= ff.index %> Edit
+                  </button>
+                  <button type="button" phx-click="remove_category" phx-value-index={ff.index}>delete</button>
+                </div>
 
-            <div class="bg-red-200" id="{ff.index}">
-              <p><%= ff.data.name %></p>
-              <p><%= ff.data.bullet_point_1 %></p>
-              <p><%= ff.data.bullet_point_2 %></p>
-              <p><%= ff.data.bullet_point_3 %></p>
-              <p><%= ff.data.details %></p>
-              <p><%= ff.data.start_date %></p>
-              <p><%= ff.data.spot_availability %></p>
-              <p><%= ff.data.fee %></p>
-              <p><%= ff.data.registration_close_date %></p>
-              <%= if ff.data.fee != nil do %>
-                <button type="button" phx-click="remove_category" phx-value-index={ff.index}>remove</button>
-              <% end %>
-            </div>
-            <div class="form-group">
-              <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full px-3 mb-6 md:mb-0">
-                  <%= text_input ff, :name, value: "inserted value", class: "appearance-none block w-full text-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Category Name (General Admission will be used if left empty)" %>
-                  <div class="text-left">
-                    <%= error_tag ff, :name %>
-                  </div>
+                <div class="w-full absolute bottom-0 text-center">
+                  <button type="button" phx-click="remove_category" phx-value-index={ff.index}>cancel</button>
                 </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full px-3 mb-6 md:mb-0">
-                  <%= text_input ff, :bullet_point_1, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Bullet Point 1 (eg. Distance)" %>
-                  <div class="text-left">
-                    <%= error_tag ff, :bullet_point_1 %>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full px-3 mb-6 md:mb-0">
-                  <%= text_input ff, :bullet_point_2, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Bullet Point 2 (eg. Elevation)" %>
-                  <div class="text-left">
-                    <%= error_tag ff, :bullet_point_2 %>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full px-3 mb-6 md:mb-0">
-                  <%= text_input ff, :bullet_point_3, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Bullet Point 3 (eg. Start Time)" %>
-                  <div class="text-left">
-                    <%= error_tag ff, :bullet_point_3 %>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full px-3 mb-6 md:mb-0">
-                  <%= text_input ff, :details, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Write other details about this category" %>
-                  <div class="text-left">
-                    <%= error_tag ff, :details %>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-wrap -mx-3">
-              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <div class="form-group">
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3 mb-6 md:mb-0">
-                      <%= datetime_local_input ff, :start_date, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Start date (for this category)" %>
-                      <div class="text-left">
-                        <%= error_tag ff, :start_date %>
+                <div x-show={" index_#{ff.index} "} x-cloak id={ff.index} role="">
+                  <div class="form-group">
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full px-3 mb-6 md:mb-0">
+                        <%= text_input ff, :name, class: "appearance-none block w-full text-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Category Name (General Admission will be used if left empty)"%>
+                        <div class="text-left">
+                          <%= error_tag ff, :name %>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-wrap -mx-3">
-              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <div class="form-group">
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3 mb-6 md:mb-0">
-                      <%= text_input ff, :spot_availability, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Spots available" %>
-                      <div class="text-left">
-                        <%= error_tag ff, :spot_availability %>
+                  <div class="form-group">
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full px-3 mb-6 md:mb-0">
+                        <%= text_input ff, :bullet_point_1, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Bullet Point 1 (eg. Distance)" %>
+                        <div class="text-left">
+                          <%= error_tag ff, :bullet_point_1 %>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-wrap -mx-3">
-              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <div class="form-group">
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3 mb-6 md:mb-0">
-                      <%= text_input ff, :fee, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Fee for this category*" %>
-                      <div class="text-left">
-                        <%= error_tag ff, :fee %>
+                  <div class="form-group">
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full px-3 mb-6 md:mb-0">
+                        <%= text_input ff, :bullet_point_2, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Bullet Point 2 (eg. Elevation)" %>
+                        <div class="text-left">
+                          <%= error_tag ff, :bullet_point_2 %>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div class="w-full md:w-1/2 px-3">
-                <div class="form-group">
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3 mb-6 md:mb-0">
-                      <%= datetime_local_input ff, :registration_close_date, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Registration Close Date" %>
-                      <div class="text-left">
-                        <%= error_tag ff, :registration_close_date %>
+                  <div class="form-group">
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full px-3 mb-6 md:mb-0">
+                        <%= text_input ff, :bullet_point_3, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Bullet Point 3 (eg. Start Time)" %>
+                        <div class="text-left">
+                          <%= error_tag ff, :bullet_point_3 %>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <div class="form-group">
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full px-3 mb-6 md:mb-0">
+                        <%= text_input ff, :details, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Write other details about this category" %>
+                        <div class="text-left">
+                          <%= error_tag ff, :details %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex flex-wrap -mx-3">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                      <div class="form-group">
+                        <div class="flex flex-wrap -mx-3 mb-6">
+                          <div class="w-full px-3 mb-6 md:mb-0">
+                            <%= datetime_local_input ff, :start_date, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Start date (for this category)" %>
+                            <div class="text-left">
+                              <%= error_tag ff, :start_date %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex flex-wrap -mx-3">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                      <div class="form-group">
+                        <div class="flex flex-wrap -mx-3 mb-6">
+                          <div class="w-full px-3 mb-6 md:mb-0">
+                            <%= text_input ff, :spot_availability, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Spots available" %>
+                            <div class="text-left">
+                              <%= error_tag ff, :spot_availability %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex flex-wrap -mx-3">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                      <div class="form-group">
+                        <div class="flex flex-wrap -mx-3 mb-6">
+                          <div class="w-full px-3 mb-6 md:mb-0">
+                            <%= text_input ff, :fee, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Fee for this category*" %>
+                            <div class="text-left">
+                              <%= error_tag ff, :fee %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="w-full md:w-1/2 px-3">
+                      <div class="form-group">
+                        <div class="flex flex-wrap -mx-3 mb-6">
+                          <div class="w-full px-3 mb-6 md:mb-0">
+                            <%= datetime_local_input ff, :registration_close_date, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Registration Close Date" %>
+                            <div class="text-left">
+                              <%= error_tag ff, :registration_close_date %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            
                 </div>
               </div>
-            </div>
+              <!-- save button here -->
+              <div class="flex text-center justify-center space-x-4">
+                <span class="cursor-pointer border-gradient px-12 md:px-32 py-2 my-2" phx-click="step_1">
+                  Back
+                </span>
+                <button type="submit" @click={" index_#{ff.index} = false, display_pop_up_index_#{ff.index} = false"} class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-12 md:px-32  py-2 my-2 rounded-full">
+                  Continue
+                </button>
+              </div>
             <% end %>
-
-          </div>
           <% end %>
           <div class="mt-4 border-2 border-grey-200 bg-pastimes-gray-variant-3 rounded-lg p-8">
             <%= if @show_first_category_form do %>
-            <span class="cursor-pointer flex inline-flex items-center" phx-click="add_category">
-              <img class="inline-block mr-2 h-12 w-12" src="/images/pasttimes_icon_plus.png" alt="add icon">
-              Add Category
-            </span>
-            <span class="cursor-pointer flex inline-flex items-center" phx-click="save_temp_category">
-              <img class="inline-block mr-2 h-12 w-12" src="/images/pasttimes_icon_plus.png" alt="add icon">
-              save_temp_category
-            </span>
+              <span class="cursor-pointer flex inline-flex items-center" phx-click="add_category">
+                <img class="inline-block mr-2 h-12 w-12" src="/images/pasttimes_icon_plus.png" alt="add icon">
+                Add Category
+              </span>
             <% else %>
-            <span class="cursor-pointer flex inline-flex items-center" id="show_first_cat" phx-click="show_first_category_form">
-              <img class="inline-block mr-2 h-12 w-12" src="/images/pasttimes_icon_plus.png" alt="add icon">
-              Add Category
-            </span>
+              <span class="cursor-pointer flex inline-flex items-center" id="show_first_cat" phx-click="show_first_category_form">
+                <img class="inline-block mr-2 h-12 w-12" src="/images/pasttimes_icon_plus.png" alt="add icon">
+                Add Category
+              </span>
             <% end %>
           </div>
         
-          <div class="flex text-center justify-center space-x-4">
-            <span class="cursor-pointer border-gradient px-12 md:px-32 py-2 my-2" phx-click="step_1">
-              Back
-            </span>
-            <button type="submit" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-12 md:px-32  py-2 my-2 rounded-full">
-              Continue
-            </button>
-          </div>
+     
         </div>
         <% end %>
 
@@ -553,6 +557,3 @@
 
   </div>
 </div>
-
-<%# if current_step == 2 %>
-<%# if current_step == 3 %>

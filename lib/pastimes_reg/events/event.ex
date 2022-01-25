@@ -15,6 +15,7 @@ defmodule PastimesReg.Events.Event do
     field :details, :string
     field :website_url, :string
     field :cover_photo, :string
+    field :photos, {:array, :string}, default: []
 
     # Category Information (step 2)
     embeds_many :categories, Category
@@ -90,7 +91,9 @@ defmodule PastimesReg.Events.Event do
         :start_date,
         :end_date,
         :details,
-        :website_url
+        :website_url,
+        :cover_photo,
+        :photos
       ]
     )
     |> validate_required(@required_attributes_step_1)
@@ -99,7 +102,6 @@ defmodule PastimesReg.Events.Event do
     |> validate_name_event()
     |> validate_address_location()
     |> validate_website_url_event()
-    |> validate_cover_photo()
     |> validate_date()
     |> check_constraint(:start_date,
       name: :start_date_must_be_before_end_date,
@@ -128,16 +130,6 @@ defmodule PastimesReg.Events.Event do
       ]
     )
   end
-
-  # def set_name_org_users_id(%{"org_user_token" => token}, changeset) do
-  #   %{id: org_user_id} = Accounts.get_org_user_by_session_token(token)
-
-  #   if is_nil(org_user_id) do
-  #     put_change(changeset, :org_user_id, org_user_id)
-  #   else
-  #     changeset
-  #   end
-  # end
 
   # step 1
   defp validate_activity_type(changeset) do
@@ -181,10 +173,10 @@ defmodule PastimesReg.Events.Event do
     |> validate_length(:website_url, max: 160)
   end
 
-  defp validate_cover_photo(changeset) do
-    changeset
-    |> validate_length(:cover_photo, max: 160)
-  end
+  # defp validate_cover_photo(changeset) do
+  #   changeset
+  #   |> validate_required([:cover_photo])
+  # end
 
   # step 2
   # validation done in the embedded module

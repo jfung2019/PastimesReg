@@ -34,7 +34,7 @@ defmodule PastimesRegWeb.EventsLiveTest do
     assert html =~ "Your Events"
   end
 
-  test "user link to create an event (if event does not exist yet) that let's them to create new event/s",
+  test "a link to create an event (if event does not exist yet) that let's them to create new event/s",
        %{conn: conn} do
     {:ok, view, html} = live(conn, Routes.live_path(conn, PastimesRegWeb.EventsLive))
 
