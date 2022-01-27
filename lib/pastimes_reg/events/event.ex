@@ -150,13 +150,14 @@ defmodule PastimesReg.Events.Event do
   end
 
   defp validate_date(changeset) do
-    end_date = get_field(changeset, :end_date)
-    start_date = get_field(changeset, :start_date)
-
     changeset =
-      cond do
-        start_date > end_date -> add_error(changeset, :start_date, "must be before end date")
-        true -> changeset
+      with %DateTime{} = end_date <- get_field(changeset, :end_date),
+           %DateTime{} = start_date <- get_field(changeset, :start_date),
+           :lt <- DateTime.compare(start_date, end_date) do
+        changeset
+      else
+        nil -> changeset
+        _ -> add_error(changeset, :start_date, "must be before end date")
       end
 
     changeset

@@ -5,6 +5,7 @@ defmodule PastimesRegWeb.CreateEventsLive do
   alias PastimesReg.Events.Event
   alias PastimesReg.Activities
   alias PastimesReg.Accounts
+  alias SimpleS3Upload
 
   def render(assigns) do
     Phoenix.View.render(PastimesRegWeb.CreateEventView, "new.html", assigns)
@@ -17,8 +18,13 @@ defmodule PastimesRegWeb.CreateEventsLive do
     {:ok,
      assign(
        socket
-       |> allow_upload(:cover_photo, accept: ~w(.jpg .jpeg .png), max_entries: 1)
+       |> allow_upload(:cover_photo,
+         accept: ~w(.jpg .jpeg .png),
+         max_entries: 1,
+         external: &presign_entry/2
+       )
        |> allow_upload(:photos, accept: ~w(.jpg .jpeg .png), max_entries: 9),
+       toggle: [],
        uploaded_files: [],
        current_step: 1,
        changeset: changeset,
@@ -76,17 +82,17 @@ defmodule PastimesRegWeb.CreateEventsLive do
         %{"event" => events_params},
         %{assigns: %{current_step: 1, attrs: attrs}} = socket
       ) do
-      consume_uploaded_entries(socket, :cover_photo, fn %{path: path}, entry ->
-        dest = Path.join("priv/static/uploads", "#{entry.uuid}.#{ext(entry)}")
-        File.cp!(path, dest)
-        {:ok, Routes.static_path(socket, "/uploads/#{Path.basename(dest)}")}
-      end)
+    consume_uploaded_entries(socket, :cover_photo, fn _meta, _entry -> :ok end)
+    #   dest = Path.join("priv/static/uploads", "#{entry.uuid}.#{ext(entry)}")
+    #   File.cp!(path, dest)
+    #   {:ok, Routes.static_path(socket, "/uploads/#{Path.basename(dest)}")}
+    # end)
 
-      consume_uploaded_entries(socket, :photos, fn %{path: path}, entry ->
-        dest = Path.join("priv/static/uploads", "#{entry.uuid}.#{ext(entry)}")
-        File.cp!(path, dest)
-        {:ok, Routes.static_path(socket, "/uploads/#{Path.basename(dest)}")}
-      end)
+    consume_uploaded_entries(socket, :photos, fn _meta, _entry -> :ok end)
+    #   dest = Path.join("priv/static/uploads", "#{entry.uuid}.#{ext(entry)}")
+    #   File.cp!(path, dest)
+    #   {:ok, Routes.static_path(socket, "/uploads/#{Path.basename(dest)}")}
+    # end)
 
     attrs =
       attrs
@@ -189,27 +195,46 @@ defmodule PastimesRegWeb.CreateEventsLive do
     {:noreply, socket}
   end
 
-  def handle_event("add_category", _params, %{assigns: %{changeset: changeset}} = socket) do
-    IO.puts("called!")
-    {:noreply, assign(socket, changeset: Events.append_category(changeset))}
-  end
+  def handle_event(
+        "add_category",
+        _,
+        %{assigns: %{changeset: changeset, toggle: toggle}} = socket
+      ) do
+    changeset = Events.append_category(changeset)
 
-  def handle_event("save_temp_category", _params, socket) do
-    IO.puts("called save temp!")
-    {:noreply, socket}
+    toggle =
+      case toggle do
+        [] ->
+          [true]
+
+        list ->
+          List.insert_at(list, -1, true)
+      end
+
+    IO.inspect(toggle)
+    {:noreply, assign(socket, changeset: changeset, toggle: toggle)}
   end
 
   def handle_event(
         "remove_category",
         %{"index" => string_index},
-        %{assigns: %{changeset: changeset}} = socket
+        %{assigns: %{changeset: changeset, toggle: toggle}} = socket
       ) do
     {index, _} = Integer.parse(string_index)
     changeset = Events.delete_category(changeset, index)
 
+    toggle =
+      case toggle do
+        [] ->
+          toggle
+
+        list ->
+          List.delete_at(list, index)
+      end
+
     socket =
       socket
-      |> assign(changeset: changeset)
+      |> assign(changeset: changeset, toggle: toggle)
 
     {:noreply, socket}
   end
@@ -222,27 +247,39 @@ defmodule PastimesRegWeb.CreateEventsLive do
     {:noreply, socket}
   end
 
+  def handle_event(
+        "toggle_change",
+        %{"index" => string_index},
+        %{assigns: %{toggle: toggle_list}} = socket
+      ) do
+    {index, _} = Integer.parse(string_index)
+
+    toggle = List.update_at(toggle_list, index, &(!&1))
+
+    socket =
+      socket
+      |> assign(toggle: toggle)
+
+    {:noreply, socket}
+  end
+
+  # def handle_event("toggle_change", _params, %{assigns: %{toggle: false}} = socket) do
+  #   toggle = true
+
+  #   socket =
+  #     socket
+  #     |> assign(toggle: toggle)
+  #     |> push_event("toggle-updated", %{toggle: toggle})
+
+  #   {:noreply, socket}
+  # end
+
   def handle_event("cancel-upload", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :cover_photo, ref)}
   end
 
   def handle_event("cancel-entry", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :photos, ref)}
-  end
-
-  # def handle_event("index_show", %{"index" => string_index}, socket) do
-  #   {index, _} = Integer.parse(string_index)
-
-  #   socket =
-  #     socket
-  #     |> assign(index_show: true)
-
-  #   {:noreply, socket}
-  # end
-
-  def ext(entry) do
-    [ext | _] = MIME.extensions(entry.client_type)
-    ext
   end
 
   defp get_cover_photo_url(socket) do
@@ -253,8 +290,8 @@ defmodule PastimesRegWeb.CreateEventsLive do
         nil
 
       [completed | _] ->
-        Routes.static_path(socket, "/uploads/#{completed.uuid}.#{ext(completed)}")
-        # Path.join(s3_host(), s3_key(completed))
+        # Routes.static_path(socket, "/uploads/#{completed.uuid}.#{ext(completed)}")
+        Path.join(s3_host(), s3_key(completed))
     end
   end
 
@@ -267,15 +304,54 @@ defmodule PastimesRegWeb.CreateEventsLive do
 
       completed ->
         for entry <- completed do
-          Routes.static_path(socket, "/uploads/#{entry.uuid}.#{ext(entry)}")
+          # Routes.static_path(socket, "/uploads/#{entry.uuid}.#{ext(entry)}")
+          Path.join(s3_host(), s3_key(entry))
         end
     end
   end
 
-  # defp consume_photo_urls(socket) do
-  #   consume_uploaded_entries(socket, :cover_photo, fn meta, entry ->
-  #     dest = Path.join("priv/static/uploads", "#{entry.uuid}.#{ext(entry)}")
-  #     File.cp!(meta.path, dest)
-  #   end)
+  def ext(entry) do
+    [ext | _] = MIME.extensions(entry.client_type)
+    ext
+  end
+
+  # defp collapsable_state_category(socket, index_category) do
+
+  #   toggle_list = [true, true, false]
+  #   new_value = true
+  #   case toggle_list do
+  #     [] ->
+  #       nil
+
+  #     toggle_list ->
+  #       List.insert_at(toggle_list, index_category, new_value)
+  #   end
   # end
+
+  # external upload using s3 bucket amazon
+  @bucket "pastimes-event-reg-staging"
+  defp s3_host, do: "//#{@bucket}.s3.amazonaws.com"
+  defp s3_key(entry), do: "#{entry.uuid}.#{ext(entry)}"
+
+  defp presign_entry(entry, socket) do
+    uploads = socket.assigns.uploads
+    key = s3_key(entry)
+
+    config = %{
+      region: "us-west-2",
+      access_key_id: "AKIAV2HK4NH7ATUK7QQK",
+      secret_access_key: "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"
+    }
+
+    {:ok, fields} =
+      SimpleS3Upload.sign_form_upload(config, @bucket,
+        key: key,
+        content_type: entry.client_type,
+        max_file_size: uploads.cover_photo.max_file_size,
+        expires_in: :timer.hours(1)
+      )
+
+    meta = %{uploader: "S3", key: key, url: s3_host(), fields: fields}
+    {:ok, meta, socket}
+  end
 end

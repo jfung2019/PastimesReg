@@ -19,7 +19,11 @@
         <%= for upcoming_event <- upcoming_events do %>
           <!-- card -->
           <div class="w-full md:3/6 lg:w-[32.5%] rounded overflow-hidden shadow-lg my-2 mx-1">
-            <img class="w-full" src={upcoming_event.cover_photo} alt={upcoming_event.cover_photo}>
+            <div class="w-full aspect-container overflow-hidden bg-gray-200">
+              <div class="w-full absolute top-0">
+                <img class="w-full" src={upcoming_event.cover_photo} alt={upcoming_event.cover_photo}>
+              </div>
+            </div>
             <div class="px-6 py-4 text-left">
               <div class="font-bold text-xl mb-2"><%= upcoming_event.activity_type %></div>
               <p class="font-bold text-gray-700 text-base">
@@ -52,7 +56,11 @@
         <%= for past_event <- past_events do %>
           <!-- card -->
           <div class="w-full md:3/6 lg:w-[32.5%] rounded overflow-hidden shadow-lg my-2 mx-1">
-            <img class="w-full" src={past_event.cover_photo} alt={past_event.cover_photo}>
+            <div class="w-full aspect-container overflow-hidden bg-gray-200">
+              <div class="w-full absolute top-0">
+                <img class="w-full" src={past_event.cover_photo} alt={past_event.cover_photo}>
+              </div>
+            </div>
             <div class="px-6 py-4 text-left">
               <div class="font-bold text-xl mb-2"><%= past_event.activity_type %></div>
               <p class="font-bold text-gray-700 text-base">
