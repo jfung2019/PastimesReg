@@ -177,4 +177,6 @@ defmodule PastimesRegWeb.CreateEventsLiveTest do
 
     assert html =~ "start date must be before end date"
   end
+
+  # test user to create event and in step 2, cancel/delete the category created and submit
 end

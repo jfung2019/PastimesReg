@@ -96,28 +96,6 @@
       <.form let={f} for={@changeset} phx-change="validate" phx-submit="submit" id="create-event">
         <%= if @current_step == 1 do %>
         <div class="">
-          <div id="counter" phx-hook="ToggleShadowEvent" toggle= {" #{@toggle} "}>
-            <div x-data="{toggle: false}"  >
-              <h1>The assigns toggle is: <span><%= @toggle %></span></h1>
-              <h1>The alpine toggle is: <span x-text="toggle"></span></h1>
-                       <button type="button" phx-click="toggle_change"> toggle_change </button>
-              <div style={"#{ if @toggle === true, do: 'display: block;', else: 'display: none;' }"}>
-                form conditional show
-              </div>
-            </div>
-          </div>
-
-
-
-          <div id="counter" phx-hook="ToggleShadowEvent" x-data="{toggle: false}" x-on:toggle-updated="toggle = $event.detail.toggle">
-            <h1>The assigns toggle is: <span><%= @toggle %></span></h1>
-            <h1>The alpine toggle is: <span x-text="toggle"></span></h1>
-            <button type="button" phx-click="toggle_change"> toggle_change </button>
-            <div x-show="toggle">
-              form x show
-            </div>
-          </div>
-
           <div class="flex flex-wrap mb-6">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <div class="form-group">
@@ -278,7 +256,6 @@
               </div>
             </div>
           </div>
-
           <button type="submit" class="mt-4 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-12 rounded-full">
             Continue
           </button>
@@ -286,155 +263,143 @@
         <% end %>
 
        <%= if @current_step == 2 do %>
-        <div class="relative">
-          <%= if @show_first_category_form do %>
-            <!-- Embedded Schema -->
-            <%= inputs_for f, :categories, fn ff -> %>
-              <div x-data={"{ index_#{ff.index}: true, display_pop_up_index_#{ff.index}: false }"} class="relative bg-blue-200 px-10 pt-10 pb-20">
-                <!-- default is hidden, add condition where this is only showing if save is press. -->
-                <div x-show={" display_pop_up_index_#{ff.index} "}  class="bg-red-200 w-full">
-                  <p> current toggle is:
-                  <%= inspect(@toggle) %>
-                  </p>
-                  <p>details of category</p>
-                  <p><%= ff.data.name %>: <%= ff.data.fee %> (<%= ff.data.spot_availability %> spots)</p>
-                  <p><%= ff.data.start_date %></p>
-                  <p><%= ff.data.bullet_point_1 %></p>
-                  <p><%= ff.data.bullet_point_2 %></p>
-                  <p><%= ff.data.bullet_point_3 %></p>
-                  <p><%= ff.data.details %></p>
-                  <p x-text={" index_#{ff.index} "}></p>
-                  <button type="button" @click={" index_#{ff.index} = !index_#{ff.index}, display_pop_up_index_#{ff.index} = false"} class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-12 md:px-32  py-2 my-2 rounded-full">
-                    Category <%= ff.index %> Edit
-                  </button>
-                  <button type="button" phx-click="remove_category" phx-value-index={ff.index}>delete</button>
-                </div>
-
-                <div class="w-full absolute bottom-0 text-center">
-                  <button type="button" phx-click="remove_category" phx-value-index={ff.index}>cancel</button>
-                </div>
-                <div x-show={" index_#{ff.index} "} x-cloak id={ff.index} role="">
-                  <div class="form-group">
-                    <div class="flex flex-wrap -mx-3 mb-6">
-                      <div class="w-full px-3 mb-6 md:mb-0">
-                        <%= text_input ff, :name, class: "appearance-none block w-full text-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Category Name (General Admission will be used if left empty)"%>
-                        <div class="text-left">
-                          <%= error_tag ff, :name %>
-                        </div>
-                      </div>
-                    </div>
+        <div class="relative mx-10 pb-20">
+          <!-- Embedded Schema -->
+          <%= inputs_for f, :categories, fn ff -> %>
+            <h1 class="font-bold">Category: <%= ff.index + 1 %></h1>
+            <div class="relative rounded-lg border-2">
+              <!-- modal for category form -->
+              <div class="w-full p-10 bg-gray-200 justify-left items-left text-left p-4 space-y-4" style={"#{ if Enum.at(@toggle_category_pop_up, ff.index) == true, do: 'display: block;', else: 'display: none;' }"}>
+                <h1 class="font-bold"><%= Map.get(ff.params, "name") %>: $<%= Map.get(ff.params, "fee") %> (<%= Map.get(ff.params, "spot_availability") %> spots)</h1>
+                <p><%= Map.get(ff.params, "start_date") %></p>
+                <ul class="ml-4">
+                  <li><%= Map.get(ff.params, "bullet_point_1") %></li>
+                  <li><%= Map.get(ff.params, "bullet_point_2") %></li>
+                  <li><%= Map.get(ff.params, "bullet_point_3") %></li>
+                </ul>
+                <p><%= Map.get(ff.params, "details") %></p>
+                <div>
+                  <div class="absolute top-0 right-0 p-4">
+                    <button class="" type="button" phx-click="remove_category" phx-value-index={ff.index}> Remove </button>
+                    <button class="" type="button" phx-click="toggle_change" phx-value-index={ff.index}> Edit </button>
                   </div>
-                  <div class="form-group">
-                    <div class="flex flex-wrap -mx-3 mb-6">
-                      <div class="w-full px-3 mb-6 md:mb-0">
-                        <%= text_input ff, :bullet_point_1, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Bullet Point 1 (eg. Distance)" %>
-                        <div class="text-left">
-                          <%= error_tag ff, :bullet_point_1 %>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="flex flex-wrap -mx-3 mb-6">
-                      <div class="w-full px-3 mb-6 md:mb-0">
-                        <%= text_input ff, :bullet_point_2, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Bullet Point 2 (eg. Elevation)" %>
-                        <div class="text-left">
-                          <%= error_tag ff, :bullet_point_2 %>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="flex flex-wrap -mx-3 mb-6">
-                      <div class="w-full px-3 mb-6 md:mb-0">
-                        <%= text_input ff, :bullet_point_3, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Bullet Point 3 (eg. Start Time)" %>
-                        <div class="text-left">
-                          <%= error_tag ff, :bullet_point_3 %>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="flex flex-wrap -mx-3 mb-6">
-                      <div class="w-full px-3 mb-6 md:mb-0">
-                        <%= text_input ff, :details, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Write other details about this category" %>
-                        <div class="text-left">
-                          <%= error_tag ff, :details %>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex flex-wrap -mx-3">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                      <div class="form-group">
-                        <div class="flex flex-wrap -mx-3 mb-6">
-                          <div class="w-full px-3 mb-6 md:mb-0">
-                            <%= datetime_local_input ff, :start_date, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Start date (for this category)" %>
-                            <div class="text-left">
-                              <%= error_tag ff, :start_date %>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex flex-wrap -mx-3">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                      <div class="form-group">
-                        <div class="flex flex-wrap -mx-3 mb-6">
-                          <div class="w-full px-3 mb-6 md:mb-0">
-                            <%= text_input ff, :spot_availability, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Spots available" %>
-                            <div class="text-left">
-                              <%= error_tag ff, :spot_availability %>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex flex-wrap -mx-3">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                      <div class="form-group">
-                        <div class="flex flex-wrap -mx-3 mb-6">
-                          <div class="w-full px-3 mb-6 md:mb-0">
-                            <%= text_input ff, :fee, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Fee for this category*" %>
-                            <div class="text-left">
-                              <%= error_tag ff, :fee %>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w-full md:w-1/2 px-3">
-                      <div class="form-group">
-                        <div class="flex flex-wrap -mx-3 mb-6">
-                          <div class="w-full px-3 mb-6 md:mb-0">
-                            <%= datetime_local_input ff, :registration_close_date, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Registration Close Date" %>
-                            <div class="text-left">
-                              <%= error_tag ff, :registration_close_date %>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
               </div>
-            <% end %>
+              <!-- default is hidden, add condition where this is only showing if save is press. -->
+              <div class="bg-blue-200 p-10 w-full" style={"#{ if Enum.at(@toggle, ff.index) == true, do: 'display: block;', else: 'display: none;' }"}>
+                <div class="form-group">
+                  <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3 mb-6 md:mb-0">
+                      <%= text_input ff, :name, class: "appearance-none block w-full text-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Category Name (General Admission will be used if left empty)"%>
+                      <div class="text-left">
+                        <%= error_tag ff, :name %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3 mb-6 md:mb-0">
+                      <%= text_input ff, :bullet_point_1, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Bullet Point 1 (eg. Distance)" %>
+                      <div class="text-left">
+                        <%= error_tag ff, :bullet_point_1 %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3 mb-6 md:mb-0">
+                      <%= text_input ff, :bullet_point_2, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Bullet Point 2 (eg. Elevation)" %>
+                      <div class="text-left">
+                        <%= error_tag ff, :bullet_point_2 %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3 mb-6 md:mb-0">
+                      <%= text_input ff, :bullet_point_3, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Bullet Point 3 (eg. Start Time)" %>
+                      <div class="text-left">
+                        <%= error_tag ff, :bullet_point_3 %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3 mb-6 md:mb-0">
+                      <%= text_input ff, :details, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Write other details about this category" %>
+                      <div class="text-left">
+                        <%= error_tag ff, :details %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-wrap -mx-3">
+                  <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div class="form-group">
+                      <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                          <%= datetime_local_input ff, :start_date, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Start date (for this category)" %>
+                          <div class="text-left">
+                            <%= error_tag ff, :start_date %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-wrap -mx-3">
+                  <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div class="form-group">
+                      <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                          <%= text_input ff, :spot_availability, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Spots available" %>
+                          <div class="text-left">
+                            <%= error_tag ff, :spot_availability %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-wrap -mx-3">
+                  <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div class="form-group">
+                      <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                          <%= text_input ff, :fee, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Fee for this category*" %>
+                          <div class="text-left">
+                            <%= error_tag ff, :fee %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="w-full md:w-1/2 px-3">
+                    <div class="form-group">
+                      <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                          <%= datetime_local_input ff, :registration_close_date, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Registration Close Date" %>
+                          <div class="text-left">
+                            <%= error_tag ff, :registration_close_date %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="bg-green-200" type="button" phx-click="toggle_change" phx-value-index={ff.index}> Save </button>
+              </div>
+            </div>
           <% end %>
-          <div class="mt-4 border-2 border-grey-200 bg-pastimes-gray-variant-3 rounded-lg p-8">
-            <%= if @show_first_category_form do %>
+          <div class="mt-4 bg-pastimes-gray-variant-3 rounded-lg border-2 border-grey-200 p-8">
               <span class="cursor-pointer flex inline-flex items-center" phx-click="add_category">
                 <img class="inline-block mr-2 h-12 w-12" src="/images/pasttimes_icon_plus.png" alt="add icon">
                 Add Category
               </span>
-            <% else %>
-              <span class="cursor-pointer flex inline-flex items-center" id="show_first_cat" phx-click="show_first_category_form">
-                <img class="inline-block mr-2 h-12 w-12" src="/images/pasttimes_icon_plus.png" alt="add icon">
-                Add Category
-              </span>
-            <% end %>
           </div>
           <!-- save button here -->
           <div class="flex text-center justify-center space-x-4">
