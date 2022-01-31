@@ -1,9 +1,9 @@
-{# <%= if @current_org_user do %>
-<%#  template: You are signed in! (this is where you can create the event%>
+<%= if @current_org_user do %>
+<!--  template: You are signed in! (this is where you can create the event)  -->
 <div class="flex justify-center items-center h-[800px] md:h-screen text-center">
   <div class="space-y-14">
     <h1 class="text-2xl md:text-5xl font-bold">
-      Welcome to Pastimes 
+      Welcome to Pastimes
       <%= if @current_org_user do %>
       <%= @current_org_user.first_name %>
       <%= @current_org_user.last_name %>
@@ -18,15 +18,16 @@
   </div>
 </div>
 <% else %>
-<%#  template: You are not signed in! %>
-<div class="flex justify-center items-center h-[550px] md:h-[800px] md:h-screen text-center">
+<!--  template: You are not signed in!  -->
+<div class="flex justify-center items-center h-[550px] md:h-[800px] md:h-screen text-center relative">
   <div class="space-y-14">
     <h1 class="text-2xl md:text-5xl font-bold">
       Event Registration Made Simple
     </h1>
     <h1>
-      Pastimes is your platform for successful events. 
+      Pastimes is your platform for successful events.
     </h1>
+
     <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
       <a href="/org_users/register">Get Started</a>
     </button>
@@ -51,7 +52,7 @@
 </div>
 
 <div class="flex justify-center items-center h-[300px] sm:h-[500px] lg:h-screen">
-  
+
   <div class="columns-2 gap-0 sm:gap-4 md:gap-18 px-5 sm:px-10">
     <div class="">
       <img src="/images/pastimes_image_placeholder.png" alt="pastimes-image">
@@ -66,10 +67,10 @@
       </h1>
       <div class="pt-4">
         <p class="text-right text-lg">
-          Create your events on Pastimes for free and 
+          Create your events on Pastimes for free and
         </p>
         <p class="text-right text-lg">
-          transfer your registartion income at anytime.  
+          transfer your registartion income at anytime.
         </p>
       </div>
     </div>
@@ -78,19 +79,19 @@
 </div>
 
 <div class="flex justify-center items-center h-[300px] sm:h-[500px] lg:h-screen bg-gray-200">
-  
+
   <div class="columns-2 gap-0 sm:gap-4 md:gap-18 px-5 sm:px-10">
 
     <div class="">
       <h1 class="text-left text-lg md:text-5xl font-bold pt-[5%] sm:pt-[10%] lg:pt-[25%]">
-        Promote your Events on 
+        Promote your Events on
       </h1>
       <h1 class="text-left md:text-5xl font-bold">
         Pastimes
       </h1>
       <div class="pt-4">
         <p class="text-left text-lg">
-          Reach more target audiences to get more 
+          Reach more target audiences to get more
         </p>
         <p class="text-left text-lg">
           participants at your events.
@@ -106,7 +107,7 @@
 </div>
 
 <div class="flex justify-center items-center h-[300px] sm:h-[500px] lg:h-screen">
-  
+
   <div class="columns-2 gap-0 sm:gap-4 md:gap-18 px-5 sm:px-10">
     <div class="">
       <img src="/images/pastimes_image_placeholder.png" alt="pastimes-image">
@@ -114,14 +115,14 @@
 
     <div class="">
       <h1 class="text-right text-lg md:text-5xl font-bold pt-[5%] sm:pt-[10%] lg:pt-[25%]">
-        Enable your 
+        Enable your
       </h1>
       <h1 class="text-right md:text-5xl font-bold">
         participants to connect
       </h1>
       <div class="pt-4">
         <p class="text-right text-lg">
-          Particpants can connect with others going to 
+          Particpants can connect with others going to
         </p>
         <p class="text-right text-lg">
           events before, during and after events.
@@ -142,4 +143,4 @@
     </button>
   </div>
 </div>
-<% end %> #}
+<% end %>
