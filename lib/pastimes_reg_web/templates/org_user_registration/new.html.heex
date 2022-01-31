@@ -5,7 +5,8 @@
  <p>current_step: <%= @current_step %></p>
 -->
 
- <div class={"#{if @current_step == 2, do: "my-[500px] md:my-44"} #{if @current_step == 1, do: "my-56 md:my-0"} #{if @current_step == 3, do: "my-56 md:my-0"} flex justify-center items-center h-[500px] md:h-screen container mx-auto text-center"}>
+<!-- my-56 md:my-0 put back to == 1 -->
+ <div class={"#{if @current_step == 2, do: "md:py-10"} #{if @current_step == 1, do: "md:py-10"} #{if @current_step == 3, do: "md:py-10"} flex justify-center items-center h-max container mx-auto text-center"}>
   <div class="w-full md:mt-0 space-y-4 md:space-y-14">
     <%= if @current_step == 1 do %>
     <div class="p-5">
@@ -102,7 +103,7 @@
       <.form let={f} for={@changeset} phx-change="validate" phx-submit="send" id="register">
       <!-- step 1 for header -->
       <%= if @current_step == 1 do %>
-      <div>
+      <div class="">
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <%= text_input f, :first_name, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "First name*" %>
@@ -149,140 +150,162 @@
       <% end %>
 
       <%= if @current_step == 2 do %>
-      <div>
-          <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-              <%= text_input f, :organization, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Organization*" %>
+      <div class="">
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <%= text_input f, :organization, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Organization*" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :organization %>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <%= text_input f, :license, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "License # (if applicable)" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :license %>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <%= text_input f, :address_line_1, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Address Line 1*" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :address_line_1 %>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <%= text_input f, :address_line_2, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Address Line 2*" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :address_line_2 %>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <%= text_input f, :city, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "City*" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :city %>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 px-3 flex gap-2">
+            <div class="flex-col">
+              <%= text_input f, :state, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "State*" %>
               <div class="pt-2 text-left">
-                <%= error_tag f, :organization %>
+                <%= error_tag f, :state %>
               </div>
             </div>
-            <div class="w-full md:w-1/2 px-3">
-              <%= text_input f, :license, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "License # (if applicable)" %>
+            <div class="flex-col">
+              <%= text_input f, :zip, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Zip/Postal Code*" %>
               <div class="pt-2 text-left">
-                <%= error_tag f, :license %>
+                <%= error_tag f, :zip %>
               </div>
             </div>
           </div>
-          <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-              <%= text_input f, :address_line_1, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Address Line 1*" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :address_line_1 %>
-              </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <%= text_input f, :country, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Country*" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :country %>
             </div>
-            <div class="w-full md:w-1/2 px-3">
-              <%= text_input f, :address_line_2, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Address Line 2*" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :address_line_2 %>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <%= text_input f, :phone, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Phone Number*" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :phone %>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <%= text_input f, :support_email, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Support Email (for participants to contact)" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :support_email %>
+            </div>
+        </div>
+          <div class="w-full md:w-1/2 px-3">
+            <%= text_input f, :support_phone, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Support Phone (for participants to contact)" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :support_phone %>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <%= text_input f, :instagram_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Instagram URL" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :instagram_url %>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <%= text_input f, :facebook_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Facebook Page URL" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :facebook_url %>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <%= text_input f, :twitter_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Twitter URL" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :twitter_url %>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <%= text_input f, :website_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Website URL" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :website_url %>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full px-3 mb-6 md:mb-0">
+            <%= text_input f, :twitter_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Twitter URL" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :twitter_url %>
+            </div>
+          </div>
+        </div>
+
+        <h1 class="font-bold mb-3">Organization Logo</h1>
+        <h1 class="mb-6">Upload your organization’s logo here.</h1>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-[200px] h-[200px] pt-40 relative border-2 border-gray-200 border-dashed rounded-lg mx-auto">
+            <div class="top-6 absolute w-full">
+              <img class="w-[40%] mx-auto" src="/images/pastimes_upload_btn.png" alt="">
+              <p class="font-bold text-gray-500">Drag and drop logo or</p>
+              <div class="upload-btn-wrapper z-40">
+                <button type="button" class="cursor-pointer text-lg font-bold cursor-pointer text-pastimes-blue-variant-1">Upload here</button>
               </div>
             </div>
           </div>
-          <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-              <%= text_input f, :city, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "City*" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :city %>
-              </div>
-            </div>
-            <div class="w-full md:w-1/2 px-3 flex gap-2">
-              <div class="flex-col">
-                <%= text_input f, :state, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "State*" %>
-                <div class="pt-2 text-left">
-                  <%= error_tag f, :state %>
-                </div>
-              </div>
-              <div class="flex-col">
-                <%= text_input f, :zip, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Zip/Postal Code*" %>
-                <div class="pt-2 text-left">
-                  <%= error_tag f, :zip %>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-              <%= text_input f, :country, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Country*" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :country %>
-              </div>
-            </div>
-            <div class="w-full md:w-1/2 px-3">
-              <%= text_input f, :phone, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Phone Number*" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :phone %>
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-              <%= text_input f, :support_email, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Support Email (for participants to contact)" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :support_email %>
-              </div>
-          </div>
-            <div class="w-full md:w-1/2 px-3">
-              <%= text_input f, :support_phone, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Support Phone (for participants to contact)" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :support_phone %>
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-              <%= text_input f, :instagram_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Instagram URL" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :instagram_url %>
-              </div>
-            </div>
-            <div class="w-full md:w-1/2 px-3">
-              <%= text_input f, :facebook_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Facebook Page URL" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :facebook_url %>
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-              <%= text_input f, :twitter_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Twitter URL" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :twitter_url %>
-              </div>
-            </div>
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-              <%= text_input f, :website_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Website URL" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :website_url %>
-              </div>
-            </div>
-          </div>
+        </div>
       </div>
       <% end %>
 
       <%= if @current_step == 3 do %>
-      <div>
-          <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-              <%= text_input f, :routing_number, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Routing Number*" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :routing_number %>
-              </div>
+      <div class="">
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <%= text_input f, :routing_number, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Routing Number*" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :routing_number %>
             </div>
           </div>
-          <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-              <%= text_input f, :account_number, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Account Number*" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :account_number %>
-              </div>
-            </div>
-            <div class="w-full md:w-1/2 px-3">
-              <%= text_input f, :account_number_confirmation, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Confirm Account Number*" %>
-              <div class="pt-2 text-left">
-                <%= error_tag f, :account_number_confirmation %>
-              </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <%= text_input f, :account_number, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Account Number*" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :account_number %>
             </div>
           </div>
+          <div class="w-full md:w-1/2 px-3">
+            <%= text_input f, :account_number_confirmation, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Confirm Account Number*" %>
+            <div class="pt-2 text-left">
+              <%= error_tag f, :account_number_confirmation %>
+            </div>
+          </div>
+        </div>
       </div>
       <% end %>
 
@@ -319,7 +342,6 @@
         </button>
       </div>
       <% end %>
-
       </.form>
     </div>
     <!-- End of Form -->

@@ -1,26 +1,32 @@
-<h1>Reset password</h1>
-
-<.form let={f} for={@changeset} action={Routes.org_user_reset_password_path(@conn, :update, @token)}>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+<div class="flex justify-center items-center h-[500px] md:h-screen md:max-w-screen-lg mx-auto text-center">
+  <.form let={f} for={@changeset} action={Routes.org_user_reset_password_path(@conn, :update, @token)}>
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+    <div class="mb-6 text-center">
+      <h1 class="font-bold text-4xl">Create New Password</h1>
     </div>
-  <% end %>
+    <div class="mb-6">
+      <p>Enter a new password for your account. </p>
+    </div>
+    <div class="mb-6">
+      <%= password_input f, :password, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500", placeholder: "New password" %>
+      <%= error_tag f, :password %>
+    </div>
+    <div class="mb-6">
+      <%= password_input f, :password_confirmation, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500", placeholder: "Confirm new password" %>
+      <%= error_tag f, :password_confirmation %>
+    </div>
 
-  <%= label f, :password, "New password" %>
-  <%= password_input f, :password, required: true %>
-  <%= error_tag f, :password %>
+    <div>
+      <%= submit "Reset password", class: "bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" %>
+    </div>
 
-  <%= label f, :password_confirmation, "Confirm new password" %>
-  <%= password_input f, :password_confirmation, required: true %>
-  <%= error_tag f, :password_confirmation %>
-
-  <div>
-    <%= submit "Reset password" %>
-  </div>
-</.form>
-
-<p>
-  <%= link "Register", to: "org_users/register" %> |
-  <%= link "Log in", to: Routes.org_user_session_path(@conn, :new) %>
-</p>
+    <p class="mt-4">
+      <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"> <%= link "Register", to:  Routes.live_path(@conn, PastimesRegWeb.RegisterLive) %></button>
+      <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"> <%= link "Log in", to: Routes.org_user_session_path(@conn, :new) %></button>
+    </p>
+  </.form>
+</div>

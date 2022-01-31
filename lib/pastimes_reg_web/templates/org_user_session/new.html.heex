@@ -5,7 +5,7 @@
         <p><%= @error_message %></p>
       </div>
     <% end %>
-    <h1 class="text-4xl">Sign in</h1>
+    <h1 class="font-bold text-4xl">Sign in</h1>
     <div class="flex flex-wrap -mx-3 mb-6">
       <%= label f, :email %>
       <%= email_input f, :email, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" %>
@@ -21,8 +21,8 @@
       <%= submit "Log in", class: "bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" %>
     </div>
     <p class="mt-4">
-      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"> <a href="/org_users/register">Register</a></button>
-      <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"> <%= link "Forgot your password?", to: Routes.org_user_reset_password_path(@conn, :new) %></button>
+      <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"> <%= link "Register", to:  Routes.live_path(@conn, PastimesRegWeb.RegisterLive) %></button>
+      <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"> <%= link "Forgot your password?", to: Routes.org_user_reset_password_path(@conn, :new) %></button>
     </p>
   </.form>
 </div>

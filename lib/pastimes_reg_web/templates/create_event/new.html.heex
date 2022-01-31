@@ -268,6 +268,7 @@
           <%= inputs_for f, :categories, fn ff -> %>
             <h1 class="font-bold">Category: <%= ff.index + 1 %></h1>
             <div class="relative rounded-lg border-2">
+              <!-- default is hidden, this is only showing if save is press. -->
               <!-- modal for category form -->
               <div class="w-full p-10 bg-gray-200 justify-left items-left text-left p-4 space-y-4" style={"#{ if Enum.at(@toggle_category_pop_up, ff.index) == true, do: 'display: block;', else: 'display: none;' }"}>
                 <h1 class="font-bold"><%= Map.get(ff.params, "name") %>: $<%= Map.get(ff.params, "fee") %> (<%= Map.get(ff.params, "spot_availability") %> spots)</h1>
@@ -285,7 +286,7 @@
                   </div>
                 </div>
               </div>
-              <!-- default is hidden, add condition where this is only showing if save is press. -->
+              <!-- this will be hidden if save is pressed. when the press edit is pressed, this will show again.-->
               <div class="bg-blue-200 p-10 w-full" style={"#{ if Enum.at(@toggle, ff.index) == true, do: 'display: block;', else: 'display: none;' }"}>
                 <div class="form-group">
                   <div class="flex flex-wrap -mx-3 mb-6">

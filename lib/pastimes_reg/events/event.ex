@@ -35,23 +35,23 @@ defmodule PastimesReg.Events.Event do
     timestamps()
   end
 
-  @allowed_attributes [
-    :activity_type,
-    :name,
-    :address,
-    :start_date,
-    :end_date,
-    :details,
-    :website_url,
-    :cover_photo,
-    :confirmation_message_to_participants,
-    :contact_information,
-    :email_address,
-    :phone_number,
-    :promote_event,
-    :number_of_hours_before_event,
-    :email_notification
-  ]
+  # @allowed_attributes [
+  #   :activity_type,
+  #   :name,
+  #   :address,
+  #   :start_date,
+  #   :end_date,
+  #   :details,
+  #   :website_url,
+  #   :cover_photo,
+  #   :confirmation_message_to_participants,
+  #   :contact_information,
+  #   :email_address,
+  #   :phone_number,
+  #   :promote_event,
+  #   :number_of_hours_before_event,
+  #   :email_notification
+  # ]
 
   @required_attributes_step_1 [
     :activity_type,
@@ -61,17 +61,17 @@ defmodule PastimesReg.Events.Event do
     :end_date
   ]
 
-  @required_attributes_step_3 [
-    :confirmation_message_to_participants,
-    :contact_information,
-    :email_address,
-    :phone_number,
-    :promote_event,
-    :refund_policy_strict,
-    :refund_policy_flexible,
-    :number_of_hours_before_event,
-    :email_notification
-  ]
+  # @required_attributes_step_3 [
+  #   :confirmation_message_to_participants,
+  #   :contact_information,
+  #   :email_address,
+  #   :phone_number,
+  #   :promote_event,
+  #   :refund_policy_strict,
+  #   :refund_policy_flexible,
+  #   :number_of_hours_before_event,
+  #   :email_notification
+  # ]
 
   @doc false
   # def changeset(events, attrs) do
