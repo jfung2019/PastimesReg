@@ -28,6 +28,7 @@ defmodule PastimesReg.Repo.Migrations.CreateOrgUsersAuthTables do
       add :facebook_url, :varchar, null: true
       add :twitter_url, :varchar, null: true
       add :website_url, :varchar, null: true
+      add :logo, :varchar
 
       # Bank information
       add :routing_number, :varchar, null: true

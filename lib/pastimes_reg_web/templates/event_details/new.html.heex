@@ -1,0 +1,133 @@
+<div x-data="{ open: false }" class="container flex flex-col justify-center items-center h-max w-full mx-auto text-center py-4 md:py-10">
+  <%= inspect(@event.categories) %>
+  <!-- event cover photo -->
+  <div class="w-6/12 mx-auto pt-4 pb-8">
+    <img class="w-full" src="/images/1aa3a04f-0024-45f8-a7d7-72b8238b68de.jpg" alt="cover photo">
+  </div>
+  <!-- event title -->
+  <h1 class="text-5xl font-semibold"><%= @event.name %></h1>
+  <!-- a row of button -->
+  <div class="flex space-x-3 py-8 w-3/12">
+    <button type="button" class="outline outline-pastimes-blue-variant-4 text-pastimes-blue-variant-4 rounded-full w-4/12 py-1">Edit</button>
+    <button type="button" class="outline outline-pastimes-blue-variant-4 text-pastimes-blue-variant-4 rounded-full w-4/12 py-1">View Event</button>
+    <button type="button" x-on:click="open = true" class="outline outline-pastimes-blue-variant-4 text-pastimes-blue-variant-4 rounded-full w-4/12 py-1">Cancel Event</button>
+  </div>
+  <!-- a row 2 column cards -->
+  <div class="flex w-6/12 mb-3">
+    <div class="bg-pastimes-blue-variant-2 w-full mx-1 rounded-lg drop-shadow-lg">
+      <p class="text-left pt-2 px-4 font-bold">Total Users Registered</p>
+      <div class="flex justify-between">
+        <p class="text-left pt-2 pb-2 px-4 text-3xl font-semibold">300/600</p>
+        <img class="mb-2 px-4" src="/images/icons/pastimes_total_users_registered_icon.png" alt="icon">
+      </div>
+    </div>
+    <div class="bg-pastimes-green-variant-4 w-full mx-1 rounded-lg drop-shadow-lg">
+      <p class="text-left pt-2 px-4 font-bold">Total Registration Income</p>
+      <div class="flex justify-between">
+        <p class="text-left pt-2 pb-2 px-4 text-3xl font-semibold">$30,000</p>
+        <img class="mb-2 px-4" src="/images/icons/pastimes_monetization_icon.png" alt="icon">
+      </div>
+    </div>
+  </div>
+  <!-- a row 2 column cards -->
+  <div class="flex w-6/12 mb-3">
+    <div class="bg-pastimes-yellow-variant-1 w-full mx-1 rounded-lg drop-shadow-lg">
+      <p class="text-left pt-2 px-4 font-bold">Total Event Views</p>
+      <div class="flex justify-between">
+        <p class="text-left pt-2 pb-2 px-4 text-3xl font-semibold">1600</p>
+        <img class="mb-2 px-4" src="/images/icons/pastimes_total_view_icon.png" alt="icon">
+      </div>
+    </div>
+    <div class="bg-pastimes-orange-variant-1 w-full mx-1 rounded-lg drop-shadow-lg">
+      <p class="text-left pt-2 px-4 font-bold">Days left to register</p>
+      <div class="flex justify-between">
+        <p class="text-left pt-2 pb-2 px-4 text-3xl font-semibold">60</p>
+        <img class="mb-2 px-4" src="/images/icons/pastimes_timer_icon.png" alt="icon">
+      </div>
+    </div>
+  </div>
+  <!-- a row 1 column card full width -->
+  <div class="flex w-6/12 mb-3">
+    <div class="bg-pastimes-gray-variant-3 w-full mx-1 rounded-lg drop-shadow-lg pb-4">
+      <h1 class="text-left p-4 font-bold">Registrations by Category</h1>
+      <%= Enum.map(@event.categories, fn(event) -> %>     
+        <div class="flex justify-between px-4">
+          <div class="font-bold"><%= event.name %></div>
+          <div class="font-bold">200/400</div>
+        </div>                                                                                                                                                 
+      <% end) %> 
+    </div>
+  </div>
+  <!-- a row 1 column card full width -->
+  <div class="flex w-6/12 mb-3">
+    <div class="bg-pastimes-gray-variant-3 w-full mx-1 rounded-lg drop-shadow-lg">
+      <h1 class="text-left pt-4 pb-0 px-4 font-bold">Website URL for Event</h1>
+      <div class="flex justify-between px-4">
+        <div class="text-blue-400 underline leading-[35px]">
+          <a href="http://localhost:4000/events/registration/10" id="url_id">www.app.pastimes.io/rootedgravelrace2022/30583</a>
+        </div>
+        <div class="">
+          <button type="button" class="px-3 w-[145px] bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-1 mb-4 border rounded-full flex" onclick="copyToClipBoard('url_id')">
+            <img class="pr-1" src="/images/icons/pastimes_copy_url_icon.png" alt="copy url icon">
+            Copy URL
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- a row 1 column card full width -->
+  <div class="flex w-6/12 mb-3">
+    <div class="bg-pastimes-gray-variant-3 w-full mx-1 rounded-lg drop-shadow-lg">
+      <h1 class="text-left pt-4 pb-0 px-4"></h1>
+      <div class="flex justify-between px-4">
+        <div class="text-black font-bold leading-[35px]">
+          <p>Coupons</p>
+        </div>
+        <div class="">
+          <button type="button" class="px-3 w-[145px] bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-1 mb-4 border rounded-full flex">
+            Create Coupon
+          </button>
+        </div>
+      </div>
+      <div class="flex justify-between px-4">
+        <div class="text-blue-400">ROOTED2022</div>
+        <div>200/400</div>
+      </div>
+      <div class="flex justify-between px-4">
+        <div class="text-blue-400">ROOTEDFAMILY</div>
+        <div>200/400</div>
+      </div>
+      <div class="flex justify-between px-4 pb-4">
+        <div class="text-blue-400">ROOTED2023</div>
+        <div>200/400</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal popup for event cancellation -->
+  <div x-show="open" class="fixed inset-0 w-full" style="background-color: rgba(33, 33, 33, 0.75);">
+    <div class="top-[40%] relative w-4/12 mx-auto">
+      <div class=" bg-white drop-shadow-lg py-8 px-8 w-full rounded-lg">
+        <h1 class="text-3xl font-semibold">
+          Are you sure you want to cancel the event?
+        </h1>
+        <p class="py-4 px-16">All registered users will be notified that event has been cancelled and refunded and registration fees.</p>
+        <div class="flex mt-10">
+          <div class="w-full mx-auto text-center">
+            <button x-on:click="open = false" class="px-3 w-4/12 border-gradient text-white font-bold py-1 mb-4 rounded-full">Cancel</button>
+            <button x-on:click="open = false" class="px-3 w-4/12 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 mb-4 border rounded-full">Yes, cancel event</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function copyToClipBoard(id)
+  {
+      var str = document.getElementById(id);
+      window.getSelection().selectAllChildren(str);
+      document.execCommand("Copy")
+  }
+</script>

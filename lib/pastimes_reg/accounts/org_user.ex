@@ -28,6 +28,7 @@ defmodule PastimesReg.Accounts.OrgUser do
     field :facebook_url, :string
     field :twitter_url, :string
     field :website_url, :string
+    field :logo, :string
 
     # Bank information
     field :routing_number, :string
@@ -141,7 +142,8 @@ defmodule PastimesReg.Accounts.OrgUser do
         :instagram_url,
         :facebook_url,
         :twitter_url,
-        :website_url
+        :website_url,
+        :logo
       ]
     )
     |> validate_organization()

@@ -1,0 +1,254 @@
+<div class="flex flex-col justify-center items-center h-max w-full mx-auto text-center">
+  <%= inspect(@event.org_user) %>
+  <br>
+  <br>
+  <%= inspect(@event) %>
+  <!-- cover photo section -->
+  <img class="w-full" src= {"#{ @event.cover_photo}"} alt="cover photo">
+  <!-- first section -->
+  <div class="container w-full">
+    <div class="flex">
+      <div class="flex-col w-2/12 p-8">
+        <%= if @event.logo do %>
+        <div class="text-left">
+          <img src={"#{ @event.logo}"} alt="event logo">
+        </div>
+        <% else %>
+        <i>There is no logo included in this event</i>
+        <% end %>
+
+        <div class="flex mt-3">
+          <div>
+            <img class="h-[65px] w-[65px]" src="/images/icons/pastimes_ig_icon.png" alt="event logo">
+          </div>
+          <div>
+            <img class="h-[60px] w-[60px] mt-0.5" src="/images/icons/pastimes_twitter_icon.png" alt="event logo">
+          </div>
+          <div>
+            <img class="h-[65px] w-[65px]" src="/images/icons/pastimes_facebook_icon.png" alt="event logo">
+          </div>
+        </div>
+      </div>
+      <div class="w-10/12 p-8 text-left">
+        <h1 class="font-semibold">Rooted Vermont Presents</h1>
+        <div class="flex justify-between">
+          <div class="flex-col mt-4">
+            <h1 class="font-semibold text-3xl"><%= @event.name %></h1>
+            <div class="mt-4">
+              <p><%= @event.address %></p>
+              <p><%= @event.start_date %> - <%= @event.end_date %></p>
+              <p><a href="www.rootedvermont.com">www.rootedvermont.com</a></p>
+            </div>
+          </div>
+          <div class="flex flex-col mt-4 px-4">
+            <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-4 py-2 border rounded-full">Register</button>
+            <button type="button" class="cursor-pointer border-gradient px-4 py-1 my-2" phx-click="step_1">
+              <p class="">
+                Contact Organizer
+              </p>
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-col w-10/12 text-left mt-4">
+          <%= if @event.details do %>
+            <p><%= @event.details %></p>
+          <% else %>
+            <i>no description</i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- second section: carousel -->
+  <%= if @event.photos do %>
+    <div class="w-full">
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <%= Enum.map(@event.photos, fn(photos) -> %>     
+            <div class="swiper-slide">
+              <img class="object-cover w-full h-96" src={"#{photos}"} alt="image" />
+            </div>
+          <% end) %> 
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </div>
+  <% else %>
+    <i>There is no photos included in this event</i>
+  <% end %>
+ 
+  <!-- third section: event categories -->
+  <h1 class="text-3xl font-semibold mt-8">Event Categories</h1>
+  <%= Enum.map(@event.categories, fn(item) -> %> 
+  <div class="container">
+      <div class="justify-between">
+        <div class="flex p-8 drop-shadow-lg">
+          <div class="w-9/12 flex-col bg-white text-left p-8">
+            <h1 class="text-lg font-semibold">
+              <%= if item.name do %>
+                <%= item.name %> :
+              <% else %>
+                undefined name
+              <% end %>
+              <%= if item.fee do %>
+                $<%= item.fee %>
+              <% else %>
+                undefined name
+              <% end %>
+            </h1>
+            <h1>
+              <%= if item.start_date do %>
+                <%= item.start_date %>
+              <% else %>
+                n/a
+              <% end %>
+            </h1>
+            <ul class="ml-4 my-4">
+              <li class="list-disc">
+                <%= if item.bullet_point_1 do %>
+                 <%= item.bullet_point_1 %>
+                <% else %>
+                 n/a
+                <% end %>
+              </li>
+              <li class="list-disc">
+                <%= if item.bullet_point_2 do %>
+                  <%= item.bullet_point_1 %>
+                <% else %>
+                  n/a
+                <% end %>
+              </li>
+              <li class="list-disc">
+                <%= if item.bullet_point_3 do %>
+                  <%= item.bullet_point_1 %>
+                <% else %>
+                  n/a
+                <% end %>
+              </li>
+            </ul>
+            <%= if item.details do %>
+              <%= item.details %>
+            <% else %>
+              n/a
+            <% end %>
+          </div>
+          <div class="w-3/12 flex-col bg-pastimes-blue-variant-2 p-8">
+            <div class="text-center">
+              <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-8 py-2 border rounded-full">Register</button>
+            </div>
+            <div class="text-left px-4 mt-4">
+              <p class="text-pastimes-green-variant-2">
+                <%= if item.spot_availability do %>
+                  <%= item.spot_availability %>
+                <% else %>
+                  n/a
+                <% end %>
+              </p>
+              <p>Spots left</p>
+            </div>
+            <div class="text-left px-4 mt-4">
+              <p class="text-pastimes-yellow-variant-2">June 1, 2022</p>
+              <p>Next price increase</p>
+            </div>
+            <div class="text-left px-4 mt-4">
+              <p class="text-pastimes-orange-variant-2">
+                <%= if item.registration_close_date do %>
+                  <%= item.registration_close_date %>
+                <% else %>
+                  n/a
+                <% end %>
+              </p>
+              <p>Registration closes</p>
+            </div>
+          </div>
+        </div>
+      </div>                                                                                                                                                 
+  </div>
+  <% end) %> 
+
+  <!-- fourth section: location and contact -->
+  <div class="w-full bg-gray-200 ">
+    <h1 class="text-3xl font-semibold p-8">Location and Contact</h1>
+    <div class="container w-full p-8 mx-auto text-left">
+      <div class="mt-8">
+        <h1 class="font-semibold">Location of event</h1>
+        <p class="text-pastimes-blue-variant-1"><%= @event.address %></p>
+      </div>
+      <div class="mt-8">
+        <h1 class="font-semibold">Contact</h1>
+
+        <%= if @event.contact_information do %>
+          <p class="">Phone: <span class="text-pastimes-blue-variant-1"><%= @event.org_user.phone %></span></p>
+        <% else %>
+          <p class="">Phone: <span class="text-pastimes-blue-variant-1"><%= @event.phone_number %></span></p>
+        <% end %>
+
+        <%= if @event.contact_information do %>
+         <p class="">Email: <span class="text-pastimes-blue-variant-1"><%= @event.org_user.email %></span></p>
+        <% else %>
+        <p class="">Email: <span class="text-pastimes-blue-variant-1"><%= @event.email_address %></span></p>
+        <% end %>
+      </div>
+      <div class="mt-8">
+        <h1 class="font-semibold">Refunds and Support</h1>
+         <p class="">
+          <%= if @event.strict do %>
+            Strict Refund Policy: Refunds will only be provided if Organizer cancels event. Email support@pastimes.io with any questions
+          <% else %>
+            &nbsp;
+          <% end %>
+          <%= if @event.flexible do %>
+            flexible Refund Policy: 
+          <% else %>
+            &nbsp;
+          <% end %>
+         </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+  var swiper = new Swiper ('.mySwiper', {
+    spaceBetween: 30,
+    initialSlide: 0,
+    //truewrapper adoptsheight of active slide
+    autoHeight: false,
+    // Optional parameters
+    direction: 'horizontal',
+    loop: true,
+    // delay between transitions in ms
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+    autoplayStopOnLast: false, // loop false also
+    // If we need pagination
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    paginationType: "bullets",
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    // And if we need scrollbar
+    //scrollbar: '.swiper-scrollbar',
+    // "slide", "fade", "cube", "coverflow" or "flip"
+    effect: 'slide',
+    // Distance between slides in px.
+    spaceBetween: 0,
+    //
+    slidesPerView: 3,
+    //
+    centeredSlides: false,
+    //
+    slidesOffsetBefore: 0,
+    //
+    grabCursor: true,
+  })    
+</script>

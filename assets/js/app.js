@@ -71,27 +71,6 @@ let liveSocket = new LiveSocket('/live', Socket, {
   hooks: hooks
 })
 
-hooks.ToggleShadowEvent = {
-  mounted() {
-    var toggle = this.el.getAttribute('toggle')
-    var event = new CustomEvent('toggle-updated', {
-      detail: {
-        toggle: toggle
-      }
-    });
-    this.el.dispatchEvent(event);
-  },
-  updated() {
-    var toggle = this.el.getAttribute('toggle')
-    var event = new CustomEvent('toggle-updated', {
-      detail: {
-        toggle: toggle
-      }
-    });
-    this.el.dispatchEvent(event);
-  }
-}
-
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
 window.addEventListener("phx:page-loading-start", info => topbar.show())

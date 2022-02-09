@@ -9,49 +9,51 @@
     <div class="flex justify-between">
         <h1>Account Information</h1>
     </div>
-
     <div class="w-full flex py-4">
       <div class="w-1/12">
         <p>First Name</p>
         <p>Last Name</p>
         <br>
-        <p>Email</p>
+        <p class={"#{ if @is_toggle_acc == true, do: 'mt-12', else: 'mt-0' }"}>Email</p>
       </div>
-      <div class="w-1/12">
-        <.form let={f} for={@changeset} phx-change="validate" phx-submit="send" id="update-acc">
-          <div class="flex flex-wrap -mx-3">
+      <div class="flex-col w-full">
+        <div class="w-3/12">
+          <.form let={f} for={@changeset} phx-change="validate" phx-submit="send" id="update-acc">
+            <div class="flex flex-wrap -mx-3">
               <%= text_input f, :first_name, class: "border-2 border-gray-400", placeholder: "First name" %>
-              <div class="text-left">
-                <%= error_tag f, :first_name %>
-              </div>
-          </div>
-          <div class="flex flex-wrap -mx-3">
-            <%= text_input f, :last_name, class: "border-2 border-gray-400", placeholder: "Last name" %>
-          </div>
-          
-          <div>
-            <h1>Change Email</h1>
-            <div class="flex flex-wrap -mx-3">
-              <%= text_input f, :email, class: "border-2 border-gray-400", placeholder: "Email Address*" %>
             </div>
             <div class="flex flex-wrap -mx-3">
-              <%= email_input f, :email_confirmation, value: input_value(f, :email_confirmation), class: "border-2 border-gray-400", placeholder: "Confirm Email*"  %>
-              <div class="text-left">
-                <%= error_tag f, :email_confirmation %>
-              </div>
+              <%= text_input f, :last_name, class: "border-2 border-gray-400", placeholder: "Last name" %>
             </div>
-            <div class="flex flex-wrap -mx-3">
-              <%= text_input f, :current_password, class: "border-2 border-gray-400", placeholder: "Enter Current Password" %>
-            </div>
-          </div>
-  
-            <button type="submit" class="absolute top-0 right-0 mr-4 mt-8 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-              Submit Edit Account
+            <button type="submit" class="-ml-4 mt-2 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full">
+              Submit
             </button>
-            <span class="cursor-pointer absolute top-12 right-0 mr-4 mt-8 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" phx-click="cancel_submit">
-              Cancel Edit Account
-            </span>
-        </.form>
+          </.form>
+        </div>
+        <div class="w-3/12 mt-4">
+          <.form let={f} for={@changeset} phx-change="validate" phx-submit="send" id="update-acc">
+            <div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :email, class: "border-2 border-gray-400", placeholder: "Email Address*" %>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= email_input f, :email_confirmation, value: input_value(f, :email_confirmation), class: "border-2 border-gray-400", placeholder: "Confirm Email*"  %>
+                <div class="text-left">
+                  <%= error_tag f, :email_confirmation %>
+                </div>
+              </div>
+              <div class="flex flex-wrap -mx-3">
+                <%= text_input f, :current_password, class: "border-2 border-gray-400", placeholder: "Enter Current Password" %>
+              </div>
+            </div>
+            <button type="submit" class="-ml-4 mt-2 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full">
+              Submit
+            </button>
+          </.form>
+        </div>
+        <button type="button" class="cursor-pointer absolute top-8 right-0 mr-4 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full" phx-click="cancel_submit">
+          Cancel Edit
+        </button>
       </div>
     </div>
   </div>
@@ -64,7 +66,6 @@
             Edit Account
           </span>
       </div>
-
       <div class="w-full flex">
         <div class="w-1/12">
           <p>First Name</p>
@@ -109,7 +110,7 @@
           <div class="w-1/12">
             <.form let={f} for={@changeset} phx-submit="send" id="update-org">
               <div class="flex flex-wrap -mx-3">
-                  <%= text_input f, :organization, placeholder: "Organization" %>
+                <%= text_input f, :organization, placeholder: "Organization" %>
               </div>
               <div class="flex flex-wrap -mx-3">
                 <%= text_input f, :license, placeholder: "License" %>
@@ -150,13 +151,13 @@
               <div class="flex flex-wrap -mx-3">
                 <%= text_input f, :instagram_url, placeholder: "Instagram URL" %>
               </div>
-              <button type="submit" class="absolute top-0 right-0 mr-4 mt-8 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-                Submit Edit Org
+              <button type="submit" class="-ml-4 mt-2 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full">
+                Submit
               </button>
-              <span class="cursor-pointer absolute top-12 right-0 mr-4 mt-8 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" phx-click="cancel_submit">
-                Cancel Edit Account
-              </span>
             </.form>
+            <button type="button" class="cursor-pointer absolute top-8 right-0 mr-4 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full" phx-click="cancel_submit">
+              Cancel Edit
+            </button>
           </div>
         </div>
       </div>
@@ -173,6 +174,7 @@
 
     <div class="w-full flex">
       <div class="w-1/12">
+       <p>Org Logo</p>
        <p>Organization</p>
        <p>License</p>
        <p>Address 1</p>
@@ -189,6 +191,11 @@
        <p>Instagram</p>
       </div>
       <div class="w-11/12">
+        <%= if @current_org_user.logo do %>
+          <img class="h-6" src= {"#{ @current_org_user.logo}"} alt="logo">
+        <% else %>
+          <p>&nbsp;</p>
+        <% end %>
         <%= if @current_org_user.organization do %>
           <p><%= @current_org_user.organization%></p>
           <% else %>

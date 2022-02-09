@@ -103,7 +103,7 @@
       <.form let={f} for={@changeset} phx-change="validate" phx-submit="send" id="register">
       <!-- step 1 for header -->
       <%= if @current_step == 1 do %>
-      <div class="">
+      <div class="px-4">
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <%= text_input f, :first_name, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "First name*" %>
@@ -150,7 +150,7 @@
       <% end %>
 
       <%= if @current_step == 2 do %>
-      <div class="">
+      <div class="px-4">
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <%= text_input f, :organization, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Organization*" %>
@@ -268,14 +268,35 @@
 
         <h1 class="font-bold mb-3">Organization Logo</h1>
         <h1 class="mb-6">Upload your organization’s logo here.</h1>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-[200px] h-[200px] pt-40 relative border-2 border-gray-200 border-dashed rounded-lg mx-auto">
-            <div class="top-6 absolute w-full">
+        <%= for {_ref, msg} <- @uploads.logo.errors do %>
+        <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg)%></p>
+        <% end %>
+        <!-- upload logo image -->
+        <div class="w-[200px] h-[200px] mx-auto border-2 border-gray-200 border-dashed rounded-lg mb-12">
+          <div class="aspect-container-registration overflow-hidden " phx-drop-target={@uploads.logo.ref}>
+            <div class="top-8 absolute w-full">
               <img class="w-[40%] mx-auto" src="/images/pastimes_upload_btn.png" alt="">
               <p class="font-bold text-gray-500">Drag and drop logo or</p>
               <div class="upload-btn-wrapper z-40">
                 <button type="button" class="cursor-pointer text-lg font-bold cursor-pointer text-pastimes-blue-variant-1">Upload here</button>
+                <%= live_file_input @uploads.logo, class: "cursor-pointer" %>
               </div>
+            </div>
+            <div class="flex flex-wrap gap-1 mb-6 mx-auto justify-center w-full px-3">
+              <%= for entry <- @uploads.logo.entries do %>
+                <div class="row">
+                  <div class="column">
+                    <%= live_img_preview entry, class: "top-0 left-0 absolute w-full" %>
+                  </div>
+                  <div class="z-40 bottom-0 left-0 mb-10 absolute w-full text-black z-40">
+                    <%= entry.client_name %> is uploaded with
+                    <progress value={entry.progress} max="100"><%= entry.progress %>% </progress>
+                  </div>
+                </div>
+                <div class="absolute top-2 right-2 z-40">
+                    <button type="button" phx-click="cancel-upload" phx-value-ref={entry.ref} aria-label="cancel" class="bg-gray-200 hover:bg-blue-700 text-white font-bold py-0 px-4 rounded-full">Change image</button>
+                </div>
+              <% end %>
             </div>
           </div>
         </div>
@@ -283,7 +304,7 @@
       <% end %>
 
       <%= if @current_step == 3 do %>
-      <div class="">
+      <div class="px-4">
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <%= text_input f, :routing_number, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Routing Number*" %>

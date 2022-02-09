@@ -95,5 +95,6 @@ defmodule PastimesReg.Activities.ActivitiesOption do
     "Volunteering"
   ]
 
+  @spec activity_options :: [<<_::24, _::_*8>>, ...]
   def activity_options, do: @available_activities
 end

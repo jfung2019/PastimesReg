@@ -78,6 +78,8 @@ defmodule PastimesRegWeb.Router do
     live "/events", EventsLive
     live "/events/new", CreateEventsLive
     live "/org_users/account", OrgUserAccountLive
+    get "/events/:id", EventDetailsController, :show
+    get "/events/registration/:id", EventRegistrationController, :show
     get "/org_users/settings", OrgUserSettingsController, :edit
     put "/org_users/settings", OrgUserSettingsController, :update
     get "/org_users/settings/confirm_email/:token", OrgUserSettingsController, :confirm_email

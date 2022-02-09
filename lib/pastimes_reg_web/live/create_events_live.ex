@@ -3,6 +3,7 @@ defmodule PastimesRegWeb.CreateEventsLive do
 
   alias PastimesReg.Events
   alias PastimesReg.Activities
+  alias PastimesReg.TimeZones
   alias PastimesReg.Accounts
   alias SimpleS3Upload
 
@@ -22,15 +23,25 @@ defmodule PastimesRegWeb.CreateEventsLive do
          max_entries: 1,
          external: &presign_entry/2
        )
-       |> allow_upload(:photos, accept: ~w(.jpg .jpeg .png), max_entries: 9),
-       toggle: [],
-       toggle_category_pop_up: [],
-       uploaded_files: [],
+       |> allow_upload(:photos,
+         accept: ~w(.jpg .jpeg .png),
+         max_entries: 9,
+         external: &presign_entry/2
+       )
+       |> allow_upload(:logo,
+         accept: ~w(.jpg .jpeg .png),
+         max_entries: 1,
+         external: &presign_entry/2
+       ),
+       toggle: [true],
+       toggle_category_pop_up: [false],
        current_step: 1,
        changeset: changeset,
        available_activities: Activities.ActivitiesOption.activity_options(),
+       available_start_time_zones: TimeZones.TimeZoneOption.start_time_zone_options(),
+       available_end_time_zones: TimeZones.TimeZoneOption.end_time_zone_options(),
        attrs: %{},
-       org_user_id: org_user_id,
+       org_user_id: org_user_id
      )}
   end
 
@@ -82,7 +93,6 @@ defmodule PastimesRegWeb.CreateEventsLive do
         %{assigns: %{current_step: 1, attrs: attrs}} = socket
       ) do
     consume_uploaded_entries(socket, :cover_photo, fn _meta, _entry -> :ok end)
-
     consume_uploaded_entries(socket, :photos, fn _meta, _entry -> :ok end)
 
     attrs =
@@ -97,7 +107,7 @@ defmodule PastimesRegWeb.CreateEventsLive do
         %{valid?: true} = changeset ->
           socket
           |> assign(
-            changeset: changeset,
+            changeset: Events.append_category(changeset),
             attrs: attrs,
             current_step: 2
           )
@@ -151,9 +161,12 @@ defmodule PastimesRegWeb.CreateEventsLive do
         %{"event" => events_params},
         %{assigns: %{current_step: 3, attrs: attrs, org_user_id: org_user_id}} = socket
       ) do
+    consume_uploaded_entries(socket, :logo, fn _meta, _entry -> :ok end)
+
     attrs =
       attrs
       |> Map.merge(events_params)
+      |> Map.put("logo", get_logo_url(socket))
       |> IO.inspect()
 
     case Events.create_event(attrs, org_user_id) do
@@ -189,7 +202,13 @@ defmodule PastimesRegWeb.CreateEventsLive do
   def handle_event(
         "add_category",
         _,
-        %{assigns: %{changeset: changeset, toggle: toggle, toggle_category_pop_up: toggle_category_pop_up}} = socket
+        %{
+          assigns: %{
+            changeset: changeset,
+            toggle: toggle,
+            toggle_category_pop_up: toggle_category_pop_up
+          }
+        } = socket
       ) do
     changeset = Events.append_category(changeset)
 
@@ -202,24 +221,36 @@ defmodule PastimesRegWeb.CreateEventsLive do
           List.insert_at(list, -1, true)
       end
 
-      toggle_category_pop_up =
-        case toggle_category_pop_up do
-          [] ->
-            [false]
+    toggle_category_pop_up =
+      case toggle_category_pop_up do
+        [] ->
+          [false]
 
-          list ->
-            List.insert_at(list, -1, false)
-        end
+        list ->
+          List.insert_at(list, -1, false)
+      end
 
     IO.inspect(toggle)
     IO.inspect(toggle_category_pop_up)
-    {:noreply, assign(socket, changeset: changeset, toggle: toggle, toggle_category_pop_up: toggle_category_pop_up)}
+
+    {:noreply,
+     assign(socket,
+       changeset: changeset,
+       toggle: toggle,
+       toggle_category_pop_up: toggle_category_pop_up
+     )}
   end
 
   def handle_event(
         "remove_category",
         %{"index" => string_index},
-        %{assigns: %{changeset: changeset, toggle: toggle, toggle_category_pop_up: toggle_category_pop_up}} = socket
+        %{
+          assigns: %{
+            changeset: changeset,
+            toggle: toggle,
+            toggle_category_pop_up: toggle_category_pop_up
+          }
+        } = socket
       ) do
     {index, _} = Integer.parse(string_index)
     changeset = Events.delete_category(changeset, index)
@@ -244,12 +275,21 @@ defmodule PastimesRegWeb.CreateEventsLive do
 
     socket =
       socket
-      |> assign(changeset: changeset, toggle: toggle, toggle_category_pop_up: toggle_category_pop_up)
+      |> assign(
+        changeset: changeset,
+        toggle: toggle,
+        toggle_category_pop_up: toggle_category_pop_up
+      )
 
     {:noreply, socket}
   end
 
-  def handle_event("toggle_change", %{"index" => string_index}, %{assigns: %{toggle: toggle_list, toggle_category_pop_up: toggle_category_pop_up_list}} = socket) do
+  def handle_event(
+        "toggle_change",
+        %{"index" => string_index},
+        %{assigns: %{toggle: toggle_list, toggle_category_pop_up: toggle_category_pop_up_list}} =
+          socket
+      ) do
     {index, _} = Integer.parse(string_index)
 
     toggle = List.update_at(toggle_list, index, &(!&1))
@@ -281,8 +321,24 @@ defmodule PastimesRegWeb.CreateEventsLive do
     {:noreply, cancel_upload(socket, :photos, ref)}
   end
 
+  def handle_event("cancel-upload-logo", %{"ref" => ref}, socket) do
+    {:noreply, cancel_upload(socket, :logo, ref)}
+  end
+
   defp get_cover_photo_url(socket) do
     {completed, []} = uploaded_entries(socket, :cover_photo)
+
+    case completed do
+      [] ->
+        nil
+
+      [completed | _] ->
+        Path.join(s3_host(), s3_key(completed))
+    end
+  end
+
+  defp get_logo_url(socket) do
+    {completed, []} = uploaded_entries(socket, :logo)
 
     case completed do
       [] ->

@@ -96,6 +96,7 @@
       <.form let={f} for={@changeset} phx-change="validate" phx-submit="submit" id="create-event">
         <%= if @current_step == 1 do %>
         <div class="">
+          <h1 class="my-8">Please provide your general event information. Race category details will be added in the next step.</h1>
           <div class="flex flex-wrap mb-6">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <div class="form-group">
@@ -113,17 +114,13 @@
           </div>
           <div class="form-group">
             <div class="flex flex-wrap mb-6">
-              <div class="w-full px-3 mb-6 md:mb-0">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <%= text_input f, :name, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Name of Event*" %>
                 <div class="text-left">
                   <%= error_tag f, :name %>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="flex flex-wrap mb-6">
-              <div class="w-full px-3 mb-6 md:mb-0">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <%= text_input f, :address, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Address (location for event)*" %>
                 <div class="text-left">
                   <%= error_tag f, :address %>
@@ -136,9 +133,9 @@
               <div class="form-group">
                 <div class="flex flex-wrap mb-6">
                   <div class="w-full mb-6 md:mb-0">
-                    <%= datetime_local_input f, :start_date, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Start Date*" %>
+                    <%= date_input f, :start_date_virtual, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Start Date*" %>
                     <div class="text-left">
-                      <%= error_tag f, :start_date %>
+                      <%= error_tag f, :start_date_virtual %>
                     </div>
                   </div>
                 </div>
@@ -148,14 +145,70 @@
               <div class="form-group">
                 <div class="flex flex-wrap mb-6">
                   <div class="w-full mb-6 md:mb-0">
-                    <%= datetime_local_input f, :end_date, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "End Date*" %>
+                    <%= date_input f, :end_date_virtual, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "End Date*" %>
                     <div class="text-left">
-                      <%= error_tag f, :end_date %>
+                      <%= error_tag f, :end_date_virtual %>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+          <div class="flex flex-wrap">
+            <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+              <div class="form-group">
+                <div class="flex flex-wrap mb-6">
+                  <div class="w-full mb-6 md:mb-0">
+                    <%= time_input f, :start_time_virtual, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Start Date*" %>
+                    <div class="text-left">
+                      <%= error_tag f, :start_time_virtual %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+              <div class="form-group">
+                <div class="relative">
+                <%= select(f, :start_time_zone, @available_start_time_zones, prompt: "Start Timezone*", class: "block appearance-none w-full text-gray-700 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500") %>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                </div>
+                <div class="text-left pt-4">
+                  <%= error_tag f, :start_time_zone %>
+                </div>
+              </div>
+            </div>
+            </div>
+            <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+              <div class="form-group">
+                <div class="flex flex-wrap mb-6">
+                  <div class="w-full mb-6 md:mb-0">
+                    <%= time_input f, :end_time_virtual, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Start Date*" %>
+                    <div class="text-left">
+                      <%= error_tag f, :end_time_virtual %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+              <div class="form-group">
+                <div class="relative">
+                <%= select(f, :end_time_zone, @available_end_time_zones, prompt: "End Timezone*", class: "block appearance-none w-full text-gray-700 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500") %>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                </div>
+                <div class="text-left pt-4">
+                  <%= error_tag f, :end_time_zone %>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap">
+     
           </div>
           <div class="form-group">
             <div class="flex flex-wrap mb-6">
@@ -177,18 +230,17 @@
               </div>
             </div>
           </div>
-
           <div class="form-group mb-4">
             <div class="mb-4">
-              <h1>Photos</h1>
+              <h1 class="font-bold my-4">Photos</h1>
               <p>Upload a cover photo for your event in a 3:1 image ratio. You can add up to 9 additonal photos to feature on the event registration page.</p>
             </div>
             <%= for {_ref, msg} <- @uploads.cover_photo.errors do %>
             <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg)%></p>
             <% end %>
             <!-- upload cover image -->
-            <div class="w-[70%] mx-auto">
-              <div class="aspect-container overflow-hidden border-2 border-gray-200 border-dashed rounded-lg" phx-drop-target={@uploads.cover_photo.ref}>
+            <div class="w-[70%] mx-auto border-2 border-gray-200 border-dashed rounded-lg">
+              <div class="aspect-container overflow-hidden" phx-drop-target={@uploads.cover_photo.ref}>
                 <div class="top-16 absolute w-full">
                   <img class="w-[12%] mx-auto" src="/images/pastimes_upload_btn.png" alt="">
                   <p class="font-bold text-gray-500">Drag and drop cover image or</p>
@@ -198,21 +250,22 @@
                   </div>
                   <p>*This preview is how the image will be cropped</p>
                 </div>
-
-                <%= for entry <- @uploads.cover_photo.entries do %>
-                <div class="row">
-                  <div class="column">
-                    <%= live_img_preview entry, class: "top-0 absolute w-full" %>
-                  </div>
-                  <div class="z-40 bottom-0 mb-10 absolute w-full text-black z-40">
-                    <%= entry.client_name %> is uploaded with
-                    <progress value={entry.progress} max="100"><%= entry.progress %>% </progress>
-                  </div>
+                <div class="flex flex-wrap gap-1 mx-auto justify-center w-full px-3">
+                  <%= for entry <- @uploads.cover_photo.entries do %>
+                    <div class="row">
+                      <div class="column">
+                        <%= live_img_preview entry, class: "top-0 left-0 absolute w-full" %>
+                      </div>
+                      <div class="z-40 bottom-0 mb-10 absolute left-0 w-full text-black z-40">
+                        <%= entry.client_name %> is uploaded with
+                        <progress value={entry.progress} max="100"><%= entry.progress %>% </progress>
+                      </div>
+                    </div>
+                    <div class="absolute top-2 right-2 z-40">
+                        <button type="button" phx-click="cancel-upload" phx-value-ref={entry.ref} aria-label="cancel" class="bg-gray-200 hover:bg-blue-700 text-white font-bold py-0 px-4 rounded-full">Change image</button>
+                    </div>
+                  <% end %>
                 </div>
-                <div class="absolute top-2 right-2 z-40">
-                    <button type="button" phx-click="cancel-upload" phx-value-ref={entry.ref} aria-label="cancel" class="bg-gray-200 hover:bg-blue-700 text-white font-bold py-0 px-4 rounded-full">Change image</button>
-                </div>
-                <% end %>
               </div>
             </div>
           </div>
@@ -224,7 +277,7 @@
             <div class="w-[70%] mx-auto">
               <div class="w-full relative border-2 overflow-hidden border-gray-200 border-dashed rounded-lg" phx-drop-target={@uploads.photos.ref}>
                 <div class="mt-8 w-full">
-                  <p>Drag and drop additional images or</p>
+                  <p class="font-bold text-gray-500">Drag and drop additional images or</p>
                   <div class="upload-btn-wrapper z-40">
                     <button type="button" class="text-lg font-bold cursor-pointer text-pastimes-blue-variant-1 mt-2">Upload here</button>
                     <%= live_file_input @uploads.photos, class: "cursor-pointer" %>
@@ -247,7 +300,7 @@
                   <!-- if photo is added or not nil: show this -->
                   <div class="absolute top-0 -right-2 z-40">
                     <button type="button" phx-click="cancel-entry" phx-value-ref={entry.ref}>
-                      <img src="/images/pasttimes_icon_x.png" alt="x">
+                      <img src="/images/icons/pasttimes_icon_x.png" alt="x">
                     </button>
                   </div>
                 </div>
@@ -264,6 +317,7 @@
 
        <%= if @current_step == 2 do %>
         <div class="relative mx-10 pb-20">
+          <h1 class="my-8">If your event has different sub categories or races within the same event, please add each category here. Registrants will be able to view all categories and purchase the race category they wish to participate in.</h1>
           <!-- Embedded Schema -->
           <%= inputs_for f, :categories, fn ff -> %>
             <h1 class="font-bold">Category: <%= ff.index + 1 %></h1>
@@ -417,7 +471,27 @@
         <%= if @current_step == 3 do %>
         <div class="">
           <div class="form-group">
-            <div class="flex flex-wrap  mb-6 h-32">
+            <div class="flex flex-wrap mb-6">
+              <div class="text-left ml-3 mb-4">
+                <label>
+                  Waiver
+                </label>
+              </div>
+              <div class="w-full px-3 mb-6 md:mb-0">
+                <%= textarea f, :waiver, class: "h-32 appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Enter your waiver information you require participants to accept." %>
+                <div class="text-left">
+                  <%= error_tag f, :waiver %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="flex flex-wrap mb-6 h-32">
+              <div class="text-left ml-3 mb-4">
+                <label>
+                  Confirmation Message
+                </label>
+              </div>
               <div class="w-full px-3 mb-6 md:mb-0">
                 <%= textarea f, :confirmation_message_to_participants, class: "h-32 appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Confirmation Message to Registered Participants (will also be sent in confirmation email). Include links to any other forms or waivers you need participants to provide." %>
                 <div class="text-left">
@@ -429,7 +503,7 @@
           <div class="form-group">
             <div class="flex flex-wrap  mb-6">
               <div class="w-full px-3 mb-6 md:mb-0">
-                <div class="text-left">
+                <div class="text-left mt-6">
                   <label>
                     Event Contact Information
                   </label>
@@ -477,6 +551,55 @@
               <div class="w-full px-3 mb-6 md:mb-0">
                 <div class="text-left">
                   <label>
+                    Event Logo
+                  </label>
+                </div>
+                <div class="text-left mt-4">
+                  <label class="text-gray-400">
+                    <%= checkbox f, :use_org_logo %>
+                    Use existing Organization logo as event logo
+                  </label>
+                </div>
+                <div class="text-left mt-4">
+                  <%= error_tag f, :use_org_logo %>
+                </div>
+                <%= for {_ref, msg} <- @uploads.logo.errors do %>
+                <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg)%></p>
+                <% end %>
+                <!-- upload logo image -->
+                <div class="w-[200px] h-[200px] border-2 border-gray-200 border-dashed rounded-lg">
+                  <div class="aspect-container-registration overflow-hidden" phx-drop-target={@uploads.logo.ref}>
+                    <div class="top-8 absolute w-full">
+                      <img class="w-[40%] mx-auto" src="/images/pastimes_upload_btn.png" alt="">
+                      <p class="font-bold text-gray-500">Drag and drop logo or</p>
+                      <div class="upload-btn-wrapper z-40">
+                        <button type="button" class="cursor-pointer text-lg font-bold cursor-pointer text-pastimes-blue-variant-1">Upload here</button>
+                        <%= live_file_input @uploads.logo, class: "cursor-pointer" %>
+                      </div>
+                    </div>
+                    <div class="flex flex-wrap gap-1 mb-6 mx-auto justify-center w-full px-3">
+                      <%= for entry <- @uploads.logo.entries do %>
+                        <div class="row">
+                          <div class="column">
+                            <%= live_img_preview entry, class: "top-0 left-0 absolute w-full" %>
+                          </div>
+                        </div>
+                        <div class="absolute top-2 right-2 z-40">
+                          <button type="button" phx-click="cancel-upload-logo" phx-value-ref={entry.ref} aria-label="cancel" class="bg-gray-200 hover:bg-blue-700 text-white font-bold py-0 px-4 rounded-full">Change image</button>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="flex flex-wrap  mb-6">
+              <div class="w-full px-3 mb-6 md:mb-0">
+                <div class="text-left">
+                  <label>
                     Promote Event
                   </label>
                 </div>
@@ -492,7 +615,35 @@
               </div>
             </div>
           </div>
-
+          <div class="form-group">
+            <div class="flex flex-wrap  mb-6">
+              <div class="w-full px-3 mb-6 md:mb-0">
+                <div class="text-left">
+                  <label>
+                    Refund Policy
+                  </label>
+                </div>
+                <div class="text-left mt-4">
+                  <label class="text-gray-400">
+                    <%= checkbox f, :strict %>
+                    Strict (Only if you the Organizer cancels Event)
+                  </label>
+                </div>
+                <div class="text-left mt-4">
+                  <%= error_tag f, :strict %>
+                </div>
+                <div class="text-left mt-4">
+                  <label class="text-gray-400">
+                    <%= checkbox f, :flexible %>
+                    Flexible (Refunds are possilbe for participants who request within specified hours before day of event)   
+                  </label>
+                </div>
+                <div class="text-left mt-4">
+                  <%= error_tag f, :flexible %>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="form-group">
             <div class="flex flex-wrap  mb-6">
               <div class="w-3/6 px-3 mb-6 md:mb-0">
@@ -539,7 +690,3 @@
 
   </div>
 </div>
-
-<script>
-
-</script>

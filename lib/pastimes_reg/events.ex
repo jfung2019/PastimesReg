@@ -62,8 +62,12 @@ defmodule PastimesReg.Events do
       ** (Ecto.NoResultsError)
 
   """
-  def get_events!(id), do: Repo.get!(Event, id)
+  def get_event!(id), do: Repo.get!(Event, id) |> Repo.preload([:org_user])
 
+  @spec create_event(
+          :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any},
+          any
+        ) :: any
   @doc """
   Creates a events.
 

@@ -64,6 +64,12 @@
   position: relative; /* If you want text inside of it */
 }
 
+.aspect-container-registration {
+  width: 100%;
+  padding-top: 100%; /* 1:1 Aspect Ratio */
+  position: relative; /* If you want text inside of it */
+}
+
 /* Alerts and form errors used by phx.new */
 .alert {
   padding: 15px;
@@ -95,7 +101,6 @@
 .invalid-feedback {
   color: #a94442;
   display: block;
-  margin: -1rem 0 2rem;
 }
 
 /* LiveView specific classes for your customization */
