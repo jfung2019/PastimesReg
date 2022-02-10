@@ -1,0 +1,13 @@
+test:
+  image: plangora/alpine-elixir-phoenix:otp-24.2.1-elixir-1.13.2
+  services:
+    - postgis/postgis:13-master
+  variables:
+    MIX_ENV: "test"
+    DB_HOST: postgis-postgis
+    POSTGRES_DB: pastimes_reg_test
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+  script:
+    - mix clean
+    - mix do deps.get, test --cover

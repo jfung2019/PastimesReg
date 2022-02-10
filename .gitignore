@@ -32,3 +32,6 @@ pastimes_reg-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# IntelliJ
+.idea/*
+*.iml
