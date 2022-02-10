@@ -1,5 +1,9 @@
 # PastimesReg
 
+[![pipeline status](https://gitlab.com/plangora/pastimes-reg/badges/main/pipeline.svg)](https://gitlab.com/plangora/pastimes-reg/-/commits/main)
+
+[![coverage report](https://gitlab.com/plangora/pastimes-reg/badges/main/coverage.svg)](https://gitlab.com/plangora/pastimes-reg/-/commits/main)
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
