@@ -1,0 +1,123 @@
+
+<div class="container flex flex-col justify-center items-center h-max w-full mx-auto text-center py-4 md:py-10">
+  <h1 class="text-5xl font-bold py-8">Registered Users for <%= @event.name %></h1>
+  <!--  Search Bar  -->
+  <div class="w-full pt-2 relative mx-auto text-gray-600 py-8">
+    <input class="w-full border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+      type="search" name="search" placeholder="Search">
+    <button type="submit" class="absolute right-0 top-0 mt-5 mr-4">
+      <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+        viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"
+        width="512px" height="512px">
+        <path
+          d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+      </svg>
+    </button>
+  </div>
+
+  <!--  Cards in Enum  -->
+  <%= Enum.map(@event.categories, fn(event) -> %>   
+  <div class="w-full bg-white drop-shadow-lg py-[5px] my-4 bg-red-200 rounded-lg">
+    <h1 class="text-3xl font-bold text-left p-4"><%= event.name %> (3)</h1>
+    <table class="border-collapse w-full">
+      <thead>
+          <tr>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">First Name</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">Last Name</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">Address 1</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">Address 2</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">City</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">State</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">Zip/Post</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">Country</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">Phone</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">Email</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">DOB</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">Gender</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">Em Contact</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">EM #</th>
+              <th class="p-3 font-bold hidden lg:table-cell text-left">Status</th>
+          </tr>
+      </thead>
+      <tbody>
+          <!-- 
+          <%= Enum.map(@event.categories, fn(event) -> %>   
+          <% end) %> 
+          -->
+          <tr class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 rounded-lg">
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 px-2 text-xs font-bold uppercase">First Name</span>
+                  <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Last Name</span>
+                  <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Address 1</span>
+                  <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Address 2</span>
+                  <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">City</span>
+                <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">State</span>
+                <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Zip/Post</span>
+                <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Country</span>
+                <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Phone</span>
+                <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Email</span>
+                <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">DOB</span>
+                <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Gender</span>
+                <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Em Contact</span>
+                <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Em #</span>
+                <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Status</span>
+                <p class="text-left mt-2"><%= event.name %></p>
+              </td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+  <% end) %> 
+
+  <div class="w-full mt-4">
+    <p class="text-left">Download CSV file for full user information, or download a PDF for an overview for registered users</p>
+  </div>
+
+  <div class="w-full mx-auto text-center py-8 space-x-10">
+    <button type="button" class="cursor-pointer border-gradient px-8 py-1 my-2">Download PDF</button>
+    <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-8 py-2 border rounded-full">Download CSV</button>
+  </div>
+</div>

@@ -1,0 +1,176 @@
+<div x-data="{ open: false }" class="container flex flex-col justify-center items-center h-max w-full mx-auto text-center py-4 md:py-10">
+  <div class="w-full text-left">
+    <h1 class="text-3xl font-bold py-8 text-left">Registration income</h1>
+  </div>
+  <div class="container pb-8 px-8 w-full bg-white drop-shadow-lg rounded-lg">
+    <h1 class="text-2xl font-bold text-left py-4">Income Summary for <%= @event.name %></h1>
+    <div class="w-full flex">
+      <div class="w-6/12">
+        <!-- section: 1 -->
+        <div class="pb-2 bg-blue-200">
+          <div class="flex justify-between pt-4 px-4">
+            <div>
+              <h1>Sip of Sunshine</h1>
+            </div>
+            <div>
+              <h1>$165</h1>
+            </div>
+          </div>
+          <div class="flex justify-between px-4">
+            <div>
+              <h1>200 Participants Registered</h1>
+            </div>
+            <div>
+              <h1>$49,500</h1>
+            </div>
+          </div>
+        </div>
+        <!-- section: 2 -->
+        <div class="pb-2 bg-blue-200">
+          <div class="flex justify-between pt-4 px-4">
+            <div>
+              <h1>Sip of Sunshine</h1>
+            </div>
+            <div>
+              <h1>$165</h1>
+            </div>
+          </div>
+          <div class="flex justify-between px-4">
+            <div>
+              <h1>200 Participants Registered</h1>
+            </div>
+            <div>
+              <h1>$49,500</h1>
+            </div>
+          </div>
+        </div>
+
+        <!-- border top -->
+        <div class="border-t-2 border-gray-200"></div>
+
+        <div class="flex justify-between bg-blue-200">
+          <div class="text-left p-4">
+            <h1>Total Registration Income before Tax and Fees</h1>
+          </div>
+          <div class="text-left p-4">
+            <h1>$65,500</h1>
+          </div>
+        </div>
+
+        <!-- border bottom -->
+        <div class="border-t-2 border-gray-200"></div>
+        
+        <div class="flex justify-between bg-red-200">
+          <div class="text-left p-4">
+            <h1>State Tax (6%)</h1>
+          </div>
+          <div class="text-left p-4">
+            <h1>-$4,200</h1>
+          </div>
+        </div>
+        <div class="flex justify-between bg-red-200">
+          <div class="text-left p-4">
+            <h1>Federal Tax (8%)</h1>
+          </div>
+          <div class="text-left p-4">
+            <h1>-$5,200</h1>
+          </div>
+        </div>
+        <div class="flex justify-between bg-red-200">
+          <div class="text-left p-4">
+            <h1>Pastimes Promotion Fee</h1>
+          </div>
+          <div class="text-left p-4">
+            <h1>-$2,000</h1>
+          </div>
+        </div>
+        <div class="flex justify-between bg-red-200">
+          <div class="text-left p-4">
+            <h1>Refunds</h1>
+          </div>
+          <div class="text-left p-4">
+            <h1>-$4,100</h1>
+          </div>
+        </div>
+        <div class="flex justify-between bg-green-200">
+          <div class="text-left p-4">
+            <h1 class="font-semibold">Total Income Available to Transfer</h1>
+          </div>
+          <div class="text-left p-4">
+            <h1>$50,000</h1>
+          </div>
+        </div>
+        <div class="text-left">
+          <button type="button" x-on:click="open = true" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-4 py-2 border mt-4 rounded-full">Transfer Income</button>
+        </div>
+      </div>
+      <div class="w-[20px] border-r-2 border-gray-200">
+      </div>
+      <div class="w-5/12">
+        <div class="text-left p-4">Income will be sent to the following Bank</div>
+        <div class="text-left p-4">Bank of America</div>
+        <div class="text-left p-4">Account # xxxxxx3923</div>
+        <div class="w-full text-left ml-4">
+          <button type="button" class="text-left cursor-pointer border-gradient px-4 py-1 my-2">
+            <a href="#scrollContact">Edit Bank Information</a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container pb-8 px-8 w-full bg-white drop-shadow-lg rounded-lg mt-8">
+    <h1 class="text-2xl font-bold text-left py-4">Transfer History</h1>
+    <div class="w-full flex">
+      <!-- section: 1 -->
+      <div class="w-6/12">
+        <div class="pb-2">
+          <div class="flex justify-between pt-4 pr-4">
+            <div>
+              <h1 class="font-bold">Date</h1>
+            </div>
+            <div>
+              <h1 class="font-bold">Amount</h1>
+            </div>
+          </div>
+          <div class="flex justify-between mt-2 pr-4">
+            <div>
+              <h1>July 20, 2022</h1>
+            </div>
+            <div>
+              <h1>$50,000</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-6/12">
+        <div class="pb-2 mt-2 py-2">
+          <div class="w-full text-right mr-8">
+            <button type="button" class="text-right cursor-pointer border-gradient px-8 py-1">
+              <a href="#scrollContact">Print Receipt</a>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal popup for event cancellation -->
+  <div x-show="open" class="fixed inset-0 w-full" style="background-color: rgba(33, 33, 33, 0.75);">
+    <div class="top-[40%] relative w-4/12 mx-auto">
+      <div class=" bg-white drop-shadow-lg py-8 px-8 w-full rounded-lg">
+        <h1 class="text-3xl font-semibold">
+          Are you sure you want to cancel the event?
+        </h1>
+        <p class="py-4 px-16">All registered users will be notified that event has been cancelled and refunded and registration fees.</p>
+        <div class="flex mt-10">
+          <div class="w-full mx-auto text-center">
+            <button x-on:click="open = false" class="px-3 w-4/12 border-gradient text-white font-bold py-1 mb-4 rounded-full">Cancel</button>
+            <button x-on:click="open = false" class="px-3 w-4/12 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 mb-4 border rounded-full">Yes, Transfer Income</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

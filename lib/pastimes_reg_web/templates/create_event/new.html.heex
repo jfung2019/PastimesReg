@@ -169,19 +169,6 @@
             </div>
             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
               <div class="form-group">
-                <div class="relative">
-                <%= select(f, :start_time_zone, @available_start_time_zones, prompt: "Start Timezone*", class: "block appearance-none w-full text-gray-700 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500") %>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                </div>
-                <div class="text-left pt-4">
-                  <%= error_tag f, :start_time_zone %>
-                </div>
-              </div>
-            </div>
-            </div>
-            <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-              <div class="form-group">
                 <div class="flex flex-wrap mb-6">
                   <div class="w-full mb-6 md:mb-0">
                     <%= time_input f, :end_time_virtual, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Start Date*" %>
@@ -195,20 +182,16 @@
             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
               <div class="form-group">
                 <div class="relative">
-                <%= select(f, :end_time_zone, @available_end_time_zones, prompt: "End Timezone*", class: "block appearance-none w-full text-gray-700 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500") %>
+                <%= select(f, :timezone, @available_timezones, prompt: "Timezone*", class: "block appearance-none w-full text-gray-700 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500") %>
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                 </div>
                 <div class="text-left pt-4">
-                  <%= error_tag f, :end_time_zone %>
+                  <%= error_tag f, :timezone %>
                 </div>
               </div>
             </div>
             </div>
-          </div>
-
-          <div class="flex flex-wrap">
-     
           </div>
           <div class="form-group">
             <div class="flex flex-wrap mb-6">
@@ -320,7 +303,7 @@
           <h1 class="my-8">If your event has different sub categories or races within the same event, please add each category here. Registrants will be able to view all categories and purchase the race category they wish to participate in.</h1>
           <!-- Embedded Schema -->
           <%= inputs_for f, :categories, fn ff -> %>
-            <h1 class="font-bold">Category: <%= ff.index + 1 %></h1>
+            <h1 class="font-bold py-4 text-3xl">Category: <%= ff.index + 1 %></h1>
             <div class="relative rounded-lg border-2">
               <!-- default is hidden, this is only showing if save is press. -->
               <!-- modal for category form -->
@@ -341,7 +324,7 @@
                 </div>
               </div>
               <!-- this will be hidden if save is pressed. when the press edit is pressed, this will show again.-->
-              <div class="bg-blue-200 p-10 w-full" style={"#{ if Enum.at(@toggle, ff.index) == true, do: 'display: block;', else: 'display: none;' }"}>
+              <div class="bg-pastimes-blue-variant-2 p-10 w-full" style={"#{ if Enum.at(@toggle, ff.index) == true, do: 'display: block;', else: 'display: none;' }"}>
                 <div class="form-group">
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3 mb-6 md:mb-0">
@@ -425,9 +408,9 @@
                     <div class="form-group">
                       <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full px-3 mb-6 md:mb-0">
-                          <%= text_input ff, :fee, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Fee for this category*" %>
+                          <%= text_input ff, :fee_1, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Fee 1 for this category*" %>
                           <div class="text-left">
-                            <%= error_tag ff, :fee %>
+                            <%= error_tag ff, :fee_1 %>
                           </div>
                         </div>
                       </div>
@@ -437,16 +420,44 @@
                     <div class="form-group">
                       <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full px-3 mb-6 md:mb-0">
-                          <%= datetime_local_input ff, :registration_close_date, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Registration Close Date" %>
+                          <%= datetime_local_input ff, :registration_date_1, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Registration Close Date" %>
                           <div class="text-left">
-                            <%= error_tag ff, :registration_close_date %>
+                            <%= error_tag ff, :registration_date_1 %>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <button class="bg-green-200" type="button" phx-click="toggle_change" phx-value-index={ff.index}> Save </button>
+                <div class="flex flex-wrap -mx-3">
+                  <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div class="form-group">
+                      <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                          <%= text_input ff, :fee_2, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Fee 2 for this category" %>
+                          <div class="text-left">
+                            <%= error_tag ff, :fee_2 %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-wrap -mx-3">
+                  <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div class="form-group">
+                      <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                          <%= text_input ff, :fee_3, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Fee 3 for this category" %>
+                          <div class="text-left">
+                            <%= error_tag ff, :fee_3 %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-8 py-2 my-2 rounded-full" type="button" phx-click="toggle_change" phx-value-index={ff.index}> Save Category</button>
               </div>
             </div>
           <% end %>
@@ -640,16 +651,6 @@
                 </div>
                 <div class="text-left mt-4">
                   <%= error_tag f, :flexible %>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="flex flex-wrap  mb-6">
-              <div class="w-3/6 px-3 mb-6 md:mb-0">
-                <%= text_input f, :number_of_hours_before_event, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Enter number of hours before event (eg. 48)" %>
-                <div class="text-left">
-                  <%= error_tag f, :number_of_hours_before_event %>
                 </div>
               </div>
             </div>

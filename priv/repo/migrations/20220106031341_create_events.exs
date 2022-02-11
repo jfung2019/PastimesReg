@@ -4,12 +4,11 @@ defmodule PastimesReg.Repo.Migrations.CreateEvents do
   def change do
     create table(:events) do
       add :activity_type, :varchar, null: false
-      add :start_time_zone, :string, null: false
-      add :end_time_zone, :string, null: false
       add :name, :varchar, null: false
       add :address, :varchar, null: false
       add :start_date, :utc_datetime, null: false
       add :end_date, :utc_datetime, null: false
+      add :timezone, :string, null: false
       add :details, :varchar, null: true
       add :website_url, :varchar, null: true
       add :cover_photo, :varchar
@@ -25,7 +24,6 @@ defmodule PastimesReg.Repo.Migrations.CreateEvents do
       add :use_org_logo, :boolean, default: false, null: false
       add :strict, :boolean, default: false, null: false
       add :flexible, :boolean, default: false, null: false
-      add :number_of_hours_before_event, :varchar, null: true
       add :email_notification, :boolean, default: false, null: false
       add :org_user_id, references(:org_users, on_delete: :delete_all), null: false
 

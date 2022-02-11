@@ -7,7 +7,6 @@ defmodule PastimesReg.AccountsFixtures do
   def valid_org_user_last_name, do: "hello world!"
   def unique_org_user_email, do: "org_user#{System.unique_integer()}@example.com"
   def valid_org_user_password, do: "hello world!"
-  @spec valid_org_user_organization :: <<_::96>>
   def valid_org_user_organization, do: "hello world!"
   def valid_org_user_license, do: "hello world!"
   def valid_org_user_address_line_1, do: "hello world!"
@@ -19,6 +18,7 @@ defmodule PastimesReg.AccountsFixtures do
   def valid_org_user_phone_number, do: "+123 1234567"
   def valid_org_user_routing_number, do: "hello 1234567!"
   def valid_org_user_account_number, do: "hello 1234567!"
+  def valid_org_user_logo, do: "sample.png"
 
   def valid_org_user_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
@@ -35,7 +35,8 @@ defmodule PastimesReg.AccountsFixtures do
       country: valid_org_user_country(),
       phone: valid_org_user_phone_number(),
       routing_number: valid_org_user_routing_number(),
-      account_number: valid_org_user_account_number()
+      account_number: valid_org_user_account_number(),
+      logo: valid_org_user_logo()
     })
   end
 

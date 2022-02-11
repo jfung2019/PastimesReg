@@ -1,10 +1,9 @@
-defmodule PastimesRegWeb.EventDetailsController do
+defmodule PastimesRegWeb.EventTotalRegistrationIncomeController do
   use PastimesRegWeb, :controller
   alias PastimesReg.Events
-  alias PastimesReg.Accounts
 
   def show(conn, %{"id" => id}) do
-    event = Events.get_events!(id)
+    event = Events.get_event!(id)
     render(conn, "new.html", event: event)
   end
 end

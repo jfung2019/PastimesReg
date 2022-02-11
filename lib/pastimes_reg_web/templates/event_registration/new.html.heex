@@ -1,8 +1,4 @@
 <div class="flex flex-col justify-center items-center h-max w-full mx-auto text-center">
-  <%= inspect(@event.org_user) %>
-  <br>
-  <br>
-  <%= inspect(@event) %>
   <!-- cover photo section -->
   <img class="w-full" src= {"#{ @event.cover_photo}"} alt="cover photo">
   <!-- first section -->
@@ -10,42 +6,67 @@
     <div class="flex">
       <div class="flex-col w-2/12 p-8">
         <%= if @event.logo do %>
-        <div class="text-left">
-          <img src={"#{ @event.logo}"} alt="event logo">
-        </div>
+          <div class="text-left">
+            <img class="" src={"#{@event.logo}"} alt="event logo">
+          </div>
         <% else %>
-        <i>There is no logo included in this event</i>
+          &nbsp;
         <% end %>
-
         <div class="flex mt-3">
-          <div>
-            <img class="h-[65px] w-[65px]" src="/images/icons/pastimes_ig_icon.png" alt="event logo">
-          </div>
-          <div>
-            <img class="h-[60px] w-[60px] mt-0.5" src="/images/icons/pastimes_twitter_icon.png" alt="event logo">
-          </div>
-          <div>
-            <img class="h-[65px] w-[65px]" src="/images/icons/pastimes_facebook_icon.png" alt="event logo">
-          </div>
+          <%= if @event.org_user.instagram_url do %>
+            <div>
+              <a href={"#{@event.org_user.instagram_url}"}><img class="h-[65px] w-[65px]" src="/images/icons/pastimes_ig_icon.png" alt="event logo"></a>
+            </div>
+          <% else %>
+            &nbsp;
+          <% end %>
+          <%= if @event.org_user.twitter_url do %>
+            <div>
+              <a href={"#{@event.org_user.twitter_url}"}><img class="h-[60px] w-[60px] mt-0.5" src="/images/icons/pastimes_twitter_icon.png" alt="event logo"></a>
+            </div>
+          <% else %>
+            &nbsp;
+          <% end %>
+          <%= if @event.org_user.facebook_url do %>
+            <div>
+              <a href={"#{@event.org_user.facebook_url}"}><img class="h-[65px] w-[65px]" src="/images/icons/pastimes_facebook_icon.png" alt="event logo"></a>
+            </div>
+          <% else %>
+            &nbsp;
+          <% end %>
         </div>
       </div>
       <div class="w-10/12 p-8 text-left">
-        <h1 class="font-semibold">Rooted Vermont Presents</h1>
+        <h1 class="font-semibold"><%= @event.org_user.organization %> Presents</h1>
         <div class="flex justify-between">
           <div class="flex-col mt-4">
             <h1 class="font-semibold text-3xl"><%= @event.name %></h1>
             <div class="mt-4">
-              <p><%= @event.address %></p>
-              <p><%= @event.start_date %> - <%= @event.end_date %></p>
-              <p><a href="www.rootedvermont.com">www.rootedvermont.com</a></p>
+              <div class="flex flex-col">
+                <div class="inline-flex items-center text-center">
+                  <img class="mr-1 inline-block w-6 h-6 object-contain" src="/images/pasttimes_icon_location.png" alt="location icon">
+                  <p><%= @event.address %></p>
+                </div>
+                <div class="inline-flex items-center">
+                  <img class="mr-1 inline-block w-5 h-5 object-contain" src="/images/pasttimes_icon_clock.png" alt="date icon">
+                  <p><%= @event.start_date %> - <%= @event.end_date %></p>
+                </div>
+              </div>
+          
+              <%= if @event.website_url do %>
+                <div class="flex">
+                  <img class="mr-1" src="/images/icons/pastimes_url_link_icon.png" alt="location icon">
+                  <p><a class="text-pastimes-blue-variant-1" href={"#{@event.org_user.website_url}"}><%= @event.website_url %></a></p>
+                </div>
+              <% else %>
+                &nbsp;
+              <% end %>
             </div>
           </div>
           <div class="flex flex-col mt-4 px-4">
-            <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-4 py-2 border rounded-full">Register</button>
-            <button type="button" class="cursor-pointer border-gradient px-4 py-1 my-2" phx-click="step_1">
-              <p class="">
-                Contact Organizer
-              </p>
+            <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-4 py-2 border rounded-full"><a href="#scrollRegister">Register</a></button>
+            <button type="button" class="cursor-pointer border-gradient px-4 py-1 my-2">
+              <a href="#scrollContact">Contact Organizer</a>
             </button>
           </div>
         </div>
@@ -76,11 +97,11 @@
       </div>
     </div>
   <% else %>
-    <i>There is no photos included in this event</i>
+    &nbsp;
   <% end %>
  
   <!-- third section: event categories -->
-  <h1 class="text-3xl font-semibold mt-8">Event Categories</h1>
+  <h1 id="scrollRegister" class="text-3xl font-semibold mt-8">Event Categories</h1>
   <%= Enum.map(@event.categories, fn(item) -> %> 
   <div class="container">
       <div class="justify-between">
@@ -92,10 +113,9 @@
               <% else %>
                 undefined name
               <% end %>
-              <%= if item.fee do %>
-                $<%= item.fee %>
+              <%= if item.fee_1 do %>
+                $<%= item.fee_1 %>
               <% else %>
-                undefined name
               <% end %>
             </h1>
             <h1>
@@ -154,8 +174,8 @@
             </div>
             <div class="text-left px-4 mt-4">
               <p class="text-pastimes-orange-variant-2">
-                <%= if item.registration_close_date do %>
-                  <%= item.registration_close_date %>
+                <%= if item.registration_date_1 do %>
+                  <%= item.registration_date_1 %>
                 <% else %>
                   n/a
                 <% end %>
@@ -170,7 +190,7 @@
 
   <!-- fourth section: location and contact -->
   <div class="w-full bg-gray-200 ">
-    <h1 class="text-3xl font-semibold p-8">Location and Contact</h1>
+    <h1 id="scrollContact" class="text-3xl font-semibold p-8">Location and Contact</h1>
     <div class="container w-full p-8 mx-auto text-left">
       <div class="mt-8">
         <h1 class="font-semibold">Location of event</h1>
@@ -178,7 +198,6 @@
       </div>
       <div class="mt-8">
         <h1 class="font-semibold">Contact</h1>
-
         <%= if @event.contact_information do %>
           <p class="">Phone: <span class="text-pastimes-blue-variant-1"><%= @event.org_user.phone %></span></p>
         <% else %>
@@ -197,12 +216,10 @@
           <%= if @event.strict do %>
             Strict Refund Policy: Refunds will only be provided if Organizer cancels event. Email support@pastimes.io with any questions
           <% else %>
-            &nbsp;
           <% end %>
           <%= if @event.flexible do %>
-            flexible Refund Policy: 
+            Flexible Refund Policy: Send an email to support@pastimes.io to request a refund for this event.
           <% else %>
-            &nbsp;
           <% end %>
          </p>
       </div>
@@ -250,5 +267,16 @@
     slidesOffsetBefore: 0,
     //
     grabCursor: true,
-  })    
+  });
+
+  $('#scrollRegister').onclick=function(){
+    $('html, body').animate({
+        scrollTop: $("scrollRegister").offset().top
+    }, 2000);
+  };
+  $('#scrollContact').onclick=function(){
+    $('html, body').animate({
+        scrollTop: $("scrollRegister").offset().top
+    }, 2000);
+  };
 </script>

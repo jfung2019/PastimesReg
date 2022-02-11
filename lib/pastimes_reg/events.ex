@@ -98,8 +98,8 @@ defmodule PastimesReg.Events do
     Event.delete_category_from_changeset_list(changeset, category_index)
   end
 
-  def event_create_form_step_init_changeset(%Event{} = events, attrs \\ %{}) do
-    Event.event_create_changeset_step_1(events, attrs)
+  def event_create_form_step_init_changeset(%Event{} = event, attrs \\ %{}) do
+    Event.event_create_changeset_step_1(event, attrs)
   end
 
   def event_create_form_step_1_changeset(attrs) do
@@ -132,8 +132,8 @@ defmodule PastimesReg.Events do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_events(%Event{org_user_id: org_user_id} = events, attrs, org_user_id) do
-    events
+  def update_events(%Event{org_user_id: org_user_id} = event, attrs, org_user_id) do
+    event
     |> Event.event_create_changeset_step_1(attrs)
     |> Event.event_create_changeset_step_2(attrs)
     |> Event.event_create_changeset_step_3(attrs)
@@ -141,19 +141,19 @@ defmodule PastimesReg.Events do
   end
 
   @doc """
-  Deletes a events.
+  Deletes an event.
 
   ## Examples
 
-      iex> delete_events(events)
-      {:ok, %Events{}}
+      iex> delete_event(event)
+      {:ok, %Event{}}
 
-      iex> delete_events(events)
+      iex> delete_event(event)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_events(%Event{} = events) do
-    Repo.delete(events)
+  def delete_event(%Event{} = event) do
+    Repo.delete(event)
   end
 
   @doc """
@@ -165,9 +165,9 @@ defmodule PastimesReg.Events do
       %Ecto.Changeset{data: %Events{}}
 
   """
-  def change_events(%Event{} = events, attrs \\ %{}) do
-    Event.event_create_changeset_step_1(events, attrs)
-    Event.event_create_changeset_step_2(events, attrs)
-    Event.event_create_changeset_step_3(events, attrs)
+  def change_events(%Event{} = event, attrs \\ %{}) do
+    Event.event_create_changeset_step_1(event, attrs)
+    Event.event_create_changeset_step_2(event, attrs)
+    Event.event_create_changeset_step_3(event, attrs)
   end
 end

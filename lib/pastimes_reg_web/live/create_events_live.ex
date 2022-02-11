@@ -11,6 +11,7 @@ defmodule PastimesRegWeb.CreateEventsLive do
     Phoenix.View.render(PastimesRegWeb.CreateEventView, "new.html", assigns)
   end
 
+  @spec mount(any, map, Phoenix.LiveView.Socket.t()) :: {:ok, any}
   def mount(_params, %{"org_user_token" => token}, socket) do
     %{id: org_user_id} = Accounts.get_org_user_by_session_token(token)
     changeset = Events.event_create_form_step_init_changeset(%PastimesReg.Events.Event{})
@@ -23,25 +24,16 @@ defmodule PastimesRegWeb.CreateEventsLive do
          max_entries: 1,
          external: &presign_entry/2
        )
-       |> allow_upload(:photos,
-         accept: ~w(.jpg .jpeg .png),
-         max_entries: 9,
-         external: &presign_entry/2
-       )
-       |> allow_upload(:logo,
-         accept: ~w(.jpg .jpeg .png),
-         max_entries: 1,
-         external: &presign_entry/2
-       ),
+       |> allow_upload(:photos, accept: ~w(.jpg .jpeg .png), max_entries: 9, external: &presign_entry/2)
+       |> allow_upload(:logo, accept: ~w(.jpg .jpeg .png), max_entries: 1, external: &presign_entry/2),
        toggle: [true],
        toggle_category_pop_up: [false],
        current_step: 1,
        changeset: changeset,
        available_activities: Activities.ActivitiesOption.activity_options(),
-       available_start_time_zones: TimeZones.TimeZoneOption.start_time_zone_options(),
-       available_end_time_zones: TimeZones.TimeZoneOption.end_time_zone_options(),
+       available_timezones: TimeZones.TimeZoneOption.timezone_options(),
        attrs: %{},
-       org_user_id: org_user_id
+       org_user_id: org_user_id,
      )}
   end
 
@@ -202,13 +194,7 @@ defmodule PastimesRegWeb.CreateEventsLive do
   def handle_event(
         "add_category",
         _,
-        %{
-          assigns: %{
-            changeset: changeset,
-            toggle: toggle,
-            toggle_category_pop_up: toggle_category_pop_up
-          }
-        } = socket
+        %{assigns: %{changeset: changeset, toggle: toggle, toggle_category_pop_up: toggle_category_pop_up}} = socket
       ) do
     changeset = Events.append_category(changeset)
 
@@ -221,36 +207,24 @@ defmodule PastimesRegWeb.CreateEventsLive do
           List.insert_at(list, -1, true)
       end
 
-    toggle_category_pop_up =
-      case toggle_category_pop_up do
-        [] ->
-          [false]
+      toggle_category_pop_up =
+        case toggle_category_pop_up do
+          [] ->
+            [false]
 
-        list ->
-          List.insert_at(list, -1, false)
-      end
+          list ->
+            List.insert_at(list, -1, false)
+        end
 
     IO.inspect(toggle)
     IO.inspect(toggle_category_pop_up)
-
-    {:noreply,
-     assign(socket,
-       changeset: changeset,
-       toggle: toggle,
-       toggle_category_pop_up: toggle_category_pop_up
-     )}
+    {:noreply, assign(socket, changeset: changeset, toggle: toggle, toggle_category_pop_up: toggle_category_pop_up)}
   end
 
   def handle_event(
         "remove_category",
         %{"index" => string_index},
-        %{
-          assigns: %{
-            changeset: changeset,
-            toggle: toggle,
-            toggle_category_pop_up: toggle_category_pop_up
-          }
-        } = socket
+        %{assigns: %{changeset: changeset, toggle: toggle, toggle_category_pop_up: toggle_category_pop_up}} = socket
       ) do
     {index, _} = Integer.parse(string_index)
     changeset = Events.delete_category(changeset, index)
@@ -275,21 +249,12 @@ defmodule PastimesRegWeb.CreateEventsLive do
 
     socket =
       socket
-      |> assign(
-        changeset: changeset,
-        toggle: toggle,
-        toggle_category_pop_up: toggle_category_pop_up
-      )
+      |> assign(changeset: changeset, toggle: toggle, toggle_category_pop_up: toggle_category_pop_up)
 
     {:noreply, socket}
   end
 
-  def handle_event(
-        "toggle_change",
-        %{"index" => string_index},
-        %{assigns: %{toggle: toggle_list, toggle_category_pop_up: toggle_category_pop_up_list}} =
-          socket
-      ) do
+  def handle_event("toggle_change", %{"index" => string_index}, %{assigns: %{toggle: toggle_list, toggle_category_pop_up: toggle_category_pop_up_list}} = socket) do
     {index, _} = Integer.parse(string_index)
 
     toggle = List.update_at(toggle_list, index, &(!&1))

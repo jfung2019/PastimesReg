@@ -22,7 +22,9 @@ defmodule PastimesRegWeb.CreateEventsLiveTest do
   # :start_date,
   # :spot_availability,
   # :fee,
-  # :registration_close_date
+  # :registration_date_1
+  # :registration_date_2
+  # :registration_date_3
 
   # :confirmation_message_to_participants,
   # :contact_information,
@@ -69,7 +71,7 @@ defmodule PastimesRegWeb.CreateEventsLiveTest do
         event: %{
           categories: %{
             "0": %{
-              fee: "$1"
+              fee_1: "$1"
             }
           }
         }

@@ -15,8 +15,7 @@ defmodule PastimesReg.Events.Event do
     field :website_url, :string
     field :cover_photo, :string
     field :photos, {:array, :string}, default: []
-    field :start_time_zone, :string
-    field :end_time_zone, :string
+    field :timezone, :string
     field :start_date, :utc_datetime
     field :end_date, :utc_datetime
     field :start_date_virtual, :date, virtual: true
@@ -34,7 +33,6 @@ defmodule PastimesReg.Events.Event do
     field :email_address, :string
     field :phone_number, :string
     field :promote_event, :boolean, default: false
-    field :number_of_hours_before_event, :string
     field :email_notification, :boolean, default: false
     field :logo, :string
     field :use_org_logo, :boolean, default: false
@@ -111,16 +109,14 @@ defmodule PastimesReg.Events.Event do
         :end_date_virtual,
         :start_time_virtual,
         :end_time_virtual,
-        :start_time_zone,
-        :end_time_zone
+        :timezone,
       ]
     )
     |> validate_required(@required_attributes_step_1)
     |> validate_activity_type()
     |> validate_time_zone()
     |> validate_inclusion(:activity_type, activity_options())
-    |> validate_inclusion(:start_time_zone, start_time_zone_options())
-    |> validate_inclusion(:end_time_zone, end_time_zone_options())
+    |> validate_inclusion(:timezone, timezone_options())
     |> validate_name_event()
     |> validate_address_location()
     |> validate_website_url_event()
@@ -149,12 +145,11 @@ defmodule PastimesReg.Events.Event do
         :email_address,
         :phone_number,
         :promote_event,
-        :number_of_hours_before_event,
+        :flexible,
+        :strict,
         :email_notification,
         :logo,
-        :use_org_logo,
-        :strict,
-        :flexible
+        :use_org_logo
       ]
     )
   end
@@ -167,8 +162,7 @@ defmodule PastimesReg.Events.Event do
 
   defp validate_time_zone(changeset) do
     changeset
-    |> validate_required([:start_time_zone])
-    |> validate_required([:end_time_zone])
+    |> validate_required([:timezone])
   end
 
   defp validate_name_event(changeset) do
@@ -189,7 +183,7 @@ defmodule PastimesReg.Events.Event do
            %Time{} = start_time <- get_field(changeset, :start_time_virtual),
            %Date{} = end_date <- get_field(changeset, :end_date_virtual),
            %Time{} = end_time <- get_field(changeset, :end_time_virtual),
-           timezone when is_binary(timezone) <- get_field(changeset, :start_time_zone),
+           timezone when is_binary(timezone) <- get_field(changeset, :timezone),
            {:ok, start_date} <- DateTime.new(start_date, start_time, timezone),
            {:ok, end_date} <- DateTime.new(end_date, end_time, timezone),
            timezone_to_convert = Timex.Timezone.get("UTC", Timex.now()),
