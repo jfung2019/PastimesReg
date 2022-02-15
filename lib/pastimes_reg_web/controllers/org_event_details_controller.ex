@@ -1,4 +1,4 @@
-defmodule PastimesRegWeb.EventDetailsController do
+defmodule PastimesRegWeb.OrgEventDetailsController do
   use PastimesRegWeb, :controller
   alias PastimesReg.Events
 

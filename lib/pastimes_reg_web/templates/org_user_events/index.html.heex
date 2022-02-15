@@ -49,7 +49,7 @@
                   </p>
                 </div>
                 <div class="ml-5 text-left mb-4">
-                  <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-4 py-2 border rounded-full"><%= link "View Details", to: Routes.event_details_path(PastimesRegWeb.Endpoint, :show, upcoming_event) %></button>
+                  <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-4 py-2 border rounded-full"><%= link "View Details", to: Routes.org_event_details_path(PastimesRegWeb.Endpoint, :show, upcoming_event) %></button>
                 </div>
               </div>
             <% end %>
@@ -91,7 +91,7 @@
                     </p>
                   </div>
                   <div class="ml-5 text-left mb-4">
-                    <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-4 py-2 border rounded-full"><%= link "View Details", to: Routes.event_details_path(PastimesRegWeb.Endpoint, :show, past_event) %></button>
+                    <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-4 py-2 border rounded-full"><%= link "View Details", to: Routes.org_event_details_path(PastimesRegWeb.Endpoint, :show, past_event) %></button>
                   </div>
               </div>
             <% end %>

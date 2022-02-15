@@ -78,9 +78,9 @@ defmodule PastimesRegWeb.Router do
     live "/events", EventsLive
     live "/events/new", CreateEventsLive
     live "/org_users/account", OrgUserAccountLive
-    resources "/events", EventDetailsController, only: [:show, :delete]
-    get "/events/registration/:id/registered_users", EventTotalUserRegisteredController, :show
-    get "/events/registration/:id/total_registration_income", EventTotalRegistrationIncomeController, :show
+    resources "/events", OrgEventDetailsController, only: [:show, :delete]
+    get "/events/details/:id/registered_users", EventTotalUserRegisteredController, :show
+    get "/events/details/:id/total_registration_income", EventTotalRegistrationIncomeController, :show
     get "/org_users/settings", OrgUserSettingsController, :edit
     put "/org_users/settings", OrgUserSettingsController, :update
     get "/org_users/settings/confirm_email/:token", OrgUserSettingsController, :confirm_email
@@ -88,7 +88,8 @@ defmodule PastimesRegWeb.Router do
 
   scope "/", PastimesRegWeb do
     pipe_through [:browser]
-    get "/events/registration/:id", EventRegistrationController, :show
+    get "/events/details/:id", EventDetailsController, :show
+    live "/events/:id/category/:name", EventRegistrationLive
     delete "/org_users/log_out", OrgUserSessionController, :delete
     get "/org_users/confirm", OrgUserConfirmationController, :new
     post "/org_users/confirm", OrgUserConfirmationController, :create

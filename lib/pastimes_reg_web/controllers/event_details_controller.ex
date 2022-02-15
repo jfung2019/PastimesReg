@@ -1,4 +1,4 @@
-defmodule PastimesRegWeb.EventRegistrationController do
+defmodule PastimesRegWeb.EventDetailsController do
   use PastimesRegWeb, :controller
   alias PastimesReg.Events
 
@@ -6,4 +6,5 @@ defmodule PastimesRegWeb.EventRegistrationController do
     event = Events.get_event!(event_id)
     render(conn, "new.html", event: event)
   end
+
 end

@@ -1,282 +1,300 @@
-<div class="flex flex-col justify-center items-center h-max w-full mx-auto text-center">
-  <!-- cover photo section -->
-  <img class="w-full" src= {"#{ @event.cover_photo}"} alt="cover photo">
-  <!-- first section -->
-  <div class="container w-full">
-    <div class="flex">
-      <div class="flex-col w-2/12 p-8">
-        <%= if @event.logo do %>
-          <div class="text-left">
-            <img class="" src={"#{@event.logo}"} alt="event logo">
+<div class="container flex justify-center items-center h-max w-full mx-auto text-center my-16">    
+  <div class="w-full md:mt-0 space-y-4 md:space-y-14">
+    <!-- step indicator header -->
+    <%= if @current_step == 1 do %>
+    <div class="">
+      <div>
+        <h1 class="text-5xl font-bold">
+          <%= @event.name %>
+        </h1>
+        <h1 class="text-3xl font-bold mt-5 text-blue-500">
+          <%= @category_name %>
+        </h1>
+      </div>
+      <div class="mt-8 mx-0 md:mx-4 p-4">
+        <div class="flex items-center">
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-6 py-1 md:h-12 md:w-12 md:py-3 border-2 border-pastimes-gray-variant-2 bg-pastimes-green-variant-1">
+            </div>
+            <div class="mx-4">Participant Information</div>
           </div>
-        <% else %>
-          &nbsp;
-        <% end %>
-        <div class="flex mt-3">
-          <%= if @event.org_user.instagram_url do %>
-            <div>
-              <a href={"#{@event.org_user.instagram_url}"}><img class="h-[65px] w-[65px]" src="/images/icons/pastimes_ig_icon.png" alt="event logo"></a>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-pastimes-gray-variant-2"></div>
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-pastimes-gray-variant-2">
             </div>
-          <% else %>
-            &nbsp;
-          <% end %>
-          <%= if @event.org_user.twitter_url do %>
-            <div>
-              <a href={"#{@event.org_user.twitter_url}"}><img class="h-[60px] w-[60px] mt-0.5" src="/images/icons/pastimes_twitter_icon.png" alt="event logo"></a>
+            <div class="mx-4">Payment Information</div>
+          </div>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-pastimes-gray-variant-2"></div>
+          <div class="flex items-center text-gray-500 relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-pastimes-gray-variant-2">
             </div>
-          <% else %>
-            &nbsp;
-          <% end %>
-          <%= if @event.org_user.facebook_url do %>
-            <div>
-              <a href={"#{@event.org_user.facebook_url}"}><img class="h-[65px] w-[65px]" src="/images/icons/pastimes_facebook_icon.png" alt="event logo"></a>
-            </div>
-          <% else %>
-            &nbsp;
-          <% end %>
+          </div>
+          <div class="mx-4">Review and Checkout</div>
         </div>
       </div>
-      <div class="w-10/12 p-8 text-left">
-        <h1 class="font-semibold"><%= @event.org_user.organization %> Presents</h1>
-        <div class="flex justify-between">
-          <div class="flex-col mt-4">
-            <h1 class="font-semibold text-3xl"><%= @event.name %></h1>
-            <div class="mt-4">
-              <div class="flex flex-col">
-                <div class="inline-flex items-center text-center">
-                  <img class="mr-1 inline-block w-6 h-6 object-contain" src="/images/pasttimes_icon_location.png" alt="location icon">
-                  <p><%= @event.address %></p>
-                </div>
-                <div class="inline-flex items-center">
-                  <img class="mr-1 inline-block w-5 h-5 object-contain" src="/images/pasttimes_icon_clock.png" alt="date icon">
-                  <p><%= @event.start_date %> - <%= @event.end_date %></p>
+    </div>
+    <% end %>
+
+    <%= if @current_step == 2 do %>
+    <div class="">
+      <h1 class="text-3xl md:text-5xl font-bold">
+        Category Information
+      </h1>
+      <div class="mt-8 mx-0 md:mx-4 p-4">
+        <div class="flex items-center">
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-6 py-1 md:h-12 md:w-12 md:py-3 border-2 border-pastimes-gray-variant-2 bg-pastimes-green-variant-1">
+            </div>
+            <div class="mx-4">Participant Information</div>
+          </div>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-pastimes-gray-variant-2"></div>
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-pastimes-gray-variant-2">
+            </div>
+            <div class="mx-4">Payment Information</div>
+          </div>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-pastimes-gray-variant-2"></div>
+          <div class="flex items-center text-gray-500 relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-pastimes-gray-variant-2">
+            </div>
+          </div>
+          <div class="mx-4">Review and Checkout</div>
+        </div>
+      </div>
+      <p>
+        If your event has different sub categories or races within the same event, please add each category here. Registrants will be able to view all categories and purchase the race category they wish to participate in.
+      </p>
+    </div>
+    <% end %>
+
+    <%= if @current_step == 3 do %>
+    <div class="">
+      <h1 class="text-3xl md:text-5xl font-bold">
+        Other Event Information
+      </h1>
+      <div class="mt-8 mx-0 md:mx-4 p-4">
+        <div class="flex items-center">
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-6 py-1 md:h-12 md:w-12 md:py-3 border-2 border-pastimes-gray-variant-2 bg-pastimes-green-variant-1">
+            </div>
+            <div class="mx-4">Participant Information</div>
+          </div>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-pastimes-gray-variant-2"></div>
+          <div class="flex items-center text-black relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-pastimes-gray-variant-2">
+            </div>
+            <div class="mx-4">Payment Information</div>
+          </div>
+          <div class="mr-4 pr-4 md:pr-12 flex-auto border-t-2 transition duration-500 ease-in-out border-pastimes-gray-variant-2"></div>
+          <div class="flex items-center text-gray-500 relative">
+            <div class="rounded-full transition duration-500 ease-in-out h-4 w-4 py-1 md:h-12 md:w-12 md:py-3 border-2 border-pastimes-gray-variant-2">
+            </div>
+          </div>
+          <div class="mx-4">Review and Checkout</div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+
+    <!-- Form -->
+    <div class="">
+      <.form let={f} for={@changeset} phx-change="validate" phx-submit="submit" id="register-event">
+        <%= if @current_step == 1 do %>
+        <%= inspect(@event) %>
+        <%= @event_id %>
+        <div class="">
+          <div class="form-group">
+            <div class="flex flex-wrap mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= text_input f, :first_name, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "First Name*" %>
+                <div class="text-left">
+                  <%= error_tag f, :first_name %>
                 </div>
               </div>
-          
-              <%= if @event.website_url do %>
-                <div class="flex">
-                  <img class="mr-1" src="/images/icons/pastimes_url_link_icon.png" alt="location icon">
-                  <p><a class="text-pastimes-blue-variant-1" href={"#{@event.org_user.website_url}"}><%= @event.website_url %></a></p>
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= text_input f, :last_name, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Last Name*" %>
+                <div class="text-left">
+                  <%= error_tag f, :last_name %>
                 </div>
-              <% else %>
-                &nbsp;
-              <% end %>
+              </div>
             </div>
           </div>
-          <div class="flex flex-col mt-4 px-4">
-            <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-4 py-2 border rounded-full"><a href="#scrollRegister">Register</a></button>
-            <button type="button" class="cursor-pointer border-gradient px-4 py-1 my-2">
-              <a href="#scrollContact">Contact Organizer</a>
-            </button>
-          </div>
-        </div>
-        <div class="flex flex-col w-10/12 text-left mt-4">
-          <%= if @event.details do %>
-            <p><%= @event.details %></p>
-          <% else %>
-            <i>no description</i>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- second section: carousel -->
-  <%= if @event.photos do %>
-    <div class="w-full">
-      <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-          <%= Enum.map(@event.photos, fn(photos) -> %>     
-            <div class="swiper-slide">
-              <img class="object-cover w-full h-96" src={"#{photos}"} alt="image" />
-            </div>
-          <% end) %> 
-        </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-      </div>
-    </div>
-  <% else %>
-    &nbsp;
-  <% end %>
- 
-  <!-- third section: event categories -->
-  <h1 id="scrollRegister" class="text-3xl font-semibold mt-8">Event Categories</h1>
-  <%= Enum.map(@event.categories, fn(item) -> %> 
-  <div class="container">
-      <div class="justify-between">
-        <div class="flex p-8 drop-shadow-lg">
-          <div class="w-9/12 flex-col bg-white text-left p-8">
-            <h1 class="text-lg font-semibold">
-              <%= if item.name do %>
-                <%= item.name %> :
-              <% else %>
-                undefined name
-              <% end %>
-              <%= if item.fee_1 do %>
-                $<%= item.fee_1 %>
-              <% else %>
-              <% end %>
-            </h1>
-            <h1>
-              <%= if item.start_date do %>
-                <%= item.start_date %>
-              <% else %>
-                n/a
-              <% end %>
-            </h1>
-            <ul class="ml-4 my-4">
-              <li class="list-disc">
-                <%= if item.bullet_point_1 do %>
-                 <%= item.bullet_point_1 %>
-                <% else %>
-                 n/a
-                <% end %>
-              </li>
-              <li class="list-disc">
-                <%= if item.bullet_point_2 do %>
-                  <%= item.bullet_point_1 %>
-                <% else %>
-                  n/a
-                <% end %>
-              </li>
-              <li class="list-disc">
-                <%= if item.bullet_point_3 do %>
-                  <%= item.bullet_point_1 %>
-                <% else %>
-                  n/a
-                <% end %>
-              </li>
-            </ul>
-            <%= if item.details do %>
-              <%= item.details %>
-            <% else %>
-              n/a
-            <% end %>
-          </div>
-          <div class="w-3/12 flex-col bg-pastimes-blue-variant-2 p-8">
-            <div class="text-center">
-              <button type="button" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold px-8 py-2 border rounded-full">Register</button>
-            </div>
-            <div class="text-left px-4 mt-4">
-              <p class="text-pastimes-green-variant-2">
-                <%= if item.spot_availability do %>
-                  <%= item.spot_availability %>
-                <% else %>
-                  n/a
-                <% end %>
-              </p>
-              <p>Spots left</p>
-            </div>
-            <div class="text-left px-4 mt-4">
-              <p class="text-pastimes-yellow-variant-2">June 1, 2022</p>
-              <p>Next price increase</p>
-            </div>
-            <div class="text-left px-4 mt-4">
-              <p class="text-pastimes-orange-variant-2">
-                <%= if item.registration_date_1 do %>
-                  <%= item.registration_date_1 %>
-                <% else %>
-                  n/a
-                <% end %>
-              </p>
-              <p>Registration closes</p>
+          <div class="form-group">
+            <div class="flex flex-wrap mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= text_input f, :address_1, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Address*" %>
+                <div class="text-left">
+                  <%= error_tag f, :address_1 %>
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= text_input f, :address_2, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Address 2*" %>
+                <div class="text-left">
+                  <%= error_tag f, :address_2 %>
+                </div>
+              </div>
             </div>
           </div>
+          <div class="form-group">
+            <div class="flex flex-wrap mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= text_input f, :city, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "City*" %>
+                <div class="text-left">
+                  <%= error_tag f, :city %>
+                </div>
+              </div>
+              <div class="flex w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <div class="w-full md:w-1/2 pr-2">
+                  <%= text_input f, :state, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "State*" %>
+                  <div class="text-left">
+                    <%= error_tag f, :state %>
+                  </div>
+                </div>
+                <div class="w-full md:w-1/2 md:mb-0">
+                  <%= text_input f, :zip, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Zip*" %>
+                  <div class="text-left">
+                    <%= error_tag f, :zip %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="flex flex-wrap mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= text_input f, :country, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Country*" %>
+                <div class="text-left">
+                  <%= error_tag f, :country %>
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= text_input f, :phone_number, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Phone Number*" %>
+                <div class="text-left">
+                  <%= error_tag f, :phone_number %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="flex flex-wrap mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= text_input f, :email_address, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Email Address*" %>
+                <div class="text-left">
+                  <%= error_tag f, :email_address %>
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= text_input f, :email_address_confirmation, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Email Address Confirmation*" %>
+                <div class="text-left">
+                  <%= error_tag f, :email_address_confirmation %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="flex flex-wrap mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= date_input f, :dob, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "DOB*" %>
+                <div class="text-left">
+                  <%= error_tag f, :dob %>
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= text_input f, :gender, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Gender*" %>
+                <div class="text-left">
+                  <%= error_tag f, :gender %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="flex flex-wrap mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= text_input f, :emergency_contact_name, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Emergency Contact Name*" %>
+                <div class="text-left">
+                  <%= error_tag f, :emergency_contact_name %>
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= text_input f, :emergency_contact_number, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Emergency Contact Number*" %>
+                <div class="text-left">
+                  <%= error_tag f, :emergency_contact_number %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="flex flex-wrap mb-6">
+              <div class="w-full px-3 mb-6 md:mb-0">
+                <div class="text-left mt-4">
+                  <label class="text-gray-400">
+                    <%= checkbox f, :read_agreed_waiver %>
+                    I have read and agree to the <span class="text-blue-500"><a href="#">Registration Waiver</a></span> for this Event
+                  </label>
+                </div>
+                <div class="text-left">
+                  <%= error_tag f, :read_agreed_waiver %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="flex flex-wrap mb-6">
+              <div class="w-full px-3 mb-6 md:mb-0">
+                <div class="text-left mt-4">
+                  <label class="text-gray-400">
+                    <%= checkbox f, :read_agreed_tos %>
+                    I have read and agree to <span class="text-blue-500"><a href="#">Terms of Services</a></span> for Pastimes
+                  </label>
+                </div>
+                <div class="text-left">
+                  <%= error_tag f, :read_agreed_tos %>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="form-group">
+            <div class="flex flex-wrap mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <%= text_input f, :waiver_initials, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Waiver Initials*" %>
+                <div class="text-left">
+                  <%= error_tag f, :waiver_initials %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="mt-4 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-12 rounded-full">
+            Continue to Payment
+          </button>
         </div>
-      </div>                                                                                                                                                 
-  </div>
-  <% end) %> 
-
-  <!-- fourth section: location and contact -->
-  <div class="w-full bg-gray-200 ">
-    <h1 id="scrollContact" class="text-3xl font-semibold p-8">Location and Contact</h1>
-    <div class="container w-full p-8 mx-auto text-left">
-      <div class="mt-8">
-        <h1 class="font-semibold">Location of event</h1>
-        <p class="text-pastimes-blue-variant-1"><%= @event.address %></p>
-      </div>
-      <div class="mt-8">
-        <h1 class="font-semibold">Contact</h1>
-        <%= if @event.contact_information do %>
-          <p class="">Phone: <span class="text-pastimes-blue-variant-1"><%= @event.org_user.phone %></span></p>
-        <% else %>
-          <p class="">Phone: <span class="text-pastimes-blue-variant-1"><%= @event.phone_number %></span></p>
         <% end %>
 
-        <%= if @event.contact_information do %>
-         <p class="">Email: <span class="text-pastimes-blue-variant-1"><%= @event.org_user.email %></span></p>
-        <% else %>
-        <p class="">Email: <span class="text-pastimes-blue-variant-1"><%= @event.email_address %></span></p>
+        <%= if @current_step == 2 do %>
+        <div>
+          Display Input of Bank details here
+        </div>
+        <button type="button" class="mt-4 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-12 rounded-full">
+          Back
+        </button>
+        <button type="submit" class="mt-4 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-12 rounded-full">
+          Continue to Checkout
+        </button>
         <% end %>
-      </div>
-      <div class="mt-8">
-        <h1 class="font-semibold">Refunds and Support</h1>
-         <p class="">
-          <%= if @event.strict do %>
-            Strict Refund Policy: Refunds will only be provided if Organizer cancels event. Email support@pastimes.io with any questions
-          <% else %>
-          <% end %>
-          <%= if @event.flexible do %>
-            Flexible Refund Policy: Send an email to support@pastimes.io to request a refund for this event.
-          <% else %>
-          <% end %>
-         </p>
-      </div>
+
+        <%= if @current_step == 3 do %>
+        <div>
+          Display Overview here
+        </div>
+        <button type="button" class="mt-4 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-12 rounded-full">
+          Back
+        </button>
+        <button type="submit" class="mt-4 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-12 rounded-full">
+          Confirm Registration
+        </button>
+        <% end %>
+
+      </.form>
     </div>
   </div>
 </div>
-
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script>
-  var swiper = new Swiper ('.mySwiper', {
-    spaceBetween: 30,
-    initialSlide: 0,
-    //truewrapper adoptsheight of active slide
-    autoHeight: false,
-    // Optional parameters
-    direction: 'horizontal',
-    loop: true,
-    // delay between transitions in ms
-    autoplay: {
-      delay: 2500,
-      disableOnInteraction: false,
-    },
-    autoplayStopOnLast: false, // loop false also
-    // If we need pagination
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    paginationType: "bullets",
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    // And if we need scrollbar
-    //scrollbar: '.swiper-scrollbar',
-    // "slide", "fade", "cube", "coverflow" or "flip"
-    effect: 'slide',
-    // Distance between slides in px.
-    spaceBetween: 0,
-    //
-    slidesPerView: 3,
-    //
-    centeredSlides: false,
-    //
-    slidesOffsetBefore: 0,
-    //
-    grabCursor: true,
-  });
-
-  $('#scrollRegister').onclick=function(){
-    $('html, body').animate({
-        scrollTop: $("scrollRegister").offset().top
-    }, 2000);
-  };
-  $('#scrollContact').onclick=function(){
-    $('html, body').animate({
-        scrollTop: $("scrollRegister").offset().top
-    }, 2000);
-  };
-</script>

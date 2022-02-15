@@ -8,22 +8,17 @@ defmodule PastimesRegWeb.RegisterLive do
 
   def mount(_params, _session, socket) do
     changeset = Accounts.registration_form_step_init_changeset(%PastimesReg.Accounts.OrgUser{})
-
-    {:ok,
-     assign(
-       socket
-       |> allow_upload(:logo,
-         accept: ~w(.jpg .jpeg .png),
-         max_entries: 1,
-         external: &presign_entry/2
-       ),
-       current_step: 1,
-       valid_count: 0,
-       changeset: changeset,
-       attrs: %{}
-     )}
+    {:ok, assign(
+      socket
+      |> allow_upload(:logo, accept: ~w(.jpg .jpeg .png), max_entries: 1, external: &presign_entry/2),
+      current_step: 1,
+      valid_count: 0,
+      changeset: changeset,
+      attrs: %{})
+    }
   end
 
+  @spec handle_event(<<_::32, _::_*8>>, any, any) :: {:noreply, any}
   def handle_event(
         "validate",
         %{"org_user" => params},
