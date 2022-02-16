@@ -2,7 +2,6 @@ defmodule PastimesReg.Repo.Migrations.CreateParticipants do
   use Ecto.Migration
 
   def change do
-
     create table(:participants) do
       add :first_name, :varchar, null: false
       add :last_name, :varchar, null: false

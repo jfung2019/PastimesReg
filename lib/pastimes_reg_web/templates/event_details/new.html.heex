@@ -1,7 +1,10 @@
 <div class="flex flex-col justify-center items-center h-max w-full mx-auto text-center">
-  <%= inspect(@event) %>
+  <%= if @event.cover_photo do %>
   <!-- cover photo section -->
   <img class="w-full" src= {"#{ @event.cover_photo}"} alt="cover photo">
+  <% else %>
+  <% end %>
+  
   <!-- first section -->
   <div class="container w-full">
     <div class="flex">
@@ -136,14 +139,14 @@
                 </li>
                 <li class="list-disc">
                   <%= if item.bullet_point_2 do %>
-                    <%= item.bullet_point_1 %>
+                    <%= item.bullet_point_2 %>
                   <% else %>
                     n/a
                   <% end %>
                 </li>
                 <li class="list-disc">
                   <%= if item.bullet_point_3 do %>
-                    <%= item.bullet_point_1 %>
+                    <%= item.bullet_point_3 %>
                   <% else %>
                     n/a
                   <% end %>

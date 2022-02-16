@@ -104,8 +104,8 @@
       <!-- step 1 for header -->
       <%= if @current_step == 1 do %>
       <div class="px-4">
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-0 md:mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-1 md:mb-0">
             <%= text_input f, :first_name, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "First name*" %>
            <div class="pt-2 text-left">
             <%= error_tag f, :first_name %>
@@ -118,8 +118,8 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-0 md:mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-1 md:mb-0">
             <%= email_input f, :email, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Email*"  %>
             <div class="pt-2 text-left">
               <%= error_tag f, :email %>
@@ -132,8 +132,8 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-0 md:mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-1 md:mb-0">
             <%= password_input f, :password, required: true, value: input_value(f, :password), class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Create Password*" %>
             <div class="pt-2 text-left">
               <%= error_tag f, :password %>
@@ -151,8 +151,8 @@
 
       <%= if @current_step == 2 do %>
       <div class="px-4">
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-0 md:mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-1 md:mb-0">
             <%= text_input f, :organization, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Organization*" %>
             <div class="pt-2 text-left">
               <%= error_tag f, :organization %>
@@ -165,8 +165,8 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-0 md:mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-1 md:mb-0">
             <%= text_input f, :address_line_1, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Address Line 1*" %>
             <div class="pt-2 text-left">
               <%= error_tag f, :address_line_1 %>
@@ -179,8 +179,8 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-0 md:mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-1 md:mb-0">
             <%= text_input f, :city, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "City*" %>
             <div class="pt-2 text-left">
               <%= error_tag f, :city %>
@@ -201,8 +201,8 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-0 md:mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-1 md:mb-0">
             <%= text_input f, :country, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Country*" %>
             <div class="pt-2 text-left">
               <%= error_tag f, :country %>
@@ -215,8 +215,8 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-0 md:mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-1 md:mb-0">
             <%= text_input f, :support_email, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Support Email (for participants to contact)" %>
             <div class="pt-2 text-left">
               <%= error_tag f, :support_email %>
@@ -229,8 +229,8 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-0 md:mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-1 md:mb-0">
             <%= text_input f, :instagram_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Instagram URL" %>
             <div class="pt-2 text-left">
               <%= error_tag f, :instagram_url %>
@@ -243,22 +243,22 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-0 md:mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-1 md:mb-0">
             <%= text_input f, :twitter_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Twitter URL" %>
             <div class="pt-2 text-left">
               <%= error_tag f, :twitter_url %>
             </div>
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div class="w-full md:w-1/2 px-3 mb-1 md:mb-0">
             <%= text_input f, :website_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Website URL" %>
             <div class="pt-2 text-left">
               <%= error_tag f, :website_url %>
             </div>
           </div>
         </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-0 md:mb-6">
+          <div class="w-full px-3 mb-1 md:mb-0">
             <%= text_input f, :twitter_url, required: false, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Twitter URL" %>
             <div class="pt-2 text-left">
               <%= error_tag f, :twitter_url %>
@@ -305,16 +305,16 @@
 
       <%= if @current_step == 3 do %>
       <div class="px-4">
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-0 md:mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-1 md:mb-0">
             <%= text_input f, :routing_number, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Routing Number*" %>
             <div class="pt-2 text-left">
               <%= error_tag f, :routing_number %>
             </div>
           </div>
         </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-0 md:mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-1 md:mb-0">
             <%= text_input f, :account_number, required: true, class: "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white", placeholder: "Account Number*" %>
             <div class="pt-2 text-left">
               <%= error_tag f, :account_number %>
@@ -335,7 +335,7 @@
         <h1 class="mb-6">
           By hosting event registration on Pastimes, you agree to the <a class="text-pastimes-blue" href="">terms of use</a> and <a class="text-pastimes-blue" href="">privacy policy</a>.
         </h1>
-        <button type="submit" class="bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+        <button type="submit" class="mb-6 md:mb-0 bg-gradient-to-r from-pastimes-blue to-pastimes-green hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
           Create Account
         </button>
       </div>

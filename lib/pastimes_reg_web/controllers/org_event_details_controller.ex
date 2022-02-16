@@ -10,9 +10,9 @@ defmodule PastimesRegWeb.OrgEventDetailsController do
   def delete(conn, %{"id" => id}) do
     event = Events.get_event!(id)
     Events.delete_event(event)
+
     conn
     |> put_flash(:info, "Event Deleted successfully.")
     |> redirect(to: "/")
   end
-
 end

@@ -149,7 +149,7 @@ defmodule PastimesReg.EventTest do
       assert event.name == "some name_event"
       assert event.address == "some address_location"
       assert event.start_date_virtual == ~D[2022-01-05]
-      assert event.end_date_virtual ==  ~D[2022-01-06]
+      assert event.end_date_virtual == ~D[2022-01-06]
       assert event.start_time_virtual == ~T[03:13:00]
       assert event.end_time_virtual == ~T[03:13:00]
 
@@ -192,7 +192,7 @@ defmodule PastimesReg.EventTest do
         phone_number: "some phone_number",
         promote_event: true,
         flexible: true,
-        website_url: "some website_url_event",
+        website_url: "some website_url_event"
       }
 
       assert {:ok, %Event{} = event} = Events.update_events(event, update_attrs, org_user_id)
@@ -251,24 +251,32 @@ defmodule PastimesReg.EventTest do
       assert %{valid?: true} = Events.event_create_form_step_1_changeset(@valid_attrs)
 
       assert %{valid?: false} =
-               Events.event_create_form_step_1_changeset(Map.put(@valid_attrs, :start_date_virtual, nil))
+               Events.event_create_form_step_1_changeset(
+                 Map.put(@valid_attrs, :start_date_virtual, nil)
+               )
     end
 
     test "End date is nil, return valid false" do
       assert %{valid?: true} = Events.event_create_form_step_1_changeset(@valid_attrs)
 
       assert %{valid?: false} =
-               Events.event_create_form_step_1_changeset(Map.put(@valid_attrs, :end_date_virtual, nil))
+               Events.event_create_form_step_1_changeset(
+                 Map.put(@valid_attrs, :end_date_virtual, nil)
+               )
     end
 
     test "Start date and end date is nil, return valid false" do
       assert %{valid?: true} = Events.event_create_form_step_1_changeset(@valid_attrs)
 
       assert %{valid?: false} =
-               Events.event_create_form_step_1_changeset(Map.put(@valid_attrs, :start_date_virtual, nil))
+               Events.event_create_form_step_1_changeset(
+                 Map.put(@valid_attrs, :start_date_virtual, nil)
+               )
 
       assert %{valid?: false} =
-               Events.event_create_form_step_1_changeset(Map.put(@valid_attrs, :end_date_virtual, nil))
+               Events.event_create_form_step_1_changeset(
+                 Map.put(@valid_attrs, :end_date_virtual, nil)
+               )
     end
 
     test "deletes a category from the category list by index", %{event: event} do

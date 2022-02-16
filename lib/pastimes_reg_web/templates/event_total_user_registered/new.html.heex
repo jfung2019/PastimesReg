@@ -1,6 +1,5 @@
 
 <div class="container flex flex-col justify-center items-center h-max w-full mx-auto text-center py-4 md:py-10">
-  <%= inspect(@participant) %>
   <h1 class="text-5xl font-bold py-8">Registered Users for <%= @event.name %></h1>
   <!--  Search Bar  -->
   <div class="w-full pt-2 relative mx-auto text-gray-600 py-8">
@@ -18,100 +17,99 @@
   </div>
 
   <!--  Cards in Enum  -->
-  <%= Enum.map(@event.categories, fn(event) -> %>   
-  <div class="w-full bg-white drop-shadow-lg py-[5px] my-4 bg-red-200 rounded-lg">
-    <h1 class="text-3xl font-bold text-left p-4"><%= event.name %> (3)</h1>
-    <table class="border-collapse w-full">
-      <thead>
-          <tr>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">First Name</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">Last Name</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">Address 1</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">Address 2</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">City</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">State</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">Zip/Post</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">Country</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">Phone</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">Email</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">DOB</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">Gender</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">Em Contact</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">EM #</th>
-              <th class="p-3 font-bold hidden lg:table-cell text-left">Status</th>
-          </tr>
-      </thead>
-      <tbody>
-          <!-- 
-          <%= Enum.map(@event.categories, fn(event) -> %>   
-          <% end) %> 
-          -->
-          <tr class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 rounded-lg">
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center block lg:table-cell relative lg:static">
-                  <span class="lg:hidden absolute top-0 left-0 px-2 text-xs font-bold uppercase">First Name</span>
-                  <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Last Name</span>
-                  <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Address 1</span>
-                  <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Address 2</span>
-                  <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">City</span>
-                <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">State</span>
-                <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Zip/Post</span>
-                <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Country</span>
-                <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Phone</span>
-                <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Email</span>
-                <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">DOB</span>
-                <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Gender</span>
-                <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Em Contact</span>
-                <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Em #</span>
-                <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-              <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
-                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Status</span>
-                <p class="text-left mt-2"><%= event.name %></p>
-              </td>
-          </tr>
-      </tbody>
+  <%= for {event, category} <- @participant_name_registered do %>
+    <div class="w-full bg-white drop-shadow-lg py-[5px] my-4 bg-red-200 rounded-lg">
+      <h1 class="text-3xl font-bold text-left p-4"><%= event %> (<%= length(category) %>)</h1>
+      <table class="border-collapse w-full">
+        <thead>
+            <tr>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">First Name</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">Last Name</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">Address 1</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">Address 2</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">City</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">State</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">Zip/Post</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">Country</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">Phone</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">Email</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">DOB</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">Gender</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">Em Contact</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">EM #</th>
+                <th class="p-3 font-bold hidden lg:table-cell text-left">Status</th>
+            </tr>
+        </thead>
+        <%= for category <- Enum.reverse(category) do %>
+           <tbody>
+            <tr class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 rounded-lg">
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center block lg:table-cell relative lg:static">
+                    <span class="lg:hidden absolute top-0 left-0 px-2 text-xs font-bold uppercase">First Name</span>
+                    <p class="text-left mt-2"><%= category.first_name %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                    <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Last Name</span>
+                    <p class="text-left mt-2"><%= category.last_name %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                    <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Address 1</span>
+                    <p class="text-left mt-2"><%= category.address_1 %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                    <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Address 2</span>
+                    <p class="text-left mt-2"><%= category.address_2 %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">City</span>
+                  <p class="text-left mt-2"><%= category.city %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">State</span>
+                  <p class="text-left mt-2"><%= category.state %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Zip/Post</span>
+                  <p class="text-left mt-2"><%= category.zip %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Country</span>
+                  <p class="text-left mt-2"><%= category.country %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Phone</span>
+                  <p class="text-left mt-2"><%= category.phone_number %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Email</span>
+                  <p class="text-left mt-2"><%= category.email_address %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">DOB</span>
+                  <p class="text-left mt-2"><%= category.dob %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Gender</span>
+                  <p class="text-left mt-2"><%= category.gender %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Em Contact</span>
+                  <p class="text-left mt-2"><%= category.emergency_contact_name %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Em #</span>
+                  <p class="text-left mt-2"><%= category.emergency_contact_number %></p>
+                </td>
+                <td class="w-full lg:w-auto p-3 text-gray-800 text-center text-center block lg:table-cell relative lg:static">
+                  <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Status</span>
+                  <p class="text-left mt-2">Paid</p>
+                </td>
+            </tr>
+           </tbody>
+        <% end %>
     </table>
   </div>
-  <% end) %> 
+  <% end %>
+
 
   <div class="w-full mt-4">
     <p class="text-left">Download CSV file for full user information, or download a PDF for an overview for registered users</p>

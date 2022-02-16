@@ -8,7 +8,24 @@ defmodule PastimesReg.ParticipantsTest do
 
     import PastimesReg.ParticipantsFixtures
 
-    @invalid_attrs %{address_1: nil, address_2: nil, city: nil, country: nil, dob: nil, email_address: nil, email_address_confirmation: nil, emergency_contact_name: nil, emergency_contact_number: nil, first_name: nil, gender: nil, last_name: nil, phone_number: nil, state: nil, waiver_initials: nil, zip: nil}
+    @invalid_attrs %{
+      address_1: nil,
+      address_2: nil,
+      city: nil,
+      country: nil,
+      dob: nil,
+      email_address: nil,
+      email_address_confirmation: nil,
+      emergency_contact_name: nil,
+      emergency_contact_number: nil,
+      first_name: nil,
+      gender: nil,
+      last_name: nil,
+      phone_number: nil,
+      state: nil,
+      waiver_initials: nil,
+      zip: nil
+    }
 
     test "list_participants/0 returns all participants" do
       participant = participant_fixture()
@@ -21,7 +38,24 @@ defmodule PastimesReg.ParticipantsTest do
     end
 
     test "create_participant/1 with valid data creates a participant" do
-      valid_attrs = %{address_1: "some address_1", address_2: "some address_2", city: "some city", country: "some country", dob: "some dob", email_address: "some email_address", email_address_confirmation: "some email_address_confirmation", emergency_contact_name: "some emergency_contact_name", emergency_contact_number: "some emergency_contact_number", first_name: "some first_name", gender: "some gender", last_name: "some last_name", phone_number: "some phone_number", state: "some state", waiver_initials: "some waiver_initials", zip: "some zip"}
+      valid_attrs = %{
+        address_1: "some address_1",
+        address_2: "some address_2",
+        city: "some city",
+        country: "some country",
+        dob: "some dob",
+        email_address: "some email_address",
+        email_address_confirmation: "some email_address_confirmation",
+        emergency_contact_name: "some emergency_contact_name",
+        emergency_contact_number: "some emergency_contact_number",
+        first_name: "some first_name",
+        gender: "some gender",
+        last_name: "some last_name",
+        phone_number: "some phone_number",
+        state: "some state",
+        waiver_initials: "some waiver_initials",
+        zip: "some zip"
+      }
 
       assert {:ok, %Participant{} = participant} = Participants.create_participant(valid_attrs)
       assert participant.address_1 == "some address_1"
@@ -48,9 +82,29 @@ defmodule PastimesReg.ParticipantsTest do
 
     test "update_participant/2 with valid data updates the participant" do
       participant = participant_fixture()
-      update_attrs = %{address_1: "some updated address_1", address_2: "some updated address_2", city: "some updated city", country: "some updated country", dob: "some updated dob", email_address: "some updated email_address", email_address_confirmation: "some updated email_address_confirmation", emergency_contact_name: "some updated emergency_contact_name", emergency_contact_number: "some updated emergency_contact_number", first_name: "some updated first_name", gender: "some updated gender", last_name: "some updated last_name", phone_number: "some updated phone_number", state: "some updated state", waiver_initials: "some updated waiver_initials", zip: "some updated zip"}
 
-      assert {:ok, %Participant{} = participant} = Participants.update_participant(participant, update_attrs)
+      update_attrs = %{
+        address_1: "some updated address_1",
+        address_2: "some updated address_2",
+        city: "some updated city",
+        country: "some updated country",
+        dob: "some updated dob",
+        email_address: "some updated email_address",
+        email_address_confirmation: "some updated email_address_confirmation",
+        emergency_contact_name: "some updated emergency_contact_name",
+        emergency_contact_number: "some updated emergency_contact_number",
+        first_name: "some updated first_name",
+        gender: "some updated gender",
+        last_name: "some updated last_name",
+        phone_number: "some updated phone_number",
+        state: "some updated state",
+        waiver_initials: "some updated waiver_initials",
+        zip: "some updated zip"
+      }
+
+      assert {:ok, %Participant{} = participant} =
+               Participants.update_participant(participant, update_attrs)
+
       assert participant.address_1 == "some updated address_1"
       assert participant.address_2 == "some updated address_2"
       assert participant.city == "some updated city"
@@ -71,7 +125,10 @@ defmodule PastimesReg.ParticipantsTest do
 
     test "update_participant/2 with invalid data returns error changeset" do
       participant = participant_fixture()
-      assert {:error, %Ecto.Changeset{}} = Participants.update_participant(participant, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Participants.update_participant(participant, @invalid_attrs)
+
       assert participant == Participants.get_participant!(participant.id)
     end
 

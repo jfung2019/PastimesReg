@@ -6,5 +6,4 @@ defmodule PastimesRegWeb.EventDetailsController do
     event = Events.get_event!(event_id)
     render(conn, "new.html", event: event)
   end
-
 end

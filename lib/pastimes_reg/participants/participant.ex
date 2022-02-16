@@ -105,6 +105,22 @@ defmodule PastimesReg.Participants.Participant do
       ]
     )
     |> validate_required(@required_attributes_step_1)
+    |> validate_email()
+    |> validate_confirmation(:email_address)
+    |> validate_waiver_initials()
   end
 
+  defp validate_email(changeset) do
+    changeset
+    |> validate_required([:email_address])
+    |> validate_format(:email_address, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
+    |> validate_length(:email_address, max: 160)
+    |> unsafe_validate_unique(:email_address, PastimesReg.Repo)
+    |> unique_constraint(:email_address)
+  end
+
+  defp validate_waiver_initials(changeset) do
+    changeset
+    |> validate_length(:waiver_initials, min: 3)
+  end
 end

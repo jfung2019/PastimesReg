@@ -85,7 +85,6 @@ defmodule PastimesReg.Events do
     |> Event.event_create_changeset_step_1(attrs)
     |> Event.event_create_changeset_step_2(attrs)
     |> Event.event_create_changeset_step_3(attrs)
-    |> IO.inspect()
     |> Repo.insert()
   end
 

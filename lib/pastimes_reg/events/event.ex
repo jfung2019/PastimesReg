@@ -109,7 +109,7 @@ defmodule PastimesReg.Events.Event do
         :end_date_virtual,
         :start_time_virtual,
         :end_time_virtual,
-        :timezone,
+        :timezone
       ]
     )
     |> validate_required(@required_attributes_step_1)

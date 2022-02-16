@@ -11,7 +11,7 @@ config :bcrypt_elixir, :log_rounds, 1
 config :pastimes_reg, PastimesReg.Repo,
   username: "postgres",
   password: "postgres",
-  hostname: System.get_env("DB_HOST","localhost"),
+  hostname: System.get_env("DB_HOST", "localhost"),
   database: "pastimes_reg_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10

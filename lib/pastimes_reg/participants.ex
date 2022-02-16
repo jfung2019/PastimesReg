@@ -7,6 +7,7 @@ defmodule PastimesReg.Participants do
   alias PastimesReg.Repo
 
   alias PastimesReg.Participants.Participant
+  alias PastimesReg.Events.Event
 
   @doc """
   Returns the list of participants.
@@ -37,6 +38,17 @@ defmodule PastimesReg.Participants do
   """
   def get_participant!(id), do: Repo.get!(Participant, id)
 
+  def list_participant_by_event_category_name(name, event_id) do
+    from(
+      p in Participant,
+      left_join: e in Event,
+      on: p.event_id == ^event_id,
+      where: e.name == ^name,
+      select: p
+    )
+    |> Repo.all()
+  end
+
   @doc """
   Creates a participant.
 
@@ -52,7 +64,6 @@ defmodule PastimesReg.Participants do
   def create_participant(attrs \\ %{}, event_id) do
     %Participant{event_id: event_id}
     |> Participant.event_registration_changeset_step_1(attrs)
-    |> IO.inspect()
     |> Repo.insert()
   end
 
