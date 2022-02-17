@@ -67,7 +67,6 @@ defmodule PastimesRegWeb.CreateEventsLive do
 
     changeset =
       Events.event_create_form_step_2_changeset(attrs)
-      |> IO.inspect()
 
     {:noreply, assign(socket, changeset: changeset, attrs: attrs)}
   end
@@ -81,7 +80,6 @@ defmodule PastimesRegWeb.CreateEventsLive do
 
     changeset =
       Events.event_create_form_step_3_changeset(attrs)
-      |> IO.inspect()
 
     {:noreply, assign(socket, changeset: changeset, attrs: attrs)}
   end
@@ -99,7 +97,6 @@ defmodule PastimesRegWeb.CreateEventsLive do
       |> Map.merge(events_params)
       |> Map.put("cover_photo", get_cover_photo_url(socket))
       |> Map.put("photos", get_photos_url(socket))
-      |> IO.inspect()
 
     socket =
       case Events.event_create_form_step_1_changeset(attrs) do
@@ -127,7 +124,6 @@ defmodule PastimesRegWeb.CreateEventsLive do
     attrs =
       attrs
       |> Map.merge(events_params)
-      |> IO.inspect()
 
     socket =
       case Events.event_create_form_step_2_changeset(attrs) do
@@ -166,7 +162,6 @@ defmodule PastimesRegWeb.CreateEventsLive do
       attrs
       |> Map.merge(events_params)
       |> Map.put("logo", get_logo_url(socket))
-      |> IO.inspect()
 
     case Events.create_event(attrs, org_user_id) do
       {:ok, _} ->
@@ -228,9 +223,6 @@ defmodule PastimesRegWeb.CreateEventsLive do
         list ->
           List.insert_at(list, -1, false)
       end
-
-    IO.inspect(toggle)
-    IO.inspect(toggle_category_pop_up)
 
     {:noreply,
      assign(socket,

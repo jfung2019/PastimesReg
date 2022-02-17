@@ -34,7 +34,6 @@ defmodule PastimesRegWeb.RegisterLive do
 
     changeset =
       Accounts.registration_form_step_1_changeset(attrs)
-      |> IO.inspect()
 
     valid_count = 0
 
@@ -55,7 +54,6 @@ defmodule PastimesRegWeb.RegisterLive do
 
     changeset =
       Accounts.registration_form_step_2_changeset(attrs)
-      |> IO.inspect()
 
     valid_count = 0
 
@@ -76,7 +74,6 @@ defmodule PastimesRegWeb.RegisterLive do
 
     changeset =
       Accounts.registration_form_step_3_changeset(attrs)
-      |> IO.inspect()
 
     valid_count = 0
 
@@ -96,7 +93,6 @@ defmodule PastimesRegWeb.RegisterLive do
     attrs =
       attrs
       |> Map.merge(org_user_params)
-      |> IO.inspect()
 
     socket =
       case Accounts.registration_form_step_1_changeset(attrs) do
@@ -123,7 +119,6 @@ defmodule PastimesRegWeb.RegisterLive do
       attrs
       |> Map.merge(org_user_params)
       |> Map.put("logo", get_logo_url(socket))
-      |> IO.inspect()
 
     socket =
       case Accounts.registration_form_step_2_changeset(attrs) do
@@ -147,7 +142,6 @@ defmodule PastimesRegWeb.RegisterLive do
     attrs =
       attrs
       |> Map.merge(org_user_params)
-      |> IO.inspect()
 
     case Accounts.register_org_user(attrs) do
       {:ok, org_user} ->

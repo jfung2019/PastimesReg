@@ -23,7 +23,7 @@ defmodule PastimesRegWeb.EventRegistrationLive do
        changeset: changeset,
        event: event,
        category_name: category_name,
-       event_id: String.to_integer(event_id)
+       event_id: String.to_integer(event_id),
      )}
   end
 
@@ -36,7 +36,6 @@ defmodule PastimesRegWeb.EventRegistrationLive do
 
     changeset =
       Participants.event_registration_form_step_1_changeset(attrs)
-      |> IO.inspect()
 
     {:noreply, assign(socket, changeset: changeset, attrs: attrs)}
   end
@@ -50,7 +49,6 @@ defmodule PastimesRegWeb.EventRegistrationLive do
       attrs
       |> Map.merge(params)
       |> Map.put("category", category_name)
-      |> IO.inspect()
 
     socket =
       case Participants.event_registration_form_step_1_changeset(attrs) do
@@ -91,11 +89,12 @@ defmodule PastimesRegWeb.EventRegistrationLive do
         %{assigns: %{current_step: 3, attrs: attrs, event_id: event_id}} = socket
       ) do
     case Participants.create_participant(attrs, event_id) do
-      {:ok, _} ->
+      {:ok, participant} ->
         {:noreply,
          socket
          |> put_flash(:info, "You have sucessfully registered for an event.")
-         |> redirect(to: Routes.org_event_details_path(PastimesRegWeb.Endpoint, :show, event_id))}
+         |> redirect(to: Routes.event_registration_confirmation_path(PastimesRegWeb.Endpoint, :show, event_id, participant))
+        }
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset, attrs: attrs)}

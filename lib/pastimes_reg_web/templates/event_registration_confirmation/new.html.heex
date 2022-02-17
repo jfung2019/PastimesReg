@@ -1,0 +1,74 @@
+<div class="flex flex-col justify-center items-center h-max w-full mx-auto text-center">
+  <h1 class="text-3xl font-bold py-8">Registration Confirmation</h1>
+  <div class="bg-white drop-shadow-lg w-8/12 mb-8">
+    <%= if @event.cover_photo do %>
+    <!-- cover photo section -->
+    <img class="w-full" src= {"#{ @event.cover_photo}"} alt="cover photo">
+    <% else %>
+    <% end %>
+    <div class="p-8">
+      <h1 class="text-3xl font-bold">Wahoo, you are registered for <%= @event.name %> </h1>
+      <div class="text-left mt-8">
+        <p class="font-bold"> <%= @participant.first_name %> <%= @participant.last_name %></p>
+        <p class="font-bold">Your Confimation number is: 001335</p>
+        <p>You should receive a confirmation email with receipt and summary of your order. </p>
+      </div>
+      <div class="flex text-left justify-between mt-8">
+        <div class="flex-col">
+          <p class="font-bold">Rooted Gravel Race 2022</p>
+          <p><%= @participant.category %></p>
+          <p><%= @event.address %></p>
+          <p><%= @event.start_date %></p>
+          <p><%= @event.end_date %></p>
+        </div>
+        <div class="flex-col">
+          <p class="font-bold">Order Summary</p>
+          <p>Subtotal</p>
+          <p>Service Fee</p>
+          <p>Tax</p>
+          <p>Total Charged</p>
+        </div>
+        <div class="flex-col">
+          <p>&nbsp;</p>
+          <p>$165</p>
+          <p>$15</p>
+          <p>$14</p>
+          <p>$14</p>
+        </div>
+      </div>
+      <div class="text-left mt-8">
+        <h1 class="font-bold">Message from the Organizer</h1>
+        <p><%= @event.confirmation_message_to_participants %></p>
+      </div>
+      <div class="text-left mt-8">
+        <h1 class="font-bold"><%= @event.org_user.organization %></h1>
+        <div class="flex">
+          <img src="" alt="">
+          <div class="flex-col">
+            <p><%= @event.org_user.address_line_1 %></p>
+            <p><%= @event.website_url %></p>
+            <p><%= @event.org_user.phone %></p>
+          </div>
+        </div>
+      </div>
+      <div class="text-left mt-8">
+        <h1 class="font-bold">Refund Policy</h1>
+        <%= if @event.strict do %>
+          <p>This event has a Strict refund policy, which means you will not be eligible for a refund unless the Organizer cancells the event. Contact the Organizer above or Pastimes Support below if you have any additional questions. </p>
+        <% else %>
+          <p>Flexible Refund Policy: Send an email to support@pastimes.io to request a refund for this event.</p>
+        <% end %>
+      </div>
+      <div class="text-left mt-8">
+        <h1 class="font-bold">Pastimes Support</h1>
+        <p><%= @event.org_user.email %></p>
+      </div>
+      <div class="text-left mt-8">
+        <h1 class="font-bold">Download the Pastimes App</h1>
+        <p>Want to view and connect with others going to Rooted Gravel 2022? Pastimes is your outdoor community, where you can find friends, gear and local events. Downlaod the Pastimes app and click here to go to your event on Pastimes.  </p>
+      </div>
+    </div>
+  </div>
+
+
+</div>

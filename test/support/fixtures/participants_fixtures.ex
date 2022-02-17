@@ -7,7 +7,7 @@ defmodule PastimesReg.ParticipantsFixtures do
   @doc """
   Generate a participant.
   """
-  def participant_fixture(attrs \\ %{}) do
+  def participant_fixture(attrs \\ %{}, event_id) do
     {:ok, participant} =
       attrs
       |> Enum.into(%{
@@ -15,7 +15,7 @@ defmodule PastimesReg.ParticipantsFixtures do
         address_2: "some address_2",
         city: "some city",
         country: "some country",
-        dob: "some dob",
+        dob: "2022-02-12",
         email_address: "some email_address",
         email_address_confirmation: "some email_address_confirmation",
         emergency_contact_name: "some emergency_contact_name",
@@ -25,10 +25,10 @@ defmodule PastimesReg.ParticipantsFixtures do
         last_name: "some last_name",
         phone_number: "some phone_number",
         state: "some state",
-        waiver_initials: "some waiver_initials",
+        waiver_initials: "som",
         zip: "some zip"
       })
-      |> PastimesReg.Participants.create_participant()
+      |> PastimesReg.Participants.create_participant(event_id)
 
     participant
   end

@@ -93,6 +93,7 @@ defmodule PastimesRegWeb.Router do
   scope "/", PastimesRegWeb do
     pipe_through [:browser]
     get "/events/details/:id", EventDetailsController, :show
+    get "/events/:event_id/participants/:id", EventRegistrationConfirmationController, :show
     live "/events/:id/category/:name", EventRegistrationLive
     delete "/org_users/log_out", OrgUserSessionController, :delete
     get "/org_users/confirm", OrgUserConfirmationController, :new

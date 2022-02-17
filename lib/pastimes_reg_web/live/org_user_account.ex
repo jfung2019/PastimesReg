@@ -28,7 +28,6 @@ defmodule PastimesRegWeb.OrgUserAccountLive do
       ) do
     changeset =
       Accounts.update_form_acc_changeset(current_org_user, org_user_params)
-      |> IO.inspect()
 
     {:noreply, assign(socket, changeset: changeset)}
   end
